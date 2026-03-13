@@ -205,8 +205,41 @@ nav{position:sticky;top:0;z-index:100;background:var(--nav-bg);border-bottom:1px
 footer{border-top:1px solid var(--border);padding:24px;text-align:center}
 footer .f-logo{font-weight:800;font-size:16px;color:var(--primary);margin-bottom:4px}
 footer p{color:var(--sub);font-size:12px}
+/* LANG DROPDOWN */
+.lang-dropdown{position:relative;display:inline-block}
+.lang-menu{display:none;position:absolute;top:100%;right:0;background:var(--card);border:1.5px solid var(--border);border-radius:12px;box-shadow:0 8px 32px #0003;z-index:150;min-width:140px;padding:6px;margin-top:4px}
+.lang-menu.open{display:block}
+.lang-option{display:flex;align-items:center;gap:8px;width:100%;background:none;border:none;padding:8px 12px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text);font-family:inherit;transition:background .2s}
+.lang-option:hover,.lang-option.active{background:var(--primary);color:#fff}
+/* DAILY TUTORIAL */
+.daily-hero{background:linear-gradient(135deg,#22C55E22,#3B5BDB22);border:1.5px solid #22C55E44;border-radius:16px;padding:28px;margin-bottom:28px;text-align:center}
+.daily-hero h2{font-size:22px;font-weight:900;margin-bottom:6px}
+.daily-hero .daily-date{color:var(--primary);font-weight:700;font-size:14px;margin-bottom:12px}
+.daily-hero p{color:var(--sub);font-size:14px}
+.daily-card{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:24px;margin-bottom:16px;transition:all .25s}
+.daily-card:hover{border-color:var(--primary);transform:translateY(-2px)}
+.daily-card h3{font-size:16px;font-weight:700;margin-bottom:8px;color:var(--primary)}
+.daily-card p{font-size:13px;color:var(--sub);line-height:1.8;margin-bottom:8px}
+.daily-card .daily-tag{display:inline-block;background:var(--green);color:#fff;border-radius:20px;padding:3px 12px;font-size:11px;font-weight:700;margin-bottom:10px}
+.daily-card pre{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:14px;font-size:12px;overflow-x:auto;margin:10px 0;line-height:1.6;color:var(--text);font-family:'Courier New',monospace}
+.daily-nav{display:flex;gap:10px;justify-content:center;margin-top:20px}
+/* MINI GAMES */
+.games-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
+.game-card{background:var(--card);border:1.5px solid var(--border);border-radius:16px;overflow:hidden;transition:all .25s}
+.game-card:hover{border-color:var(--accent);transform:translateY(-3px);box-shadow:0 8px 32px #7048E822}
+.game-preview{width:100%;aspect-ratio:4/3;background:#1a1a2e;position:relative;display:flex;align-items:center;justify-content:center}
+.game-preview canvas{width:100%;height:100%;display:block}
+.game-overlay{position:absolute;inset:0;background:#0008;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;backdrop-filter:blur(4px);transition:opacity .3s}
+.game-overlay.hidden{opacity:0;pointer-events:none}
+.game-overlay .play-btn{background:var(--accent);color:#fff;border:none;border-radius:50%;width:64px;height:64px;font-size:28px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px #7048E866;transition:transform .2s}
+.game-overlay .play-btn:hover{transform:scale(1.1)}
+.game-overlay p{color:#fff;font-size:13px;font-weight:600}
+.game-info{padding:18px}
+.game-info h3{font-size:15px;font-weight:700;margin-bottom:6px}
+.game-info p{font-size:12px;color:var(--sub);line-height:1.6}
+.game-score{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:13px;font-weight:700;color:var(--accent)}
 /* RESPONSIVE */
-@media(max-width:600px){.form-row{grid-template-columns:1fr}.modal{padding:24px 18px 32px}.nav-link{padding:4px 7px;font-size:12px}.hero{padding:48px 16px 56px}}
+@media(max-width:600px){.form-row{grid-template-columns:1fr}.modal{padding:24px 18px 32px}.nav-link{padding:4px 7px;font-size:12px}.hero{padding:48px 16px 56px}.games-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -218,9 +251,19 @@ footer p{color:var(--sub);font-size:12px}
     <button class="nav-link" data-page="posts" onclick="showPage('posts')" data-i18n="nav_posts">文章</button>
     <button class="nav-link" data-page="services" onclick="showPage('services')" data-i18n="nav_services">服務</button>
     <button class="nav-link" data-page="courses" onclick="showPage('courses')" data-i18n="nav_courses">教學</button>
+    <button class="nav-link" data-page="daily" onclick="showPage('daily')" data-i18n="nav_daily">每日教學</button>
+    <button class="nav-link" data-page="games" onclick="showPage('games')" data-i18n="nav_games">小遊戲</button>
     <button class="nav-link" data-page="donate" onclick="showPage('donate')" data-i18n="nav_donate">贊助</button>
     <button class="nav-link" data-page="about" onclick="showPage('about')" data-i18n="nav_about">關於</button>
-    <button class="lang-btn" onclick="toggleLang()" id="langBtn">🌐 TW</button>
+    <div class="lang-dropdown">
+      <button class="lang-btn" onclick="toggleLangMenu()" id="langBtn">🌐 TW</button>
+      <div class="lang-menu" id="langMenu">
+        <button class="lang-option" onclick="setLang('tw')">🇹🇼 繁體中文</button>
+        <button class="lang-option" onclick="setLang('jp')">🇯🇵 日本語</button>
+        <button class="lang-option" onclick="setLang('cn')">🇨🇳 简体中文</button>
+        <button class="lang-option" onclick="setLang('ph')">🇵🇭 Filipino</button>
+      </div>
+    </div>
     <button class="nav-icon-btn" onclick="toggleDark()" id="themeBtn">🌙</button>
   </div>
 </nav>
@@ -236,7 +279,7 @@ footer p{color:var(--sub);font-size:12px}
       <span class="hero-badge">🥥 Cocos Creator</span>
       <span class="hero-badge">🕹️ 遊戲開發</span>
       <span class="hero-badge">💼 接案服務</span>
-      <span class="hero-badge">🌏 TW / JP</span>
+      <span class="hero-badge">🌏 TW / JP / CN / PH</span>
     </div>
     <div class="hero-ctas">
       <button class="btn-hero" onclick="showPage('services')" data-i18n="cta_contact">💼 洽談接案</button>
@@ -496,6 +539,97 @@ footer p{color:var(--sub);font-size:12px}
         <div class="email-row">
           <input type="email" id="course-email" placeholder="your@email.com">
           <button class="btn-primary" onclick="captureCourseEmail()" data-i18n="email_btn">訂閱</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DAILY TUTORIAL -->
+<div class="page" id="page-daily">
+  <div class="hero" style="padding:40px 24px 48px">
+    <h1 data-i18n="daily_h1">📖 每日教學</h1>
+    <p data-i18n="daily_sub">每天學習一個遊戲開發小知識，完全免費！</p>
+  </div>
+  <div class="section">
+    <div class="daily-hero">
+      <div style="font-size:40px;margin-bottom:8px">📅</div>
+      <h2 data-i18n="daily_today">今日教學</h2>
+      <div class="daily-date" id="daily-date"></div>
+      <p data-i18n="daily_today_sub">每天自動更新，不需要任何費用</p>
+    </div>
+    <div id="daily-content"></div>
+    <div class="daily-nav">
+      <button class="btn-outline" onclick="changeDay(-1)" data-i18n="daily_prev">← 前一天</button>
+      <button class="btn-primary" onclick="changeDay(0)" data-i18n="daily_today_btn">今天</button>
+      <button class="btn-outline" onclick="changeDay(1)" data-i18n="daily_next">下一天 →</button>
+    </div>
+    <div style="margin-top:28px">
+      <div class="email-capture">
+        <h3 data-i18n="daily_email_h">📧 每日教學直送信箱</h3>
+        <p data-i18n="daily_email_p">訂閱即可每天收到最新教學內容</p>
+        <div class="email-row">
+          <input type="email" id="daily-email" placeholder="your@email.com">
+          <button class="btn-primary" onclick="captureDailyEmail()" data-i18n="email_btn">訂閱</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MINI GAMES -->
+<div class="page" id="page-games">
+  <div class="hero" style="padding:40px 24px 48px">
+    <h1 data-i18n="games_h1">🕹️ 小遊戲試玩</h1>
+    <p data-i18n="games_sub">直接在網頁內試玩！體驗遊戲開發的成果</p>
+  </div>
+  <div class="section">
+    <div class="section-title" data-i18n="games_title">🎮 免費試玩</div>
+    <div class="section-sub" data-i18n="games_title_sub">用鍵盤或觸控操作，直接在瀏覽器中遊玩</div>
+    <div class="games-grid">
+      <!-- Snake Game -->
+      <div class="game-card">
+        <div class="game-preview" id="snake-container">
+          <canvas id="snake-canvas" width="400" height="300"></canvas>
+          <div class="game-overlay" id="snake-overlay">
+            <button class="play-btn" onclick="startSnake()">▶</button>
+            <p data-i18n="game_click_play">點擊開始遊玩</p>
+          </div>
+        </div>
+        <div class="game-info">
+          <h3 data-i18n="game1_title">🐍 貪吃蛇</h3>
+          <p data-i18n="game1_desc">經典貪吃蛇遊戲！使用方向鍵或滑動操控蛇的方向，吃掉食物讓身體變長。</p>
+          <div class="game-score" id="snake-score">🏆 <span data-i18n="game_score">分數</span>: 0</div>
+        </div>
+      </div>
+      <!-- Breakout Game -->
+      <div class="game-card">
+        <div class="game-preview" id="breakout-container">
+          <canvas id="breakout-canvas" width="400" height="300"></canvas>
+          <div class="game-overlay" id="breakout-overlay">
+            <button class="play-btn" onclick="startBreakout()">▶</button>
+            <p data-i18n="game_click_play">點擊開始遊玩</p>
+          </div>
+        </div>
+        <div class="game-info">
+          <h3 data-i18n="game2_title">🧱 打磚塊</h3>
+          <p data-i18n="game2_desc">移動底部的擋板反彈球，擊碎所有磚塊。使用左右鍵或滑動控制。</p>
+          <div class="game-score" id="breakout-score">🏆 <span data-i18n="game_score">分數</span>: 0</div>
+        </div>
+      </div>
+      <!-- Flappy Game -->
+      <div class="game-card">
+        <div class="game-preview" id="flappy-container">
+          <canvas id="flappy-canvas" width="400" height="300"></canvas>
+          <div class="game-overlay" id="flappy-overlay">
+            <button class="play-btn" onclick="startFlappy()">▶</button>
+            <p data-i18n="game_click_play">點擊開始遊玩</p>
+          </div>
+        </div>
+        <div class="game-info">
+          <h3 data-i18n="game3_title">🐦 飛翔小鳥</h3>
+          <p data-i18n="game3_desc">點擊螢幕或按空白鍵讓小鳥飛起來，躲避柱子障礙物。</p>
+          <div class="game-score" id="flappy-score">🏆 <span data-i18n="game_score">分數</span>: 0</div>
         </div>
       </div>
     </div>
@@ -786,6 +920,170 @@ const POSTS_JP=[
    ],tags:["Cocos","チュートリアル","体験談"],date:"2025-11-28",readTime:"6分"}
 ]
 
+const POSTS_CN=[
+  {id:1,cover:"🎮",title:"Unity vs Cocos Creator：两年实战后的真心话比较",
+   excerpt:"很多人问我：「学游戏开发要选 Unity 还是 Cocos？」用了两年这两个引擎，踩过很多坑之后，我终于可以给出一个比较诚实的答案……",
+   content:[
+     {t:"p",s:"很多人问我：「学游戏开发要选 Unity 还是 Cocos？」用了两年这两个引擎之后，我终于可以给出一个比较诚实的答案：两个都很好，但适合的场景不同。"},
+     {t:"h3",s:"Unity 的强项"},
+     {t:"p",s:"Unity 的生态系无庸置疑是目前最完整的。Asset Store 里有海量的素材和工具、YouTube 上有数不清的教学、社群论坛几乎任何问题都有人回答过。如果你想做 3D 游戏，Unity 几乎是唯一选择。"},
+     {t:"h3",s:"Cocos Creator 的强项"},
+     {t:"p",s:"Cocos 在手机 2D 游戏和 H5 网页游戏方面有压倒性的优势，尤其在中国市场。它的底层性能在手机端非常出色，而且针对微信小游戏等平台有原生支持。"},
+     {t:"h3",s:"我的建议"},
+     {t:"p",s:"如果你刚入门，我建议先从 Unity 开始——学习资源多、社群活跃。等有了基础概念再学 Cocos，转换成本其实不高。"},
+     {t:"h3",s:"两个都学有没有意义？"},
+     {t:"p",s:"非常有意义！特别是如果你想接案，同时会 Unity 和 Cocos 能让你接到更多不同类型的项目，竞争力也会大幅提升。"}
+   ],tags:["Unity","Cocos","入门"],date:"2026-02-20",readTime:"7 分钟"},
+  {id:2,cover:"📱",title:"手机游戏性能优化的 5 个关键技巧",
+   excerpt:"做手机游戏最大的挑战之一就是性能。玩家的手机型号五花八门，要让游戏在低端机上也跑得顺，你必须从一开始就养成好习惯……",
+   content:[
+     {t:"p",s:"做手机游戏最大的挑战之一就是性能。要让游戏在低端机上也跑得顺，你必须从一开始就养成好习惯。"},
+     {t:"h3",s:"技巧 1：善用 Object Pooling（对象池）"},
+     {t:"p",s:"频繁的 Instantiate 和 Destroy 是性能杀手。子弹、特效、敌人这类大量生成的对象，一定要用 Object Pool 管理。这一个改动往往能让帧率提升 20-30%。"},
+     {t:"h3",s:"技巧 2：控制 Draw Call 数量"},
+     {t:"p",s:"把多张小图合并成 Sprite Atlas，让同一批 sprite 只需要一次 Draw Call。这是 2D 游戏优化最基础也最有效的方法之一。"},
+     {t:"h3",s:"技巧 3：Update 里的代码要精简"},
+     {t:"p",s:"每一帧都执行的逻辑要尽量轻量。避免在 Update 里做字符串操作、大量的碰撞查询或 Find 对象等昂贵操作。"},
+     {t:"h3",s:"技巧 4：用 Profiler 找真正的瓶颈"},
+     {t:"p",s:"一定要先打开 Profiler，找到真正占用最多时间的地方，再针对性地优化。不要凭直觉猜，要用数据说话。"},
+     {t:"h3",s:"技巧 5：适当使用 LOD 和图集"},
+     {t:"p",s:"远处的对象不需要高细节，LOD 系统可以根据距离自动切换模型。图集则确保同场景的 UI 元素尽量共用材质。"}
+   ],tags:["Unity","Cocos","性能优化"],date:"2026-02-05",readTime:"6 分钟"},
+  {id:3,cover:"🕹️",title:"从零开始学 Unity：给完全新手的入门路线图",
+   excerpt:"你对游戏开发有兴趣，但不知道从哪里开始？这篇文章帮你规划一条清晰的学习路线……",
+   content:[
+     {t:"p",s:"你对游戏开发有兴趣，但不知道从哪里开始？这篇文章帮你规划一条清晰的学习路线，让你少走弯路。"},
+     {t:"h3",s:"第一阶段：熟悉 Unity 环境（1-2 周）"},
+     {t:"p",s:"下载安装 Unity Hub 和 Unity Editor（LTS 版本）。花几天时间熟悉界面：Scene View、Game View、Inspector、Hierarchy。"},
+     {t:"h3",s:"第二阶段：学习 C# 基础（2-4 周）"},
+     {t:"p",s:"Unity 使用 C# 作为脚本语言。你需要了解：变量与类型、条件判断与循环、函数与类、MonoBehaviour 的生命周期。"},
+     {t:"h3",s:"第三阶段：做出第一个完整游戏（4-8 周）"},
+     {t:"p",s:"选一个简单的游戏类型：2D 平台跳跃、打砖块或顶视角射击。重要的是做「完整」的游戏——有开始画面、游戏逻辑、结束条件和分数显示。"},
+     {t:"h3",s:"最后一点建议"},
+     {t:"p",s:"学习游戏开发最大的陷阱是「一直在看教学，却没有真正动手做」。动手比观看重要一百倍。"}
+   ],tags:["Unity","入门","教学"],date:"2026-01-18",readTime:"8 分钟"},
+  {id:4,cover:"💼",title:"游戏开发接案经验分享：如何谈到第一个客户",
+   excerpt:"接案是很多独立游戏开发者的收入来源，但第一个客户是最难的……",
+   content:[
+     {t:"p",s:"接案是很多独立游戏开发者的收入来源，但第一个客户是最难的。这里分享我的真实过程。"},
+     {t:"h3",s:"第一步：建立作品集"},
+     {t:"p",s:"没有客户愿意找一个「没有任何作品」的开发者。先做 2-3 个展示你能力的小游戏 Demo。"},
+     {t:"h3",s:"第二步：用低价建立信誉"},
+     {t:"p",s:"第一个客户，我是以非常低的价格接的。那个案子给了我真实的客户评价和实际交付的经验。"},
+     {t:"h3",s:"谈价格的关键"},
+     {t:"p",s:"报价前一定要先彻底了解需求。把项目拆细，逐项估算工时，加上 20-30% 的缓冲。"},
+     {t:"h3",s:"最重要的一件事"},
+     {t:"p",s:"准时交付，超出预期。接案最强大的营销工具是「客户介绍客户」。"}
+   ],tags:["接案","心得"],date:"2026-01-03",readTime:"7 分钟"},
+  {id:5,cover:"🎨",title:"游戏 UI 设计入门：让玩家直觉看懂界面",
+   excerpt:"很多开发者都曾轻忽 UI 设计，但糟糕的 UI 会让玩家在第一分钟就放弃你的游戏……",
+   content:[
+     {t:"p",s:"很多开发者（包括我自己）都曾轻忽 UI 设计。但糟糕的 UI 会让玩家在第一分钟就放弃你的游戏。"},
+     {t:"h3",s:"原则 1：清晰比好看更重要"},
+     {t:"p",s:"玩家不会研究你的界面，他们只想直觉知道该怎么做。HP 条要明显、按钮要清楚。"},
+     {t:"h3",s:"原则 2：善用视觉层级"},
+     {t:"p",s:"通过大小、颜色、对比来引导玩家的视线。一个画面不要有超过 3 个「重点」。"},
+     {t:"h3",s:"原则 3：反馈要即时且明确"},
+     {t:"p",s:"每个玩家的操作都要有反应：按钮按下要有视觉变化、受伤要有闪红。"}
+   ],tags:["UI设计","教学"],date:"2025-12-15",readTime:"5 分钟"},
+  {id:6,cover:"🚀",title:"Cocos Creator 新手必踩的 5 个坑（以及如何避开）",
+   excerpt:"我刚开始学 Cocos 的时候，有几个坑踩了不止一次。现在把它们整理出来……",
+   content:[
+     {t:"p",s:"我刚开始学 Cocos Creator 的时候，有几个坑踩了不止一次。现在整理出来，希望让你少浪费几个小时的调试时间。"},
+     {t:"h3",s:"坑 1：忽略 Node 的 Anchor Point"},
+     {t:"p",s:"Cocos 的节点位置是由 Anchor Point 决定的，默认在中心（0.5, 0.5）。如果节点位置总是「歪掉」，十有八九是 Anchor Point 没设对。"},
+     {t:"h3",s:"坑 2：直接在脚本里用字符串找节点"},
+     {t:"p",s:"用 find() 动态查找节点不只性能差，还很容易因为节点改名而出错。"},
+     {t:"h3",s:"坑 3：不了解 Canvas 的缩放逻辑"},
+     {t:"p",s:"Cocos 的 Canvas 有多种缩放模式，选错会让 UI 在不同屏幕比例上跑版。大多数手机游戏推荐 FIXED_HEIGHT。"},
+     {t:"h3",s:"坑 4：TypeScript 类型没有善用"},
+     {t:"p",s:"Cocos 3.x 强力建议使用 TypeScript，类型声明可以让 IDE 帮你找到大量的低级错误。"},
+     {t:"h3",s:"坑 5：跳过版控直接开发"},
+     {t:"p",s:"没有版控直接开发是灾难的开始。现在就建立 Git repo，每次有意义的进展就 commit。"}
+   ],tags:["Cocos","教学","心得"],date:"2025-11-28",readTime:"6 分钟"}
+]
+
+const POSTS_PH=[
+  {id:1,cover:"🎮",title:"Unity vs Cocos Creator: Honest na Paghahambing Matapos ang 2 Taon",
+   excerpt:"Maraming nagtatanong sa akin: \"Unity o Cocos ang dapat kong piliin?\" Pagkatapos gamitin ang dalawang engine sa loob ng 2 taon, maibibigay ko na ang honest na sagot……",
+   content:[
+     {t:"p",s:"Maraming nagtatanong sa akin: \"Unity o Cocos ang dapat kong piliin?\" Pagkatapos gamitin ang dalawang engine ng 2 taon, narito ang honest na sagot ko: pareho silang maganda, pero magkaiba ang angkop na gamit."},
+     {t:"h3",s:"Lakas ng Unity"},
+     {t:"p",s:"Ang ecosystem ng Unity ang pinakamalawak. Ang Asset Store ay may napakaraming assets at tools. Sa YouTube, walang katapusang tutorials. Kung gusto mong gumawa ng 3D games, Unity ang best na pagpipilian."},
+     {t:"h3",s:"Lakas ng Cocos Creator"},
+     {t:"p",s:"Ang Cocos ay napakalakas sa mobile 2D games at H5 web games, lalo na sa Asian market. Ang performance nito sa mobile devices ay napakaganda."},
+     {t:"h3",s:"Ang Payo Ko"},
+     {t:"p",s:"Kung baguhan ka pa lang, magsimula ka sa Unity — maraming learning resources at aktibong community. Pagkatapos matuto ng basics, madali na lang mag-switch sa Cocos."},
+     {t:"h3",s:"May halaga bang matuto ng dalawa?"},
+     {t:"p",s:"Oo, napakalaki! Lalo na kung gusto mong mag-freelance. Pag kabisado mo pareho, mas maraming projects ang matatanggap mo."}
+   ],tags:["Unity","Cocos","Beginner"],date:"2026-02-20",readTime:"7 min"},
+  {id:2,cover:"📱",title:"5 Mahahalagang Tips sa Mobile Game Performance Optimization",
+   excerpt:"Isa sa pinakamalaking hamon sa mobile game development ay performance. Kailangan mong matutunang mag-optimize mula sa simula……",
+   content:[
+     {t:"p",s:"Isa sa pinakamalaking hamon sa mobile game dev ay performance. Kailangan tumakbo nang maayos kahit sa low-end phones."},
+     {t:"h3",s:"Tip 1: Gamitin ang Object Pooling"},
+     {t:"p",s:"Madalas na Instantiate at Destroy ang pumapatay sa performance. Bullets, effects, enemies — gamitin ang Object Pool para i-recycle sila. Ito lang, 20-30% na ang improvement sa framerate."},
+     {t:"h3",s:"Tip 2: Kontrolin ang Draw Call Count"},
+     {t:"p",s:"I-merge ang maliliit na images sa Sprite Atlas para mabawasan ang Draw Calls. Isa ito sa pinaka-basic at pinaka-effective na optimization."},
+     {t:"h3",s:"Tip 3: I-simplify ang Update Code"},
+     {t:"p",s:"Ang code na tumatakbo bawat frame ay dapat light lang. Iwasan ang string operations, maraming collision queries, o Find sa loob ng Update."},
+     {t:"h3",s:"Tip 4: Gamitin ang Profiler para Mahanap ang Bottleneck"},
+     {t:"p",s:"Huwag hulaan — gamitin ang Profiler para malaman kung saan talaga napupunta ang oras at resources."}
+   ],tags:["Unity","Cocos","Optimization"],date:"2026-02-05",readTime:"6 min"},
+  {id:3,cover:"🕹️",title:"Matuto ng Unity Mula sa Zero: Roadmap para sa Beginners",
+   excerpt:"Interesado ka sa game development pero hindi alam kung saan magsisimula? Narito ang step-by-step na learning roadmap……",
+   content:[
+     {t:"p",s:"Interesado ka sa game development pero hindi alam kung saan magsisimula? Narito ang malinaw na learning roadmap."},
+     {t:"h3",s:"Phase 1: Kilalanin ang Unity (1-2 Linggo)"},
+     {t:"p",s:"I-download ang Unity Hub at Unity Editor (LTS version). Pamilyarisahin ang Scene View, Game View, Inspector, at Hierarchy."},
+     {t:"h3",s:"Phase 2: Matuto ng C# Basics (2-4 na Linggo)"},
+     {t:"p",s:"Ang Unity ay gumagamit ng C#. Kailangan mong matuto ng variables, conditions, loops, functions, classes, at MonoBehaviour lifecycle."},
+     {t:"h3",s:"Phase 3: Gumawa ng Unang Complete Game (4-8 Linggo)"},
+     {t:"p",s:"Pumili ng simpleng game: 2D platformer, breakout, o top-down shooter. Ang mahalaga ay completeness — may start screen, gameplay, end condition, at score."},
+     {t:"h3",s:"Huling Payo"},
+     {t:"p",s:"Ang pinakamalaking trap sa game dev learning: \"panay nood ng tutorials pero hindi gumagawa.\" Mas importante ang hands-on kaysa panood."}
+   ],tags:["Unity","Beginner","Tutorial"],date:"2026-01-18",readTime:"8 min"},
+  {id:4,cover:"💼",title:"Game Dev Freelancing: Paano Makuha ang Unang Client",
+   excerpt:"Mahirap makuha ang unang client. I-share ko ang journey ko mula zero hanggang stable freelancing……",
+   content:[
+     {t:"p",s:"Ang freelancing ay magandang income source pero ang unang client ang pinakamahirap. I-share ko ang totoong experience ko."},
+     {t:"h3",s:"Step 1: Gumawa ng Portfolio"},
+     {t:"p",s:"Walang client na tatanggap ng developer na walang kahit anong ipapakita. Gumawa ka ng 2-3 demo games at i-publish sa itch.io o GitHub."},
+     {t:"h3",s:"Step 2: Magsimula sa Mababang Presyo"},
+     {t:"p",s:"Ang unang client ko, tinanggap ko sa mababang presyo. Pero nakuha ko ang real client feedback at delivery experience."},
+     {t:"h3",s:"Tips sa Pricing"},
+     {t:"p",s:"Bago mag-quote, i-breakdown mo ang project at i-estimate ang bawat task. Mag-add ng 20-30% buffer."},
+     {t:"h3",s:"Ang Pinaka-importante"},
+     {t:"p",s:"On-time delivery at exceed expectations. Ang best marketing tool ay word-of-mouth."}
+   ],tags:["Freelance","Experience"],date:"2026-01-03",readTime:"7 min"},
+  {id:5,cover:"🎨",title:"Game UI Design Basics: Gawing Intuitive ang Interface",
+   excerpt:"Maraming developers ang hindi pinapansin ang UI design. Pero ang masamang UI ay nakakapatay ng laro sa unang minuto……",
+   content:[
+     {t:"p",s:"Maraming developers (kasama ako) ang hindi masyado pinapansin ang UI design. Pero ang masamang UI ay pumapatal sa laro sa unang minuto."},
+     {t:"h3",s:"Principle 1: Clarity over Beauty"},
+     {t:"p",s:"Hindi pinag-aaralan ng players ang UI — gusto nila agad malaman ang gagawin. Dapat obvious ang HP bar, buttons, at important info."},
+     {t:"h3",s:"Principle 2: Visual Hierarchy"},
+     {t:"p",s:"Gamitin ang size, color, at contrast para i-guide ang attention. Maximum 3 focal points lang sa isang screen."},
+     {t:"h3",s:"Principle 3: Instant Feedback"},
+     {t:"p",s:"Bawat action ng player ay dapat may response: button press effect, damage flash, pickup animation."}
+   ],tags:["UI Design","Tutorial"],date:"2025-12-15",readTime:"5 min"},
+  {id:6,cover:"🚀",title:"5 Common na Pitfalls ng Cocos Creator Beginners (at Paano Iwasan)",
+   excerpt:"Noong nagsisimula ako sa Cocos, maraming beses akong nahulog sa parehong bitag. Narito ang listahan para ma-save mo ang oras……",
+   content:[
+     {t:"p",s:"Noong nagsisimula ako sa Cocos Creator, maraming beses akong nahulog sa parehong pitfalls. Narito sila para makatipid ka ng oras."},
+     {t:"h3",s:"Pitfall 1: Ignored ang Anchor Point"},
+     {t:"p",s:"Ang position ng Cocos nodes ay base sa Anchor Point (default 0.5, 0.5). Kung palaging mali ang position, most likely Anchor Point ang problema."},
+     {t:"h3",s:"Pitfall 2: String-based Node Finding"},
+     {t:"p",s:"Ang find() ay mabagal at madaling masira pag nagpalit ng node name. Gamitin ang @property drag-and-drop sa Inspector."},
+     {t:"h3",s:"Pitfall 3: Hindi Naiintindihan ang Canvas Scaling"},
+     {t:"p",s:"May iba't ibang scale modes ang Canvas. Para sa karamihan ng mobile games, FIXED_HEIGHT ang recommended."},
+     {t:"h3",s:"Pitfall 4: Hindi Nagamit nang Maayos ang TypeScript"},
+     {t:"p",s:"Cocos 3.x ay strongly recommends TypeScript. Type declarations ay tumutulong sa IDE na mahanap ang bugs."},
+     {t:"h3",s:"Pitfall 5: Walang Version Control"},
+     {t:"p",s:"Development without Git ay recipe for disaster. Mag-commit sa bawat meaningful progress."}
+   ],tags:["Cocos","Tutorial","Experience"],date:"2025-11-28",readTime:"6 min"}
+]
+
 // ── I18N ─────────────────────────────────────────────────────────────
 const LANG={
 tw:{
@@ -853,7 +1151,18 @@ tw:{
   tag_all:"全部",tag_unity:"Unity",tag_cocos:"Cocos",tag_beginner:"入門",
   tag_perf:"效能優化",tag_tutorial:"教學",tag_freelance:"接案",
   tag_insight:"心得",tag_ui:"UI設計",
-  posts_count:"共",posts_count2:"篇文章"
+  posts_count:"共",posts_count2:"篇文章",
+  nav_daily:"每日教學",nav_games:"小遊戲",
+  daily_h1:"📖 每日教學",daily_sub:"每天學習一個遊戲開發小知識，完全免費！",
+  daily_today:"今日教學",daily_today_sub:"每天自動更新，不需要任何費用",
+  daily_prev:"← 前一天",daily_today_btn:"今天",daily_next:"下一天 →",
+  daily_email_h:"📧 每日教學直送信箱",daily_email_p:"訂閱即可每天收到最新教學內容",
+  games_h1:"🕹️ 小遊戲試玩",games_sub:"直接在網頁內試玩！體驗遊戲開發的成果",
+  games_title:"🎮 免費試玩",games_title_sub:"用鍵盤或觸控操作，直接在瀏覽器中遊玩",
+  game_click_play:"點擊開始遊玩",game_score:"分數",
+  game1_title:"🐍 貪吃蛇",game1_desc:"經典貪吃蛇遊戲！使用方向鍵或滑動操控蛇的方向，吃掉食物讓身體變長。",
+  game2_title:"🧱 打磚塊",game2_desc:"移動底部的擋板反彈球，擊碎所有磚塊。使用左右鍵或滑動控制。",
+  game3_title:"🐦 飛翔小鳥",game3_desc:"點擊螢幕或按空白鍵讓小鳥飛起來，躲避柱子障礙物。"
 },
 jp:{
   site_title:"フランク開発ブログ · ゲーム開発 × 受注 × 教学",
@@ -920,11 +1229,180 @@ jp:{
   tag_all:"すべて",tag_unity:"Unity",tag_cocos:"Cocos",tag_beginner:"入門",
   tag_perf:"最適化",tag_tutorial:"チュートリアル",tag_freelance:"フリーランス",
   tag_insight:"体験談",tag_ui:"UIデザイン",
-  posts_count:"全",posts_count2:"記事"
+  posts_count:"全",posts_count2:"記事",
+  nav_daily:"毎日レッスン",nav_games:"ミニゲーム",
+  daily_h1:"📖 毎日レッスン",daily_sub:"毎日ゲーム開発の豆知識を一つ学ぼう。完全無料！",
+  daily_today:"今日のレッスン",daily_today_sub:"毎日自動更新、費用は一切かかりません",
+  daily_prev:"← 前日",daily_today_btn:"今日",daily_next:"翌日 →",
+  daily_email_h:"📧 毎日レッスンをメールで受け取る",daily_email_p:"購読すると毎日最新のレッスンが届きます",
+  games_h1:"🕹️ ミニゲーム",games_sub:"ブラウザで直接プレイ！ゲーム開発の成果を体験",
+  games_title:"🎮 無料プレイ",games_title_sub:"キーボードまたはタッチ操作でブラウザ内プレイ",
+  game_click_play:"クリックしてプレイ",game_score:"スコア",
+  game1_title:"🐍 スネークゲーム",game1_desc:"クラシックなスネークゲーム！矢印キーまたはスワイプで操作し、食べ物を取って長くなろう。",
+  game2_title:"🧱 ブロック崩し",game2_desc:"パドルを動かしてボールを跳ね返し、すべてのブロックを壊そう。左右キーまたはスワイプで操作。",
+  game3_title:"🐦 フラッピーバード",game3_desc:"クリックまたはスペースキーで鳥を飛ばし、柱をよけよう。"
+},
+cn:{
+  site_title:"Frank Dev Blog · 游戏开发 × 接案 × 教学",
+  nav_home:"首页",nav_posts:"文章",nav_services:"服务",
+  nav_courses:"教学",nav_donate:"赞助",nav_about:"关于",
+  nav_daily:"每日教学",nav_games:"小游戏",
+  home_h1:"嗨，我是 Frank 👋",
+  home_sub:"游戏开发者，专注于 Unity 与 Cocos 引擎。\n分享开发技巧、踩坑心得与接案经验。",
+  cta_contact:"💼 洽谈接案",cta_courses:"📚 免费教学",cta_support:"❤️ 支持我",
+  home_latest:"🔥 最新文章",home_more:"查看所有文章",
+  email_title:"📧 订阅免费资源",
+  email_sub:"订阅即可获得免费 Unity 项目范本 + 每周开发技巧",
+  email_btn:"订阅",email_ph:"你的 Email",
+  posts_title:"📚 所有文章",
+  posts_cta_h:"想学更多？",posts_cta_p:"订阅我的教学课程，从入门到进阶一次搞定",posts_cta_btn:"查看课程 →",
+  svc_h1:"💼 接案服务",svc_sub:"专业游戏开发，助你快速将创意化为产品",
+  svc_cards_title:"服务项目",svc_cards_sub:"专注游戏开发，提供端到端解决方案",
+  s1_title:"手机游戏开发",s1_desc:"iOS / Android 手机游戏从零到发布，Unity 或 Cocos Creator，完整交付",s1_price:"NT$15,000 起",
+  s2_title:"游戏功能模块",s2_desc:"战斗系统、背包系统、UI 系统等独立功能模块开发与整合",s2_price:"NT$5,000 起",
+  s3_title:"性能优化服务",s3_desc:"卡顿、掉帧、内存溢出？提供专业 Profiler 分析与优化方案",s3_price:"NT$3,000 起",
+  s4_title:"技术顾问",s4_desc:"架构设计、技术选型、Code Review，一小时顾问咨询助你少走弯路",s4_price:"NT$800 / 小时",
+  s_cta:"立即洽谈",
+  trust1:"准时交付",trust2:"NDA 保密协议",trust3:"免费修改 2 次",trust4:"即时沟通",trust5:"3 年实战经验",
+  price_title:"💰 报价参考",
+  pt_type:"项目",pt_scope:"规模",pt_time:"工期",pt_price:"参考报价",
+  p1_type:"手机游戏（休闲）",p1_scope:"小型",p1_time:"2–4 周",
+  p2_type:"手机游戏（中型）",p2_scope:"中型",p2_time:"1–3 月",
+  p3_type:"功能模块",p3_scope:"单功能",p3_time:"1–2 周",
+  p4_type:"性能优化",p4_scope:"项目诊断",p4_time:"3–7 天",
+  p5_type:"技术顾问",p5_scope:"按小时",p5_time:"灵活",
+  cf_title:"📬 联系我",cf_name:"姓名",cf_name_ph:"你的名字",
+  cf_service:"服务项目",cf_desc:"项目描述",cf_desc_ph:"简述你的项目或需求…",
+  cf_budget:"预算范围",cf_budget_discuss:"面议",
+  cf_timeline:"时程需求",
+  t1:"急件（1 周内）",t2:"2–4 周",t3:"1–3 个月",t4:"弹性讨论",
+  cf_other:"其他需求",cf_submit:"📨 发送询问",
+  pay_title:"收款方式（合约确认后）",pay_bank:"台湾银行转账",copy_btn:"复制",
+  crs_h1:"📚 教学课程",crs_sub:"从入门到进阶，实战导向的游戏开发教学",
+  crs_free:"🆓 免费资源",crs_free_sub:"订阅 Email 即可免费获取",
+  cr1_title:"Unity 入门完整指南 PDF",cr1_desc:"30 页完整入门指南，涵盖环境设定、C# 基础、第一个游戏制作全流程",
+  cr2_title:"Cocos Creator 快速上手 Cheatsheet",cr2_desc:"常用 API、生命周期、节点操作一张表搞定",
+  free:"免费",dl_btn:"📥 免费下载",
+  crs_paid:"💎 付费课程",crs_paid_sub:"深度实战课程，含范例项目源码",
+  cr3_title:"手机游戏性能优化实战课",cr3_desc:"5 个视频 + 范例 Unity 项目，学习 Object Pooling、Draw Call 优化、内存管理",
+  cr4_title:"Unity 游戏系统架构设计",cr4_desc:"设计可扩展的游戏架构：事件系统、状态机、MVC 设计模式的实战应用",
+  cr5_title:"从零制作完整手机游戏（Cocos Creator）",cr5_desc:"8 小时完整课程，从项目建立到 App Store 上架",
+  buy_btn:"🛒 立即购买",
+  crs_email_h:"🎁 免费获取 Unity 入门包",crs_email_p:"输入 Email，立即收到免费 PDF 教学 + 范例项目",
+  don_h1:"支持 Frank 继续创作",
+  don_sub:"你的赞助让我能持续制作免费教学、开源项目，并回馈给整个游戏开发社区",
+  don_custom:"或使用下方任一方式自由赞助",don_methods:"💳 赞助方式",bank_tw:"台湾银行转账",
+  don_thanks_h:"💌 赞助后留言",don_thanks_p:"完成赞助后可留下你的昵称，我会在下一篇文章感谢你！",
+  don_name:"昵称",don_amount:"赞助金额",don_msg:"留言",don_submit:"❤️ 发送感谢留言",
+  ab_role:"游戏开发者 · Unity · Cocos Creator",
+  ab_intro:"热爱游戏开发，擅长将创意转化为可玩的游戏体验。欢迎有游戏开发需求的朋友找我合作！",
+  ab_about:"🎮 关于我",ab_p1:"我叫 Frank，是一名游戏开发者，主要使用 Cocos Creator 和 Unity 引擎开发各类型游戏。",
+  ab_p2:"无论是手机游戏、休闲小游戏还是跨平台项目，我都有丰富的实作经验。",
+  ab_p3:"这个博客是我记录开发过程、分享踩坑心得的地方。",
+  ab_skills:"🛠️ 技术专长",
+  sk1:"游戏 UI 设计",sk2:"性能优化",sk3:"手机游戏开发",sk4:"跨平台发布",sk5:"对象池设计",sk6:"游戏架构设计",
+  ab_cta_h:"📬 联系我",ab_cta_p:"有游戏开发需求，或只是想交流技术，都欢迎找我聊聊！",
+  ab_hire:"洽谈接案",
+  modal_cta_p:"有游戏开发需求？",modal_cta_btn:"💼 洽谈接案",
+  footer_copy:"© 2026 Frank · 用代码打造游戏世界 · a8398433@gmail.com",
+  tag_all:"全部",tag_unity:"Unity",tag_cocos:"Cocos",tag_beginner:"入门",
+  tag_perf:"性能优化",tag_tutorial:"教学",tag_freelance:"接案",
+  tag_insight:"心得",tag_ui:"UI设计",
+  posts_count:"共",posts_count2:"篇文章",
+  daily_h1:"📖 每日教学",daily_sub:"每天学习一个游戏开发小知识，完全免费！",
+  daily_today:"今日教学",daily_today_sub:"每天自动更新，不需要任何费用",
+  daily_prev:"← 前一天",daily_today_btn:"今天",daily_next:"下一天 →",
+  daily_email_h:"📧 每日教学直送信箱",daily_email_p:"订阅即可每天收到最新教学内容",
+  games_h1:"🕹️ 小游戏试玩",games_sub:"直接在网页内试玩！体验游戏开发的成果",
+  games_title:"🎮 免费试玩",games_title_sub:"用键盘或触控操作，直接在浏览器中游玩",
+  game_click_play:"点击开始游玩",game_score:"分数",
+  game1_title:"🐍 贪吃蛇",game1_desc:"经典贪吃蛇游戏！使用方向键或滑动操控蛇的方向，吃掉食物让身体变长。",
+  game2_title:"🧱 打砖块",game2_desc:"移动底部的挡板反弹球，击碎所有砖块。使用左右键或滑动控制。",
+  game3_title:"🐦 飞翔小鸟",game3_desc:"点击屏幕或按空格键让小鸟飞起来，躲避柱子障碍物。"
+},
+ph:{
+  site_title:"Frank Dev Blog · Game Dev × Freelance × Tutorials",
+  nav_home:"Home",nav_posts:"Articles",nav_services:"Services",
+  nav_courses:"Courses",nav_donate:"Support",nav_about:"About",
+  nav_daily:"Daily Tips",nav_games:"Mini Games",
+  home_h1:"Hi, I'm Frank 👋",
+  home_sub:"Game developer specializing in Unity & Cocos engine.\nSharing dev tips, lessons learned & freelance experience.",
+  cta_contact:"💼 Hire Me",cta_courses:"📚 Free Courses",cta_support:"❤️ Support Me",
+  home_latest:"🔥 Latest Articles",home_more:"View All Articles",
+  email_title:"📧 Subscribe for Free Resources",
+  email_sub:"Subscribe to get free Unity project templates + weekly dev tips",
+  email_btn:"Subscribe",email_ph:"Your Email",
+  posts_title:"📚 All Articles",
+  posts_cta_h:"Want to learn more?",posts_cta_p:"Check out my courses from beginner to advanced",posts_cta_btn:"View Courses →",
+  svc_h1:"💼 Development Services",svc_sub:"Professional game dev to turn your ideas into products",
+  svc_cards_title:"Services",svc_cards_sub:"End-to-end game development solutions",
+  s1_title:"Mobile Game Development",s1_desc:"iOS / Android games from zero to release, Unity or Cocos Creator, full delivery",s1_price:"NT$15,000+",
+  s2_title:"Game Feature Modules",s2_desc:"Combat system, inventory, UI system, achievement system development & integration",s2_price:"NT$5,000+",
+  s3_title:"Performance Optimization",s3_desc:"Lag, frame drops, memory leaks? Professional Profiler analysis & optimization",s3_price:"NT$3,000+",
+  s4_title:"Technical Consulting",s4_desc:"Architecture design, tech selection, Code Review. 1-hour consulting to save you time",s4_price:"NT$800 / hour",
+  s_cta:"Contact Now",
+  trust1:"On-time Delivery",trust2:"NDA Agreement",trust3:"2 Free Revisions",trust4:"Real-time Communication",trust5:"3 Years Experience",
+  price_title:"💰 Pricing Guide",
+  pt_type:"Item",pt_scope:"Scale",pt_time:"Timeline",pt_price:"Reference Price",
+  p1_type:"Mobile Game (Casual)",p1_scope:"Small",p1_time:"2–4 weeks",
+  p2_type:"Mobile Game (Mid-size)",p2_scope:"Medium",p2_time:"1–3 months",
+  p3_type:"Feature Module",p3_scope:"Single Feature",p3_time:"1–2 weeks",
+  p4_type:"Performance Optimization",p4_scope:"Diagnosis",p4_time:"3–7 days",
+  p5_type:"Technical Consulting",p5_scope:"Hourly",p5_time:"Flexible",
+  cf_title:"📬 Contact Me",cf_name:"Name",cf_name_ph:"Your name",
+  cf_service:"Service",cf_desc:"Project Description",cf_desc_ph:"Briefly describe your project...",
+  cf_budget:"Budget Range",cf_budget_discuss:"Negotiable",
+  cf_timeline:"Timeline",
+  t1:"Urgent (within 1 week)",t2:"2–4 weeks",t3:"1–3 months",t4:"Flexible",
+  cf_other:"Other",cf_submit:"📨 Send Inquiry",
+  pay_title:"Payment (after contract)",pay_bank:"Taiwan Bank Transfer",copy_btn:"Copy",
+  crs_h1:"📚 Courses",crs_sub:"From beginner to advanced, hands-on game dev tutorials",
+  crs_free:"🆓 Free Resources",crs_free_sub:"Subscribe via Email to get free resources",
+  cr1_title:"Unity Complete Beginner Guide PDF",cr1_desc:"30-page guide covering setup, C# basics, and your first game",
+  cr2_title:"Cocos Creator Quick Start Cheatsheet",cr2_desc:"Common APIs, lifecycle, node operations on one reference card",
+  free:"Free",dl_btn:"📥 Free Download",
+  crs_paid:"💎 Premium Courses",crs_paid_sub:"Deep-dive courses with source code included",
+  cr3_title:"Mobile Game Performance Optimization",cr3_desc:"5 videos + Unity sample project: Object Pooling, Draw Call optimization, memory management",
+  cr4_title:"Unity Game System Architecture",cr4_desc:"Scalable game architecture: event system, state machine, MVC patterns",
+  cr5_title:"Build a Complete Mobile Game (Cocos Creator)",cr5_desc:"8-hour course from project setup to App Store release",
+  buy_btn:"🛒 Buy Now",
+  crs_email_h:"🎁 Get Free Unity Starter Pack",crs_email_p:"Enter your email to receive free PDF tutorials + sample projects",
+  don_h1:"Support Frank's Content",
+  don_sub:"Your support helps me create free tutorials, open-source projects, and give back to the game dev community",
+  don_custom:"Or use any method below to support freely",don_methods:"💳 Support Methods",bank_tw:"Taiwan Bank Transfer",
+  don_thanks_h:"💌 Leave a Message",don_thanks_p:"Leave your nickname after donating and I'll thank you in my next article!",
+  don_name:"Nickname",don_amount:"Amount",don_msg:"Message",don_submit:"❤️ Send Thank You Message",
+  ab_role:"Game Developer · Unity · Cocos Creator",
+  ab_intro:"Passionate about game dev, skilled at turning ideas into playable experiences. Let's collaborate!",
+  ab_about:"🎮 About Me",ab_p1:"I'm Frank, a game developer using Cocos Creator and Unity to build various types of games.",
+  ab_p2:"From mobile games to casual games to cross-platform projects, I have rich hands-on experience.",
+  ab_p3:"This blog is where I document my dev journey and share lessons learned.",
+  ab_skills:"🛠️ Skills",
+  sk1:"Game UI Design",sk2:"Performance Optimization",sk3:"Mobile Game Dev",sk4:"Cross-platform",sk5:"Object Pool Design",sk6:"Game Architecture",
+  ab_cta_h:"📬 Get in Touch",ab_cta_p:"Whether you need game dev services or just want to chat about tech, feel free to reach out!",
+  ab_hire:"Hire Me",
+  modal_cta_p:"Need game development?",modal_cta_btn:"💼 Hire Me",
+  footer_copy:"© 2026 Frank · Building game worlds with code · a8398433@gmail.com",
+  tag_all:"All",tag_unity:"Unity",tag_cocos:"Cocos",tag_beginner:"Beginner",
+  tag_perf:"Optimization",tag_tutorial:"Tutorial",tag_freelance:"Freelance",
+  tag_insight:"Experience",tag_ui:"UI Design",
+  posts_count:"Total",posts_count2:"articles",
+  daily_h1:"📖 Daily Tips",daily_sub:"Learn one game dev tip every day, completely free!",
+  daily_today:"Today's Lesson",daily_today_sub:"Auto-updated daily, no cost at all",
+  daily_prev:"← Previous",daily_today_btn:"Today",daily_next:"Next →",
+  daily_email_h:"📧 Daily Tips to Your Inbox",daily_email_p:"Subscribe to receive daily tutorials",
+  games_h1:"🕹️ Mini Games",games_sub:"Play right in the browser! Experience game dev results",
+  games_title:"🎮 Free to Play",games_title_sub:"Use keyboard or touch controls to play in your browser",
+  game_click_play:"Click to Play",game_score:"Score",
+  game1_title:"🐍 Snake",game1_desc:"Classic snake game! Use arrow keys or swipe to control the snake and eat food to grow.",
+  game2_title:"🧱 Breakout",game2_desc:"Move the paddle to bounce the ball and break all bricks. Use left/right keys or swipe.",
+  game3_title:"🐦 Flappy Bird",game3_desc:"Click or press space to make the bird fly up and dodge the pillars."
 }}
 
 // ── STATE ────────────────────────────────────────────────────────────
-let lang='tw', darkMode=false, activeTag=null
+let lang='tw', darkMode=false, activeTag=null, dailyOffset=0
+const LANGS=['tw','jp','cn','ph']
+const LANG_LABELS={tw:'🇹🇼 TW',jp:'🇯🇵 JP',cn:'🇨🇳 CN',ph:'🇵🇭 PH'}
 
 // ── LANG ─────────────────────────────────────────────────────────────
 function applyLang(){
@@ -937,15 +1415,23 @@ function applyLang(){
     const k=el.getAttribute('data-i18n-placeholder')
     if(L[k]!==undefined) el.placeholder=L[k]
   })
-  document.getElementById('langBtn').textContent=lang==='tw'?'🌐 JP':'🌐 TW'
+  document.getElementById('langBtn').textContent=LANG_LABELS[lang]
   document.title=L.site_title
+  document.querySelectorAll('.lang-option').forEach(btn=>{
+    btn.classList.toggle('active',btn.getAttribute('onclick').includes("'"+lang+"'"))
+  })
 }
-function toggleLang(){
-  lang=lang==='tw'?'jp':'tw'
-  activeTag=null
-  applyLang()
-  renderAll()
+function toggleLangMenu(){
+  document.getElementById('langMenu').classList.toggle('open')
 }
+function setLang(l){
+  lang=l;activeTag=null
+  document.getElementById('langMenu').classList.remove('open')
+  applyLang();renderAll();renderDaily()
+}
+document.addEventListener('click',e=>{
+  if(!e.target.closest('.lang-dropdown'))document.getElementById('langMenu').classList.remove('open')
+})
 
 // ── NAV ──────────────────────────────────────────────────────────────
 function showPage(name){
@@ -965,7 +1451,7 @@ function toggleDark(){
 }
 
 // ── RENDER POSTS ──────────────────────────────────────────────────────
-function getPosts(){ return lang==='tw'?POSTS_TW:POSTS_JP }
+function getPosts(){ return {tw:POSTS_TW,jp:POSTS_JP,cn:POSTS_CN,ph:POSTS_PH}[lang]||POSTS_TW }
 function getTags(){
   const L=LANG[lang]
   const tagMap={
@@ -1048,7 +1534,8 @@ function scrollToContact(){
   setTimeout(()=>document.getElementById('contact-section').scrollIntoView({behavior:'smooth'}),100)
 }
 function copyText(txt){
-  navigator.clipboard.writeText(txt).then(()=>showToast(lang==='tw'?'已複製！':'コピーしました！'))
+  const msgs={tw:'已複製！',jp:'コピーしました！',cn:'已复制！',ph:'Copied!'}
+  navigator.clipboard.writeText(txt).then(()=>showToast(msgs[lang]||msgs.tw))
 }
 function showToast(msg){
   const t=document.getElementById('toast')
@@ -1062,22 +1549,22 @@ function submitContact(){
   const desc=document.getElementById('cf-desc').value
   const budget=document.getElementById('cf-budget').value
   const timeline=document.getElementById('cf-timeline').value
-  if(!name||!email){showToast(lang==='tw'?'請填寫姓名和 Email':'名前とEmailを入力してください');return}
+  if(!name||!email){showToast({tw:'請填寫姓名和 Email',jp:'名前とEmailを入力してください',cn:'请填写姓名和 Email',ph:'Please fill in name and Email'}[lang]);return}
   const body=`姓名/名前: ${name}\nEmail: ${email}\n服務/サービス: ${service}\n描述/内容: ${desc}\n預算/予算: ${budget}\n時程/期間: ${timeline}`
   window.location.href=`mailto:a8398433@gmail.com?subject=${encodeURIComponent('[Frank Dev] 接案詢問 / 案件問い合わせ')}&body=${encodeURIComponent(body)}`
-  showToast(lang==='tw'?'已開啟郵件！':'メールを開きました！')
+  showToast({tw:'已開啟郵件！',jp:'メールを開きました！',cn:'已打开邮件！',ph:'Email opened!'}[lang])
 }
 function captureEmail(){
   const email=document.getElementById('capture-email').value
-  if(!email){showToast(lang==='tw'?'請輸入 Email':'Emailを入力してください');return}
+  if(!email){showToast({tw:'請輸入 Email',jp:'Emailを入力してください',cn:'请输入 Email',ph:'Please enter Email'}[lang]);return}
   window.location.href=`mailto:a8398433@gmail.com?subject=${encodeURIComponent('[Frank Dev] 訂閱申請')}&body=${encodeURIComponent('訂閱 Email: '+email)}`
-  showToast(lang==='tw'?'感謝訂閱！':'ご登録ありがとうございます！')
+  showToast({tw:'感謝訂閱！',jp:'ご登録ありがとうございます！',cn:'感谢订阅！',ph:'Thank you for subscribing!'}[lang])
 }
 function captureCourseEmail(){
   const email=document.getElementById('course-email').value
-  if(!email){showToast(lang==='tw'?'請輸入 Email':'Emailを入力してください');return}
+  if(!email){showToast({tw:'請輸入 Email',jp:'Emailを入力してください',cn:'请输入 Email',ph:'Please enter Email'}[lang]);return}
   window.location.href=`mailto:a8398433@gmail.com?subject=${encodeURIComponent('[Frank Dev] 課程訂閱 / コース登録')}&body=${encodeURIComponent('Email: '+email)}`
-  showToast(lang==='tw'?'稍後將寄送教材至你的 Email！':'教材を近日中にメールでお送りします！')
+  showToast({tw:'稍後將寄送教材至你的 Email！',jp:'教材を近日中にメールでお送りします！',cn:'稍后将寄送教材至你的 Email！',ph:'Materials will be sent to your email soon!'}[lang])
 }
 function freeDownload(item){
   captureEmail()
@@ -1087,7 +1574,7 @@ function buyCourse(item){
   const prices={'perf-course':'NT$990','arch-course':'NT$1,490','fullgame-course':'NT$2,490'}
   const p=prices[item]||''
   window.location.href=`mailto:a8398433@gmail.com?subject=${encodeURIComponent('[Frank Dev] 課程購買 '+item)}&body=${encodeURIComponent('我想購買課程: '+item+'\n金額: '+p+'\n\n請問付款方式？')}`
-  showToast(lang==='tw'?'已開啟郵件，確認付款後立即發送教材！':'メールを開きました。お支払い確認後すぐに教材を送ります！')
+  showToast({tw:'已開啟郵件，確認付款後立即發送教材！',jp:'メールを開きました。お支払い確認後すぐに教材を送ります！',cn:'已打开邮件，确认付款后立即发送教材！',ph:'Email opened! Materials will be sent after payment confirmation!'}[lang])
 }
 function selectAmount(btn,amt){
   document.querySelectorAll('.donate-amt').forEach(b=>b.classList.remove('active'))
@@ -1100,7 +1587,7 @@ function submitDonation(){
   const amount=document.getElementById('don-amount').value||'NT$300'
   const msg=document.getElementById('don-msg').value
   window.location.href=`mailto:a8398433@gmail.com?subject=${encodeURIComponent('[Frank Dev] 贊助通知')}&body=${encodeURIComponent('贊助者: '+name+'\n金額: '+amount+'\n留言: '+msg)}`
-  showToast(lang==='tw'?'謝謝你的支持！❤️':'ご支援ありがとうございます！❤️')
+  showToast({tw:'謝謝你的支持！❤️',jp:'ご支援ありがとうございます！❤️',cn:'谢谢你的支持！❤️',ph:'Thank you for your support! ❤️'}[lang])
 }
 
 // ── INIT ──────────────────────────────────────────────────────────────
