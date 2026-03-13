@@ -56,7 +56,20 @@ document.addEventListener('click',e=>{
 })
 
 // ── NAV ──────────────────────────────────────────────────────────
+function toggleMenu(){
+  document.querySelector('.nav-right').classList.toggle('open')
+  document.getElementById('hamburgerBtn').classList.toggle('active')
+  document.getElementById('menuBackdrop').classList.toggle('open')
+  document.body.style.overflow=document.querySelector('.nav-right').classList.contains('open')?'hidden':''
+}
+function closeMenu(){
+  document.querySelector('.nav-right').classList.remove('open')
+  document.getElementById('hamburgerBtn').classList.remove('active')
+  document.getElementById('menuBackdrop').classList.remove('open')
+  document.body.style.overflow=''
+}
 function showPage(name){
+  closeMenu()
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'))
   document.querySelectorAll('.nav-link').forEach(b=>b.classList.remove('active'))
   document.getElementById('page-'+name).classList.add('active')

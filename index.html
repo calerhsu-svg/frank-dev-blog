@@ -11,6 +11,8 @@
 
 <nav>
   <button class="nav-logo" onclick="showPage('home')">🎮 Frank Dev</button>
+  <button class="hamburger" onclick="toggleMenu()" id="hamburgerBtn"><span></span><span></span><span></span></button>
+  <div class="menu-backdrop" id="menuBackdrop" onclick="toggleMenu()"></div>
   <div class="nav-right">
     <button class="nav-link active" data-page="home" onclick="showPage('home')" data-i18n="nav_home">首頁</button>
     <button class="nav-link" data-page="posts" onclick="showPage('posts')" data-i18n="nav_posts">文章</button>
