@@ -252,13 +252,6 @@ function freeDownload(item){
   showToast({tw:'下載開始！',jp:'ダウンロード開始！',cn:'下载开始！',ph:'Download started!'}[lang])
 }
 // ── PAYMENT ─────────────────────────────────────────────────────
-// ECPay 收款連結 — replace with real links from ECPay Dashboard
-// 建立方式：ECPay 後台 → 收款連結 → 新增收款連結
-const ECPAY_LINKS={
-  'perf-course':'ECPAY_LINK_PERF',
-  'arch-course':'ECPAY_LINK_ARCH',
-  'fullgame-course':'ECPAY_LINK_FULLGAME'
-}
 const COURSE_PRICES={'perf-course':'NT$990','arch-course':'NT$1,490','fullgame-course':'NT$2,490'}
 const COURSE_TITLE_KEYS={'perf-course':'cr3_title','arch-course':'cr4_title','fullgame-course':'cr5_title'}
 let currentPayItem=null
@@ -270,7 +263,6 @@ function buyCourse(item){
   const price=COURSE_PRICES[item]||''
   document.getElementById('pay-course-name').textContent=courseName
   document.getElementById('pay-price').textContent=price
-  // Apply i18n to modal
   document.querySelectorAll('#pay-modal [data-i18n]').forEach(el=>{
     const k=el.getAttribute('data-i18n')
     if(L[k]!==undefined) el.textContent=L[k]
@@ -284,16 +276,6 @@ function closePayModal(e){
   document.body.style.overflow=''
   currentPayItem=null
 }
-function payWithECPay(){
-  if(!currentPayItem) return
-  const link=ECPAY_LINKS[currentPayItem]
-  if(!link||link.startsWith('ECPAY_LINK_')){
-    showToast({tw:'ECPay 收款連結尚未設定',jp:'ECPay決済リンク未設定',cn:'ECPay 收款链接尚未设置',ph:'ECPay payment link not configured'}[lang])
-    return
-  }
-  window.location.href=link
-  closePayModal()
-}
 function payWithBank(){
   if(!currentPayItem) return
   const L=LANG[lang]
@@ -301,10 +283,10 @@ function payWithBank(){
   const price=COURSE_PRICES[currentPayItem]||''
   const langLabel={tw:'繁體中文',jp:'日本語',cn:'简体中文',ph:'English'}[lang]
   const body={
-    tw:`我想購買課程: ${courseName}\n金額: ${price}\n語言版本: ${langLabel}\n\n請問銀行轉帳方式？`,
-    jp:`コースを購入したいです: ${courseName}\n金額: ${price}\n言語: ${langLabel}\n\n銀行振込の方法を教えてください。`,
-    cn:`我想购买课程: ${courseName}\n金额: ${price}\n语言版本: ${langLabel}\n\n请问银行转账方式？`,
-    ph:`I want to purchase: ${courseName}\nPrice: ${price}\nLanguage: ${langLabel}\n\nHow can I pay via bank transfer?`
+    tw:`我已轉帳購買課程: ${courseName}\n金額: ${price}\n語言版本: ${langLabel}\n\n轉帳帳號末五碼: ____\n請確認後發送教材，謝謝！`,
+    jp:`コース購入のため振込しました: ${courseName}\n金額: ${price}\n言語: ${langLabel}\n\n振込口座の下5桁: ____\nご確認後、教材をお送りください。`,
+    cn:`我已转账购买课程: ${courseName}\n金额: ${price}\n语言版本: ${langLabel}\n\n转账账号末五码: ____\n请确认后发送教材，谢谢！`,
+    ph:`I have transferred payment for: ${courseName}\nAmount: ${price}\nLanguage: ${langLabel}\n\nLast 5 digits of my account: ____\nPlease confirm and send materials. Thank you!`
   }[lang]
   window.location.href=`mailto:a8398433@gmail.com?subject=${encodeURIComponent('[Frank Dev] 課程購買 / Course Purchase: '+currentPayItem)}&body=${encodeURIComponent(body)}`
   closePayModal()

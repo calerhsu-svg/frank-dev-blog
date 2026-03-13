@@ -542,26 +542,27 @@
   </div>
 </div>
 
-<!-- PAYMENT METHOD MODAL -->
+<!-- PAYMENT MODAL -->
 <div class="modal-overlay" id="pay-modal" onclick="closePayModal(event)">
   <div class="modal pay-modal-content">
     <button class="modal-close" onclick="closePayModal()">✕</button>
-    <h3 data-i18n="pay_method_title">選擇付款方式</h3>
+    <h3 data-i18n="pay_method_title">購買課程</h3>
     <div class="pay-course-name" id="pay-course-name"></div>
     <div class="pay-price" id="pay-price"></div>
     <div class="pay-options">
-      <div class="pay-option primary" id="pay-ecpay" onclick="payWithECPay()">
-        <div class="pay-opt-icon">💳</div>
-        <div>
-          <div class="pay-opt-label" data-i18n="pay_card">💳 信用卡付款</div>
-          <div class="pay-opt-desc" data-i18n="pay_card_desc">Visa / Mastercard / JCB — 付款後立即下載</div>
-        </div>
-      </div>
-      <div class="pay-option" id="pay-bank" onclick="payWithBank()">
+      <div class="pay-option primary" style="cursor:default">
         <div class="pay-opt-icon">🏦</div>
         <div>
-          <div class="pay-opt-label" data-i18n="pay_bank">🏦 銀行轉帳</div>
-          <div class="pay-opt-desc" data-i18n="pay_bank_desc">轉帳後寄送 Email 確認，1 個工作天內發送教材</div>
+          <div class="pay-opt-label" data-i18n="pay_bank_title">銀行轉帳資訊</div>
+          <div class="pay-opt-desc">兆豐銀行 (017) — 03210575299</div>
+          <button class="pm-copy" style="margin-top:8px;font-size:12px" onclick="copyText('兆豐銀行(017) 03210575299')" data-i18n="copy_btn">複製帳號</button>
+        </div>
+      </div>
+      <div class="pay-option" onclick="payWithBank()">
+        <div class="pay-opt-icon">📧</div>
+        <div>
+          <div class="pay-opt-label" data-i18n="pay_email_notify">轉帳後通知我</div>
+          <div class="pay-opt-desc" data-i18n="pay_bank_desc">寄送 Email 確認，1 個工作天內發送教材</div>
         </div>
       </div>
     </div>
