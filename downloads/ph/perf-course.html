@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Game Performance Optimization Masterclass — Frank Dev</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI','Helvetica Neue',Arial,sans-serif;background:#fff;color:#1a2040;line-height:1.8;max-width:800px;margin:0 auto;padding:40px 32px}
+@media print{body{padding:20px;font-size:12px}.cover{page-break-after:always}.chapter{page-break-before:always}}
+.cover{text-align:center;padding:100px 0 60px;border-bottom:3px solid #3B5BDB}
+.cover .icon{font-size:80px;margin-bottom:20px}
+.cover h1{font-size:32px;font-weight:900;color:#3B5BDB;margin-bottom:12px}
+.cover .sub{font-size:16px;color:#4A5580;margin-bottom:8px}
+.cover .price{font-size:14px;color:#E03131;font-weight:700;margin-bottom:40px}
+.cover .author{font-size:14px;color:#4A5580;border-top:1px solid #D0DAF5;padding-top:20px;margin-top:40px}
+.toc{margin:40px 0;padding:28px;background:#F0F4FF;border-radius:12px}
+.toc h2{font-size:20px;font-weight:800;color:#3B5BDB;margin-bottom:16px}
+.toc ol{padding-left:24px}.toc li{padding:4px 0;font-size:14px;color:#4A5580}
+.chapter{margin-top:48px}
+h2{font-size:22px;font-weight:800;color:#3B5BDB;margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid #E0E8FF}
+h3{font-size:16px;font-weight:700;color:#1a2040;margin:24px 0 8px}
+p{font-size:14px;color:#4A5580;margin-bottom:14px}
+pre{background:#F0F4FF;border:1px solid #D0DAF5;border-radius:8px;padding:16px;font-size:12px;overflow-x:auto;margin:12px 0 16px;line-height:1.6;font-family:'Courier New',monospace;color:#1a2040}
+.tip{background:#22C55E11;border-left:4px solid #22C55E;padding:12px 16px;border-radius:0 8px 8px 0;margin:14px 0;font-size:13px;color:#166534}
+.warn{background:#F59E0B11;border-left:4px solid #F59E0B;padding:12px 16px;border-radius:0 8px 8px 0;margin:14px 0;font-size:13px;color:#92400E}
+.footer{margin-top:60px;padding-top:20px;border-top:2px solid #E0E8FF;text-align:center;font-size:12px;color:#4A5580}
+ul{padding-left:20px;margin-bottom:14px}li{font-size:14px;color:#4A5580;padding:2px 0}
+</style>
+</head>
+<body>
+<div class="cover">
+  <div class="icon">⚡</div>
+  <h1>Game Performance Optimization Masterclass</h1>
+  <div class="sub">Complete Unity &amp; Cocos Performance Tuning Guide</div>
+  <div class="price">NT$990 Paid Course</div>
+  <div class="author">Author: Frank · frank-dev-blog<br>Version: 2026.03<br>✉️ a8398433@gmail.com</div>
+</div>
+<div class="toc">
+  <h2>📋 Table of Contents</h2>
+  <ol>
+    <li>Introduction to Profiling Tools</li>
+    <li>Draw Call Optimization &amp; Batching</li>
+    <li>Memory Management &amp; Asset Loading</li>
+    <li>Physics Engine Tuning</li>
+    <li>UI Performance Optimization</li>
+    <li>Code-Level Optimization (GC/Algorithms)</li>
+    <li>Shader &amp; Render Pipeline</li>
+    <li>Case Study: From 30fps to 60fps</li>
+  </ol>
+</div>
+<div class="chapter">
+  <h2>Chapter 1: Introduction to Profiling Tools</h2>
+  <p>The first step in optimization is measuring, not guessing. Unity Profiler is your most important weapon.</p>
+  <pre>Unity Profiler: Window → Analysis → Profiler (Ctrl+7)
+
+Key Metrics:
+├── CPU Usage    → Per-frame CPU time
+├── GPU Usage    → Rendering time
+├── Memory       → Memory allocations
+├── Rendering    → Draw Calls, triangle count
+└── Physics      → Physics calculation time
+
+Target Values (60fps):
+  Frame budget = 1000ms / 60 = 16.67ms
+  CPU &lt; 12ms
+  Draw Calls &lt; 100 (mobile)
+  Triangles &lt; 100K (mobile)</pre>
+  <div class="tip">💡 Always test on target devices. Editor performance numbers don't represent real device performance.</div>
+</div>
+<div class="chapter">
+  <h2>Chapter 2: Draw Call Optimization</h2>
+  <pre>// Sprite Atlas
+// Before: Each sprite = 1 Draw Call → 50 Draw Calls
+// After: Entire Atlas = 1 Draw Call → 1 Draw Call
+
+// Static Batching
+// Inspector → Static ✅ (for non-moving objects)
+
+// Dynamic Batching
+// Project Settings → Player → Dynamic Batching ✅
+// Limit: vertices &lt; 300, same material
+
+// SRP Batcher (Recommended)
+// Auto-enabled in URP/HDRP</pre>
+  <div class="warn">⚠️ Objects with different materials/shaders cannot be batched. Unifying materials is key.</div>
+</div>
+<div class="chapter">
+  <h2>Chapter 3: Memory Management</h2>
+  <pre>// Addressables (Recommended)
+var handle = Addressables.LoadAssetAsync&lt;GameObject&gt;("enemy");
+
+// Texture Compression
+Android → ETC2 / ASTC
+iOS    → ASTC
+PC     → DXT5 / BC7
+
+// Use power-of-two sizes (256, 512, 1024)
+// UI textures don't need Mipmaps</pre>
+</div>
+<div class="chapter">
+  <h2>Chapter 4: Physics Engine Tuning</h2>
+  <pre>// Layer Collision Matrix → Disable unnecessary collision layers
+✅ BoxCollider2D, CircleCollider2D
+❌ PolygonCollider2D (too many vertices)
+
+Rigidbody2D.sleepMode = RigidbodySleepMode2D.StartAsleep;</pre>
+  <div class="tip">💡 Layer Collision Matrix is the most overlooked optimization. Disabling unnecessary layers greatly reduces physics calculations.</div>
+</div>
+<div class="chapter">
+  <h2>Chapter 5: UI Performance</h2>
+  <pre>// 1. Split Canvas (static UI / dynamic UI)
+// 2. Avoid nested Layout Groups
+// 3. Disable unnecessary Raycast Targets
+// 4. Use Object Pool for list items</pre>
+</div>
+<div class="chapter">
+  <h2>Chapter 6: Code-Level Optimization</h2>
+  <pre>// ❌ GC allocation every frame
+void Update() {
+    string text = "Score: " + score;
+}
+
+// ✅ Reuse with StringBuilder
+StringBuilder sb = new StringBuilder(64);
+void Update() {
+    sb.Clear();
+    sb.Append("Score: ").Append(score);
+    scoreText.text = sb.ToString();
+}
+
+// Cache Component references
+Rigidbody2D rb;
+void Awake() { rb = GetComponent&lt;Rigidbody2D&gt;(); }</pre>
+</div>
+<div class="chapter">
+  <h2>Chapter 7: Shader &amp; Rendering</h2>
+  <pre>// Use mobile-friendly shaders
+✅ Unlit, Mobile/Diffuse
+❌ Standard Shader (too heavy for mobile)
+
+// Reduce Overdraw: minimize transparent objects
+// LOD: low-poly models for distant objects
+// Occlusion Culling: don't render hidden objects</pre>
+</div>
+<div class="chapter">
+  <h2>Chapter 8: Case Study — 30fps to 60fps</h2>
+  <pre>Step 1: Profiler analysis → Identify CPU bottleneck
+Step 2: Sprite Atlas → Draw Calls 287→42
+Step 3: Canvas splitting → UI rebuild 8ms→1ms
+Step 4: GC optimization → 2.4KB/frame→0
+Step 5: Physics optimization → 3ms→0.8ms
+Result: 33ms → 14ms (stable 60fps)</pre>
+</div>
+<div class="footer">
+  <p>⚡ Game Performance Optimization Masterclass — Frank Dev Blog</p>
+  <p>© 2026 Frank · a8398433@gmail.com · Paid course, do not redistribute</p>
+</div>
+</body>
+</html>

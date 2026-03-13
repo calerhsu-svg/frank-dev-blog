@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>從零到上架：完整遊戲開發 — Frank Dev</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI','Microsoft JhengHei','PingFang TC',sans-serif;background:#fff;color:#1a2040;line-height:1.8;max-width:800px;margin:0 auto;padding:40px 32px}
+@media print{body{padding:20px;font-size:12px}.cover{page-break-after:always}.chapter{page-break-before:always}}
+.cover{text-align:center;padding:100px 0 60px;border-bottom:3px solid #3B5BDB}
+.cover .icon{font-size:80px;margin-bottom:20px}
+.cover h1{font-size:32px;font-weight:900;color:#3B5BDB;margin-bottom:12px}
+.cover .sub{font-size:16px;color:#4A5580;margin-bottom:8px}
+.cover .price{font-size:14px;color:#E03131;font-weight:700;margin-bottom:40px}
+.cover .author{font-size:14px;color:#4A5580;border-top:1px solid #D0DAF5;padding-top:20px;margin-top:40px}
+.toc{margin:40px 0;padding:28px;background:#F0F4FF;border-radius:12px}
+.toc h2{font-size:20px;font-weight:800;color:#3B5BDB;margin-bottom:16px}
+.toc ol{padding-left:24px}.toc li{padding:4px 0;font-size:14px;color:#4A5580}
+.chapter{margin-top:48px}
+h2{font-size:22px;font-weight:800;color:#3B5BDB;margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid #E0E8FF}
+h3{font-size:16px;font-weight:700;color:#1a2040;margin:24px 0 8px}
+p{font-size:14px;color:#4A5580;margin-bottom:14px}
+pre{background:#F0F4FF;border:1px solid #D0DAF5;border-radius:8px;padding:16px;font-size:12px;overflow-x:auto;margin:12px 0 16px;line-height:1.6;font-family:'Courier New',monospace;color:#1a2040}
+.tip{background:#22C55E11;border-left:4px solid #22C55E;padding:12px 16px;border-radius:0 8px 8px 0;margin:14px 0;font-size:13px;color:#166534}
+.warn{background:#F59E0B11;border-left:4px solid #F59E0B;padding:12px 16px;border-radius:0 8px 8px 0;margin:14px 0;font-size:13px;color:#92400E}
+.footer{margin-top:60px;padding-top:20px;border-top:2px solid #E0E8FF;text-align:center;font-size:12px;color:#4A5580}
+ul{padding-left:20px;margin-bottom:14px}
+li{font-size:14px;color:#4A5580;padding:2px 0}
+.checklist li{list-style:none;padding-left:0}
+.checklist li::before{content:'☐ '}
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="icon">🚀</div>
+  <h1>從零到上架：完整遊戲開發</h1>
+  <div class="sub">一步步帶你完成一款可上架的遊戲</div>
+  <div class="price">NT$2,490 付費課程</div>
+  <div class="author">作者：Frank · frank-dev-blog<br>版本：2026.03<br>✉️ a8398433@gmail.com</div>
+</div>
+
+<div class="toc">
+  <h2>📋 目錄</h2>
+  <ol>
+    <li>遊戲企劃與原型設計</li>
+    <li>核心玩法實作</li>
+    <li>關卡設計與數值平衡</li>
+    <li>UI/UX 介面設計</li>
+    <li>音效與視覺特效</li>
+    <li>存檔系統與雲端同步</li>
+    <li>廣告與內購整合</li>
+    <li>多語言與本地化</li>
+    <li>測試與除錯流程</li>
+    <li>上架準備與營運策略</li>
+  </ol>
+</div>
+
+<div class="chapter">
+  <h2>第一章：遊戲企劃與原型設計</h2>
+  <h3>1.1 遊戲企劃文件 (GDD)</h3>
+  <pre>一頁企劃模板：
+├── 遊戲名稱：Pixel Dungeon Rush
+├── 類型：Roguelike 動作
+├── 平台：iOS / Android
+├── 目標受眾：休閒玩家 (18-35歲)
+├── 核心玩法：一句話描述
+│   「在隨機地牢中戰鬥、收集裝備、挑戰 Boss」
+├── 營收模式：免費 + 廣告 + 內購
+├── 開發週期：3 個月
+└── 技術棧：Unity 2022.3 LTS + C#</pre>
+  <h3>1.2 快速原型</h3>
+  <p>原型的目標是在最短時間內驗證核心玩法是否有趣。不要在原型階段花時間在美術、音效、UI 上。</p>
+  <div class="tip">💡 原型規則：48 小時內做出可玩版本。如果核心玩法不好玩，換方向比硬做更聰明。</div>
+</div>
+
+<div class="chapter">
+  <h2>第二章：核心玩法實作</h2>
+  <pre>// 角色控制器骨架
+public class PlayerController : MonoBehaviour
+{
+    [Header("移動")]
+    public float moveSpeed = 5f;
+    public float dashSpeed = 15f;
+    public float dashDuration = 0.2f;
+
+    [Header("戰鬥")]
+    public int attackDamage = 10;
+    public float attackRange = 1.5f;
+    public float attackCooldown = 0.5f;
+
+    private Rigidbody2D rb;
+    private StateMachine fsm;
+
+    void Awake()
+    {
+        rb = GetComponent&lt;Rigidbody2D&gt;();
+        fsm = new StateMachine();
+        fsm.ChangeState(new IdleState(this));
+    }
+
+    void Update() => fsm.Update();
+}
+
+// 輸入處理（支援手機虛擬搖桿）
+public class InputHandler : MonoBehaviour
+{
+    public Vector2 MoveInput { get; private set; }
+    public bool AttackPressed { get; private set; }
+
+    void Update()
+    {
+        // 鍵盤 + 手機雙支援
+        MoveInput = new Vector2(
+            Input.GetAxis("Horizontal"),
+            Input.GetAxis("Vertical")
+        );
+        AttackPressed = Input.GetButtonDown("Fire1");
+    }
+}</pre>
+</div>
+
+<div class="chapter">
+  <h2>第三章：關卡設計與數值平衡</h2>
+  <pre>// 用 ScriptableObject 管理關卡配置
+[CreateAssetMenu(menuName = "Config/Level")]
+public class LevelConfig : ScriptableObject
+{
+    public int levelNumber;
+    public int enemyCount;
+    public float enemyHPMultiplier;
+    public float enemyDamageMultiplier;
+    public int bossHP;
+    public List&lt;EnemySpawnData&gt; spawnTable;
+    public List&lt;LootTableEntry&gt; lootTable;
+}
+
+// 數值平衡公式
+// 敵人 HP = baseHP * (1 + level * 0.15)
+// 敵人攻擊 = baseDMG * (1 + level * 0.1)
+// 玩家預期 DPS = 需要的擊殺速度 * 敵人 HP
+// 通關時間目標：每關 2-3 分鐘</pre>
+  <div class="warn">⚠️ 數值平衡是反覆測試的過程。建議準備 Excel 公式表，配合測試快速迭代。</div>
+</div>
+
+<div class="chapter">
+  <h2>第四章：UI/UX 介面設計</h2>
+  <pre>UI 頁面清單：
+├── 主選單 (Title Screen)
+├── 關卡選擇 (Level Select)
+├── 遊戲 HUD (HP/Score/Skills)
+├── 暫停選單 (Pause Menu)
+├── 遊戲結束 (Game Over)
+├── 商店 (Shop)
+├── 設定 (Settings)
+└── Loading 畫面
+
+// UI Manager 架構
+public class UIManager : Singleton&lt;UIManager&gt;
+{
+    private Dictionary&lt;string, UIPanel&gt; panels = new();
+
+    public void ShowPanel(string name)
+    {
+        if (panels.TryGetValue(name, out var panel))
+            panel.Show();
+    }
+
+    public void HidePanel(string name)
+    {
+        if (panels.TryGetValue(name, out var panel))
+            panel.Hide();
+    }
+}</pre>
+</div>
+
+<div class="chapter">
+  <h2>第五章：音效與視覺特效</h2>
+  <pre>音效清單：
+├── BGM：主選單、戰鬥、Boss 戰、勝利、失敗
+├── UI SFX：按鈕點擊、購買、升級
+├── 遊戲 SFX：攻擊、受傷、死亡、撿取、技能
+└── 環境音：腳步聲、環境氛圍
+
+// 音量設定存檔
+PlayerPrefs.SetFloat("bgm_volume", 0.8f);
+PlayerPrefs.SetFloat("sfx_volume", 1.0f);</pre>
+</div>
+
+<div class="chapter">
+  <h2>第六章：存檔系統與雲端同步</h2>
+  <pre>// JSON 存檔系統
+[System.Serializable]
+public class SaveData
+{
+    public int level = 1;
+    public int gold = 0;
+    public int gems = 0;
+    public List&lt;string&gt; unlockedItems = new();
+    public string lastSaveTime;
+}
+
+public static class SaveSystem
+{
+    private static string path => Application.persistentDataPath + "/save.json";
+
+    public static void Save(SaveData data)
+    {
+        data.lastSaveTime = DateTime.Now.ToString("o");
+        string json = JsonUtility.ToJson(data, true);
+        File.WriteAllText(path, json);
+    }
+
+    public static SaveData Load()
+    {
+        if (!File.Exists(path)) return new SaveData();
+        string json = File.ReadAllText(path);
+        return JsonUtility.FromJson&lt;SaveData&gt;(json);
+    }
+}</pre>
+</div>
+
+<div class="chapter">
+  <h2>第七章：廣告與內購整合</h2>
+  <pre>// Unity Ads 整合
+using UnityEngine.Advertisements;
+
+public class AdManager : Singleton&lt;AdManager&gt;, IUnityAdsInitializationListener
+{
+    private string gameId = "your_game_id";
+
+    void Start()
+    {
+        Advertisement.Initialize(gameId, false, this);
+    }
+
+    public void ShowRewarded(Action onComplete)
+    {
+        // 觀看獎勵廣告 → 雙倍金幣、復活等
+    }
+
+    public void ShowInterstitial()
+    {
+        // 插頁廣告 → 關卡結束時
+    }
+}
+
+// 內購
+// 使用 Unity IAP 套件
+// 商品類型：消耗型(金幣包)、非消耗型(去廣告)、訂閱型</pre>
+  <div class="warn">⚠️ Apple 和 Google 都抽 30% 分潤。定價時要考慮進去。</div>
+</div>
+
+<div class="chapter">
+  <h2>第八章：多語言與本地化</h2>
+  <pre>// 多語言系統
+public class LocalizationManager : Singleton&lt;LocalizationManager&gt;
+{
+    private Dictionary&lt;string, Dictionary&lt;string, string&gt;&gt; translations;
+    public string CurrentLang { get; private set; } = "zh-TW";
+
+    public string Get(string key)
+    {
+        if (translations.TryGetValue(CurrentLang, out var dict))
+            if (dict.TryGetValue(key, out var value))
+                return value;
+        return key; // fallback
+    }
+}
+
+// 語言檔案 (JSON)
+// locales/zh-TW.json
+// locales/ja.json
+// locales/en.json</pre>
+</div>
+
+<div class="chapter">
+  <h2>第九章：測試與除錯流程</h2>
+  <pre>測試清單：
+☐ 核心玩法流程（開始→遊玩→結束→重來）
+☐ 所有 UI 頁面導覽
+☐ 存檔/讀檔
+☐ 廣告顯示與獎勵發放
+☐ 內購流程（用 Sandbox 測試）
+☐ 多語言切換
+☐ 不同螢幕比例（16:9, 18:9, 20:9）
+☐ 低端機效能測試
+☐ 網路中斷情境
+☐ 電池消耗測試</pre>
+</div>
+
+<div class="chapter">
+  <h2>第十章：上架準備與營運策略</h2>
+  <pre>上架清單：
+☐ App Icon（1024x1024）
+☐ 商店截圖（至少 4 張）
+☐ 宣傳影片（30-60 秒）
+☐ 商店描述文案
+☐ 隱私權政策 URL
+☐ 年齡分級問卷
+☐ Bundle ID 設定
+☐ 簽名/證書設定
+☐ 提交審核
+
+營運策略：
+├── 第一週：Soft Launch（小區域測試）
+├── 分析留存率：次日留存 > 40% 才正式上線
+├── 第一個月：修 Bug、優化體驗
+├── 每兩週更新：新關卡、活動、限時內容
+└── ASO 優化：關鍵字、截圖、描述定期更新</pre>
+  <div class="tip">💡 遊戲上架只是開始。持續營運、聽取玩家反饋、快速迭代才是成功的關鍵。</div>
+</div>
+
+<div class="footer">
+  <p>🚀 從零到上架：完整遊戲開發 — Frank Dev Blog</p>
+  <p>© 2026 Frank · a8398433@gmail.com · 付費課程，請勿轉發</p>
+</div>
+
+</body>
+</html>

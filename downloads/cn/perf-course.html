@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>游戏性能优化实战 — Frank Dev</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI','Microsoft YaHei','PingFang SC',sans-serif;background:#fff;color:#1a2040;line-height:1.8;max-width:800px;margin:0 auto;padding:40px 32px}
+@media print{body{padding:20px;font-size:12px}.cover{page-break-after:always}.chapter{page-break-before:always}}
+.cover{text-align:center;padding:100px 0 60px;border-bottom:3px solid #3B5BDB}
+.cover .icon{font-size:80px;margin-bottom:20px}
+.cover h1{font-size:32px;font-weight:900;color:#3B5BDB;margin-bottom:12px}
+.cover .sub{font-size:16px;color:#4A5580;margin-bottom:8px}
+.cover .price{font-size:14px;color:#E03131;font-weight:700;margin-bottom:40px}
+.cover .author{font-size:14px;color:#4A5580;border-top:1px solid #D0DAF5;padding-top:20px;margin-top:40px}
+.toc{margin:40px 0;padding:28px;background:#F0F4FF;border-radius:12px}
+.toc h2{font-size:20px;font-weight:800;color:#3B5BDB;margin-bottom:16px}
+.toc ol{padding-left:24px}.toc li{padding:4px 0;font-size:14px;color:#4A5580}
+.chapter{margin-top:48px}
+h2{font-size:22px;font-weight:800;color:#3B5BDB;margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid #E0E8FF}
+h3{font-size:16px;font-weight:700;color:#1a2040;margin:24px 0 8px}
+p{font-size:14px;color:#4A5580;margin-bottom:14px}
+pre{background:#F0F4FF;border:1px solid #D0DAF5;border-radius:8px;padding:16px;font-size:12px;overflow-x:auto;margin:12px 0 16px;line-height:1.6;font-family:'Courier New',monospace;color:#1a2040}
+.tip{background:#22C55E11;border-left:4px solid #22C55E;padding:12px 16px;border-radius:0 8px 8px 0;margin:14px 0;font-size:13px;color:#166534}
+.warn{background:#F59E0B11;border-left:4px solid #F59E0B;padding:12px 16px;border-radius:0 8px 8px 0;margin:14px 0;font-size:13px;color:#92400E}
+.footer{margin-top:60px;padding-top:20px;border-top:2px solid #E0E8FF;text-align:center;font-size:12px;color:#4A5580}
+ul{padding-left:20px;margin-bottom:14px}li{font-size:14px;color:#4A5580;padding:2px 0}
+</style>
+</head>
+<body>
+<div class="cover">
+  <div class="icon">⚡</div>
+  <h1>游戏性能优化实战</h1>
+  <div class="sub">Unity &amp; Cocos 性能调优完全攻略</div>
+  <div class="price">NT$990 付费课程</div>
+  <div class="author">作者：Frank · frank-dev-blog<br>版本：2026.03<br>✉️ a8398433@gmail.com</div>
+</div>
+<div class="toc">
+  <h2>📋 目录</h2>
+  <ol>
+    <li>性能分析工具入门(Profiler)</li>
+    <li>Draw Call 优化与批次合并</li>
+    <li>内存管理与资源加载策略</li>
+    <li>物理引擎性能调优</li>
+    <li>UI 性能优化技巧</li>
+    <li>代码级优化(GC/算法)</li>
+    <li>Shader 与渲染管线优化</li>
+    <li>实战案例：从 30fps 到 60fps</li>
+  </ol>
+</div>
+<div class="chapter">
+  <h2>第一章：性能分析工具入门</h2>
+  <p>性能优化的第一步是「测量」而非猜测。Unity Profiler 是最重要的工具。</p>
+  <pre>Unity Profiler: Window → Analysis → Profiler (Ctrl+7)
+
+关键指标：
+├── CPU Usage    → 每帧 CPU 耗时
+├── GPU Usage    → 渲染耗时
+├── Memory       → 内存分配
+├── Rendering    → Draw Call、三角面数
+└── Physics      → 物理计算耗时
+
+目标值（60fps）：
+  每帧预算 = 1000ms / 60 = 16.67ms
+  CPU &lt; 12ms
+  Draw Call &lt; 100（手机）
+  三角面 &lt; 100K（手机）</pre>
+  <div class="tip">💡 务必在目标设备上测试，编辑器中的性能数据不代表实机表现。</div>
+</div>
+<div class="chapter">
+  <h2>第二章：Draw Call 优化</h2>
+  <pre>// Sprite Atlas 合并
+// 优化前：每个 Sprite 一个 Draw Call → 50 Draw Calls
+// 优化后：整个 Atlas 一个 Draw Call → 1 Draw Call
+
+// 静态合批
+// Inspector → Static ✅（不移动的对象）
+
+// 动态合批
+// Project Settings → Player → Dynamic Batching ✅
+
+// SRP Batcher（推荐）
+// URP/HDRP 自动启用</pre>
+  <div class="warn">⚠️ 不同材质、不同 Shader 的对象无法合批。统一材质是关键。</div>
+</div>
+<div class="chapter">
+  <h2>第三章：内存管理</h2>
+  <pre>// Addressables 系统（推荐）
+var handle = Addressables.LoadAssetAsync&lt;GameObject&gt;("enemy");
+
+// 贴图压缩
+Android → ETC2 / ASTC
+iOS    → ASTC
+PC     → DXT5 / BC7
+
+// 贴图尺寸用2的幂次（256, 512, 1024）
+// UI图不需要 Mipmap</pre>
+</div>
+<div class="chapter">
+  <h2>第四章：物理引擎优化</h2>
+  <pre>// Layer Collision Matrix → 关闭不需要的碰撞层
+✅ BoxCollider2D, CircleCollider2D
+❌ PolygonCollider2D（顶点多）
+
+Rigidbody2D.sleepMode = RigidbodySleepMode2D.StartAsleep;</pre>
+</div>
+<div class="chapter">
+  <h2>第五章：UI 性能优化</h2>
+  <pre>// 1. Canvas 分层（静态UI / 动态UI）
+// 2. 避免 Layout Group 嵌套
+// 3. 关闭不需要的 Raycast Target
+// 4. 使用对象池复用列表元素</pre>
+</div>
+<div class="chapter">
+  <h2>第六章：代码级优化</h2>
+  <pre>// ❌ 每帧产生垃圾
+void Update() {
+    string text = "Score: " + score;
+}
+
+// ✅ StringBuilder 重用
+StringBuilder sb = new StringBuilder(64);
+void Update() {
+    sb.Clear();
+    sb.Append("Score: ").Append(score);
+    scoreText.text = sb.ToString();
+}
+
+// 缓存 Component 引用
+Rigidbody2D rb;
+void Awake() { rb = GetComponent&lt;Rigidbody2D&gt;(); }</pre>
+</div>
+<div class="chapter">
+  <h2>第七章：Shader 与渲染优化</h2>
+  <pre>// 使用移动端友好的 Shader
+✅ Unlit、Mobile/Diffuse
+❌ Standard Shader
+
+// 减少 Overdraw：半透明对象越少越好
+// LOD：远处物体用低面数模型
+// Occlusion Culling：被遮挡的不渲染</pre>
+</div>
+<div class="chapter">
+  <h2>第八章：实战 30fps → 60fps</h2>
+  <pre>Step 1：Profiler 分析 → CPU 瓶颈定位
+Step 2：Sprite Atlas → Draw Call 287→42
+Step 3：Canvas 分层 → UI 重建 8ms→1ms
+Step 4：GC 优化 → 2.4KB/帧→0
+Step 5：物理优化 → 3ms→0.8ms
+结果：33ms → 14ms（稳定 60fps）</pre>
+</div>
+<div class="footer">
+  <p>⚡ 游戏性能优化实战 — Frank Dev Blog</p>
+  <p>© 2026 Frank · a8398433@gmail.com · 付费课程，请勿转发</p>
+</div>
+</body>
+</html>

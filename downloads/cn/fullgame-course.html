@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>从零到上架：完整游戏开发 — Frank Dev</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI','Microsoft YaHei','PingFang SC',sans-serif;background:#fff;color:#1a2040;line-height:1.8;max-width:800px;margin:0 auto;padding:40px 32px}
+@media print{body{padding:20px;font-size:12px}.cover{page-break-after:always}.chapter{page-break-before:always}}
+.cover{text-align:center;padding:100px 0 60px;border-bottom:3px solid #3B5BDB}
+.cover .icon{font-size:80px;margin-bottom:20px}
+.cover h1{font-size:32px;font-weight:900;color:#3B5BDB;margin-bottom:12px}
+.cover .sub{font-size:16px;color:#4A5580;margin-bottom:8px}
+.cover .price{font-size:14px;color:#E03131;font-weight:700;margin-bottom:40px}
+.cover .author{font-size:14px;color:#4A5580;border-top:1px solid #D0DAF5;padding-top:20px;margin-top:40px}
+.toc{margin:40px 0;padding:28px;background:#F0F4FF;border-radius:12px}
+.toc h2{font-size:20px;font-weight:800;color:#3B5BDB;margin-bottom:16px}
+.toc ol{padding-left:24px}.toc li{padding:4px 0;font-size:14px;color:#4A5580}
+.chapter{margin-top:48px}
+h2{font-size:22px;font-weight:800;color:#3B5BDB;margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid #E0E8FF}
+h3{font-size:16px;font-weight:700;color:#1a2040;margin:24px 0 8px}
+p{font-size:14px;color:#4A5580;margin-bottom:14px}
+pre{background:#F0F4FF;border:1px solid #D0DAF5;border-radius:8px;padding:16px;font-size:12px;overflow-x:auto;margin:12px 0 16px;line-height:1.6;font-family:'Courier New',monospace;color:#1a2040}
+.tip{background:#22C55E11;border-left:4px solid #22C55E;padding:12px 16px;border-radius:0 8px 8px 0;margin:14px 0;font-size:13px;color:#166534}
+.warn{background:#F59E0B11;border-left:4px solid #F59E0B;padding:12px 16px;border-radius:0 8px 8px 0;margin:14px 0;font-size:13px;color:#92400E}
+.footer{margin-top:60px;padding-top:20px;border-top:2px solid #E0E8FF;text-align:center;font-size:12px;color:#4A5580}
+ul{padding-left:20px;margin-bottom:14px}li{font-size:14px;color:#4A5580;padding:2px 0}
+</style>
+</head>
+<body>
+<div class="cover">
+  <div class="icon">🚀</div>
+  <h1>从零到上架：完整游戏开发</h1>
+  <div class="sub">一步步带你完成一款可上架的游戏</div>
+  <div class="price">NT$2,490 付费课程</div>
+  <div class="author">作者：Frank · frank-dev-blog<br>版本：2026.03<br>✉️ a8398433@gmail.com</div>
+</div>
+<div class="toc">
+  <h2>📋 目录</h2>
+  <ol>
+    <li>游戏企划与原型设计</li>
+    <li>核心玩法实现</li>
+    <li>关卡设计与数值平衡</li>
+    <li>UI/UX 界面设计</li>
+    <li>音效与视觉特效</li>
+    <li>存档系统与云端同步</li>
+    <li>广告与内购整合</li>
+    <li>多语言与本地化</li>
+    <li>测试与调试流程</li>
+    <li>上架准备与运营策略</li>
+  </ol>
+</div>
+<div class="chapter">
+  <h2>第一章：游戏企划与原型设计</h2>
+  <pre>企划模板：
+├── 游戏名称：Pixel Dungeon Rush
+├── 类型：Roguelike 动作
+├── 平台：iOS / Android
+├── 目标受众：休闲玩家 (18-35岁)
+├── 核心玩法：一句话描述
+├── 营收模式：免费 + 广告 + 内购
+└── 开发周期：3 个月</pre>
+  <div class="tip">💡 原型规则：48小时内做出可玩版本。如果核心玩法不好玩，换方向比硬做更聪明。</div>
+</div>
+<div class="chapter">
+  <h2>第二章：核心玩法实现</h2>
+  <pre>public class PlayerController : MonoBehaviour {
+    public float moveSpeed = 5f;
+    public int attackDamage = 10;
+    private Rigidbody2D rb;
+    private StateMachine fsm;
+
+    void Awake() {
+        rb = GetComponent&lt;Rigidbody2D&gt;();
+        fsm = new StateMachine();
+        fsm.ChangeState(new IdleState(this));
+    }
+    void Update() => fsm.Update();
+}</pre>
+</div>
+<div class="chapter">
+  <h2>第三章：关卡设计与数值平衡</h2>
+  <pre>// 敌人HP = baseHP * (1 + level * 0.15)
+// 敌人攻击 = baseDMG * (1 + level * 0.1)
+// 通关时间目标：每关 2-3 分钟</pre>
+  <div class="warn">⚠️ 数值平衡是反复测试的过程。建议用 Excel 管理公式表。</div>
+</div>
+<div class="chapter">
+  <h2>第四章：UI/UX 界面设计</h2>
+  <pre>UI 页面清单：
+├── 主菜单   ├── 关卡选择
+├── 游戏HUD  ├── 暂停菜单
+├── 游戏结束  ├── 商店
+├── 设置     └── Loading 画面</pre>
+</div>
+<div class="chapter">
+  <h2>第五章：音效与视觉特效</h2>
+  <pre>音效清单：
+├── BGM：主菜单、战斗、Boss、胜利、失败
+├── UI SFX：按钮、购买、升级
+├── 游戏 SFX：攻击、受伤、死亡、拾取
+└── 环境音：脚步声、环境氛围</pre>
+</div>
+<div class="chapter">
+  <h2>第六章：存档系统</h2>
+  <pre>[System.Serializable]
+public class SaveData {
+    public int level = 1;
+    public int gold = 0;
+    public List&lt;string&gt; unlockedItems = new();
+}
+
+public static class SaveSystem {
+    static string path => Application.persistentDataPath + "/save.json";
+    public static void Save(SaveData d) {
+        File.WriteAllText(path, JsonUtility.ToJson(d, true));
+    }
+    public static SaveData Load() {
+        if (!File.Exists(path)) return new SaveData();
+        return JsonUtility.FromJson&lt;SaveData&gt;(File.ReadAllText(path));
+    }
+}</pre>
+</div>
+<div class="chapter">
+  <h2>第七章：广告与内购</h2>
+  <pre>// Unity Ads
+// 奖励广告 → 双倍金币、复活
+// 插页广告 → 关卡结束时
+
+// 内购（Unity IAP）
+// 消耗型：金币包
+// 非消耗型：去广告
+// 订阅型：VIP通行证</pre>
+  <div class="warn">⚠️ Apple 和 Google 都抽 30% 分成。定价时要考虑进去。</div>
+</div>
+<div class="chapter">
+  <h2>第八章：多语言与本地化</h2>
+  <pre>public class LocalizationManager : Singleton&lt;LocalizationManager&gt; {
+    Dictionary&lt;string, Dictionary&lt;string, string&gt;&gt; translations;
+    public string CurrentLang { get; private set; } = "zh-CN";
+    public string Get(string key) {
+        if (translations.TryGetValue(CurrentLang, out var d))
+            if (d.TryGetValue(key, out var v)) return v;
+        return key;
+    }
+}</pre>
+</div>
+<div class="chapter">
+  <h2>第九章：测试与调试</h2>
+  <pre>测试清单：
+☐ 核心玩法流程   ☐ 所有UI页面导航
+☐ 存档/读档      ☐ 广告显示与奖励发放
+☐ 内购流程       ☐ 多语言切换
+☐ 不同屏幕比例   ☐ 低端机性能测试</pre>
+</div>
+<div class="chapter">
+  <h2>第十章：上架准备与运营</h2>
+  <pre>上架清单：
+☐ 应用图标（1024x1024）  ☐ 商店截图（4张以上）
+☐ 宣传视频              ☐ 商店描述文案
+☐ 隐私政策URL           ☐ 年龄分级
+☐ 签名/证书设置          ☐ 提交审核
+
+运营策略：
+├── 第一周：Soft Launch（小区域测试）
+├── 分析留存率：次日留存 > 40% 才正式上线
+└── 每两周更新：新关卡、活动、限时内容</pre>
+  <div class="tip">💡 游戏上架只是开始。持续运营、听取玩家反馈、快速迭代才是成功的关键。</div>
+</div>
+<div class="footer">
+  <p>🚀 从零到上架：完整游戏开发 — Frank Dev Blog</p>
+  <p>© 2026 Frank · a8398433@gmail.com · 付费课程，请勿转发</p>
+</div>
+</body>
+</html>

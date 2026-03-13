@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>遊戲效能優化實戰 — Frank Dev</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI','Microsoft JhengHei','PingFang TC',sans-serif;background:#fff;color:#1a2040;line-height:1.8;max-width:800px;margin:0 auto;padding:40px 32px}
+@media print{body{padding:20px;font-size:12px}.cover{page-break-after:always}.chapter{page-break-before:always}}
+.cover{text-align:center;padding:100px 0 60px;border-bottom:3px solid #3B5BDB}
+.cover .icon{font-size:80px;margin-bottom:20px}
+.cover h1{font-size:32px;font-weight:900;color:#3B5BDB;margin-bottom:12px}
+.cover .sub{font-size:16px;color:#4A5580;margin-bottom:8px}
+.cover .price{font-size:14px;color:#E03131;font-weight:700;margin-bottom:40px}
+.cover .author{font-size:14px;color:#4A5580;border-top:1px solid #D0DAF5;padding-top:20px;margin-top:40px}
+.toc{margin:40px 0;padding:28px;background:#F0F4FF;border-radius:12px}
+.toc h2{font-size:20px;font-weight:800;color:#3B5BDB;margin-bottom:16px}
+.toc ol{padding-left:24px}.toc li{padding:4px 0;font-size:14px;color:#4A5580}
+.chapter{margin-top:48px}
+h2{font-size:22px;font-weight:800;color:#3B5BDB;margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid #E0E8FF}
+h3{font-size:16px;font-weight:700;color:#1a2040;margin:24px 0 8px}
+p{font-size:14px;color:#4A5580;margin-bottom:14px}
+pre{background:#F0F4FF;border:1px solid #D0DAF5;border-radius:8px;padding:16px;font-size:12px;overflow-x:auto;margin:12px 0 16px;line-height:1.6;font-family:'Courier New',monospace;color:#1a2040}
+.tip{background:#22C55E11;border-left:4px solid #22C55E;padding:12px 16px;border-radius:0 8px 8px 0;margin:14px 0;font-size:13px;color:#166534}
+.warn{background:#F59E0B11;border-left:4px solid #F59E0B;padding:12px 16px;border-radius:0 8px 8px 0;margin:14px 0;font-size:13px;color:#92400E}
+.footer{margin-top:60px;padding-top:20px;border-top:2px solid #E0E8FF;text-align:center;font-size:12px;color:#4A5580}
+ul{padding-left:20px;margin-bottom:14px}
+li{font-size:14px;color:#4A5580;padding:2px 0}
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}
+.compare div{padding:12px;border-radius:8px;font-size:12px}
+.compare .before{background:#FEE2E2;border:1px solid #FECACA}
+.compare .after{background:#DCFCE7;border:1px solid #BBF7D0}
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="icon">⚡</div>
+  <h1>遊戲效能優化實戰</h1>
+  <div class="sub">Unity &amp; Cocos 效能調校完全攻略</div>
+  <div class="price">NT$990 付費課程</div>
+  <div class="author">作者：Frank · frank-dev-blog<br>版本：2026.03<br>✉️ a8398433@gmail.com</div>
+</div>
+
+<div class="toc">
+  <h2>📋 目錄</h2>
+  <ol>
+    <li>效能分析工具入門 (Profiler)</li>
+    <li>Draw Call 優化與批次合併</li>
+    <li>記憶體管理與資源載入策略</li>
+    <li>物理引擎效能調校</li>
+    <li>UI 效能優化技巧</li>
+    <li>程式碼層級優化 (GC/演算法)</li>
+    <li>Shader 與渲染管線優化</li>
+    <li>實戰案例：從 30fps 到 60fps</li>
+  </ol>
+</div>
+
+<div class="chapter">
+  <h2>第一章：效能分析工具入門</h2>
+  <p>效能優化的第一步是「量測」，而非猜測。Unity Profiler 和 Cocos 的 Debug 面板是你最重要的武器。</p>
+  <h3>1.1 Unity Profiler</h3>
+  <pre>開啟 Profiler：Window → Analysis → Profiler (Ctrl+7)
+
+關鍵指標：
+├── CPU Usage    → 每幀 CPU 耗時
+├── GPU Usage    → 渲染耗時
+├── Memory       → 記憶體分配
+├── Rendering    → Draw Call、三角面數
+└── Physics      → 物理計算耗時
+
+目標值（60fps）：
+  每幀預算 = 1000ms / 60 = 16.67ms
+  CPU &lt; 12ms（留餘裕給 GPU）
+  Draw Call &lt; 100（手機）/ &lt; 500（PC）
+  三角面 &lt; 100K（手機）</pre>
+  <div class="tip">💡 永遠在目標設備上測試，Editor 中的效能數據不代表實機表現。</div>
+  <h3>1.2 Cocos Creator Debug</h3>
+  <pre>// 開啟效能面板
+cc.debug.setDisplayStats(true);
+
+// 關鍵指標
+FPS        → 幀率
+Draw Call  → 渲染批次
+Triangles  → 三角面數量
+Sprites    → 精靈數量</pre>
+</div>
+
+<div class="chapter">
+  <h2>第二章：Draw Call 優化與批次合併</h2>
+  <p>Draw Call 是 CPU 向 GPU 發出的繪製指令。每次 Draw Call 都有 CPU 開銷，減少 Draw Call 是最有效的優化手段之一。</p>
+  <h3>2.1 圖集 (Sprite Atlas)</h3>
+  <pre>// Unity：建立 Sprite Atlas
+// Project 面板右鍵 → Create → 2D → Sprite Atlas
+// 將所有同場景的 Sprite 拖入 Atlas
+
+// 效果：
+// 優化前：每個 Sprite 一個 Draw Call → 50 Draw Calls
+// 優化後：整個 Atlas 一個 Draw Call → 1 Draw Call</pre>
+  <h3>2.2 動態合批與靜態合批</h3>
+  <pre>// Unity 靜態合批（Static Batching）
+// Inspector → Static 勾選 ✅
+// 適用：不會移動的場景物件（地形、建築、裝飾）
+
+// Unity 動態合批（Dynamic Batching）
+// Project Settings → Player → Dynamic Batching ✅
+// 限制：頂點數 &lt; 300、相同材質
+
+// SRP Batcher（推薦）
+// URP/HDRP 自動啟用，同 Shader 的材質自動合批</pre>
+  <div class="warn">⚠️ 不同材質、不同 Shader、不同 Texture 的物件無法合批。統一材質是關鍵。</div>
+</div>
+
+<div class="chapter">
+  <h2>第三章：記憶體管理與資源載入策略</h2>
+  <h3>3.1 資源生命週期</h3>
+  <pre>// 延遲載入（Lazy Loading）
+Resources.LoadAsync&lt;Sprite&gt;("path", (sprite) => {
+    renderer.sprite = sprite;
+});
+
+// Addressables 系統（推薦）
+var handle = Addressables.LoadAssetAsync&lt;GameObject&gt;("enemy");
+handle.Completed += (op) => {
+    Instantiate(op.Result);
+};
+
+// 卸載未使用資源
+Resources.UnloadUnusedAssets();
+System.GC.Collect();</pre>
+  <h3>3.2 Texture 壓縮</h3>
+  <pre>平台推薦壓縮格式：
+├── Android → ETC2 / ASTC
+├── iOS    → ASTC（最佳壓縮比）
+├── PC     → DXT5 / BC7
+└── WebGL  → ETC2 + fallback
+
+技巧：
+  - 尺寸用 2 的冪次（256, 512, 1024）
+  - UI 圖不需要 Mipmap
+  - 降低 Max Size 到實際需要的大小</pre>
+</div>
+
+<div class="chapter">
+  <h2>第四章：物理引擎效能調校</h2>
+  <pre>// Unity Physics 設定
+// Edit → Project Settings → Physics 2D
+
+// 關鍵調整：
+Fixed Timestep = 0.02 (50Hz)  // 不要低於 0.01
+Velocity Iterations = 6       // 降低可提升效能
+Position Iterations = 2
+Layer Collision Matrix → 取消不需要的碰撞層
+
+// 使用簡單的碰撞形狀
+✅ BoxCollider2D, CircleCollider2D
+❌ PolygonCollider2D（頂點多，計算量大）
+
+// 物件休眠
+Rigidbody2D.sleepMode = RigidbodySleepMode2D.StartAsleep;</pre>
+  <div class="tip">💡 Layer Collision Matrix 是最容易被忽略的優化。關閉不需要的碰撞層可以大幅減少物理計算。</div>
+</div>
+
+<div class="chapter">
+  <h2>第五章：UI 效能優化技巧</h2>
+  <pre>// 1. Canvas 分層
+// 將靜態 UI 和動態 UI 放在不同 Canvas
+// 動態 Canvas（分數、血條）每幀重建
+// 靜態 Canvas（背景、框架）不重建
+
+// 2. 避免 Layout Group 巢狀
+// ❌ 多層 Layout Group 巢狀
+// ✅ 手動計算位置或扁平化結構
+
+// 3. 關閉 Raycast Target
+// 不需要點擊的 UI 元素取消 Raycast Target ✅
+// Image、Text 預設都開啟，大量 UI 會影響效能
+
+// 4. 使用 Object Pool
+// 聊天訊息、排行榜列表不要每次 Instantiate/Destroy
+// 使用物件池回收重用</pre>
+</div>
+
+<div class="chapter">
+  <h2>第六章：程式碼層級優化</h2>
+  <h3>6.1 減少 GC 分配</h3>
+  <pre>// ❌ 每幀產生垃圾
+void Update() {
+    string text = "Score: " + score;  // 每幀 new string
+    List&lt;Enemy&gt; list = new List&lt;Enemy&gt;();  // 每幀 new List
+}
+
+// ✅ 預先分配、重用
+StringBuilder sb = new StringBuilder(64);
+List&lt;Enemy&gt; reusableList = new List&lt;Enemy&gt;(32);
+
+void Update() {
+    sb.Clear();
+    sb.Append("Score: ").Append(score);
+    scoreText.text = sb.ToString();
+
+    reusableList.Clear();
+    // 填充 reusableList...
+}</pre>
+  <h3>6.2 快取 Component 參照</h3>
+  <pre>// ❌ 每幀 GetComponent
+void Update() {
+    GetComponent&lt;Rigidbody2D&gt;().velocity = v;
+}
+
+// ✅ 快取
+Rigidbody2D rb;
+void Awake() { rb = GetComponent&lt;Rigidbody2D&gt;(); }
+void Update() { rb.velocity = v; }</pre>
+</div>
+
+<div class="chapter">
+  <h2>第七章：Shader 與渲染管線優化</h2>
+  <pre>// 1. 使用 Mobile-friendly Shader
+// ✅ Unlit、Mobile/Diffuse
+// ❌ Standard Shader（手機太重）
+
+// 2. 減少 Overdraw
+// 半透明物件越少越好
+// 粒子特效控制粒子數量和大小
+// 使用 Alpha Cutout 取代 Alpha Blend
+
+// 3. LOD（Level of Detail）
+// 遠處物件使用低面數模型
+// LOD Group Component 自動切換
+
+// 4. Occlusion Culling
+// Window → Rendering → Occlusion Culling
+// 被遮擋的物件不渲染</pre>
+</div>
+
+<div class="chapter">
+  <h2>第八章：實戰案例：從 30fps 到 60fps</h2>
+  <p>以一款 2D 動作遊戲為例，我們在 Android 中端機上將幀率從 30fps 提升到穩定 60fps。</p>
+  <h3>優化步驟</h3>
+  <pre>Step 1：Profiler 分析
+  → CPU 瓶頸：UI Canvas 重建佔 8ms
+  → Draw Call：287（太高）
+  → GC Alloc：每幀 2.4KB
+
+Step 2：Draw Call 優化
+  → Sprite Atlas 合併 → 287 降到 42
+  → 節省 6ms CPU 時間
+
+Step 3：UI Canvas 分層
+  → 靜態/動態分離 → UI 重建從 8ms 降到 1ms
+
+Step 4：GC 優化
+  → 字串快取 + 物件池 → GC 從 2.4KB/幀降到 0
+
+Step 5：物理優化
+  → Layer Matrix + 簡化碰撞器 → 物理從 3ms 降到 0.8ms
+
+結果：總幀時間從 33ms → 14ms（穩定 60fps）</pre>
+</div>
+
+<div class="footer">
+  <p>⚡ 遊戲效能優化實戰 — Frank Dev Blog</p>
+  <p>© 2026 Frank · a8398433@gmail.com · 付費課程，請勿轉發</p>
+</div>
+
+</body>
+</html>

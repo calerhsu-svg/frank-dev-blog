@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>遊戲架構設計模式 — Frank Dev</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI','Microsoft JhengHei','PingFang TC',sans-serif;background:#fff;color:#1a2040;line-height:1.8;max-width:800px;margin:0 auto;padding:40px 32px}
+@media print{body{padding:20px;font-size:12px}.cover{page-break-after:always}.chapter{page-break-before:always}}
+.cover{text-align:center;padding:100px 0 60px;border-bottom:3px solid #3B5BDB}
+.cover .icon{font-size:80px;margin-bottom:20px}
+.cover h1{font-size:32px;font-weight:900;color:#3B5BDB;margin-bottom:12px}
+.cover .sub{font-size:16px;color:#4A5580;margin-bottom:8px}
+.cover .price{font-size:14px;color:#E03131;font-weight:700;margin-bottom:40px}
+.cover .author{font-size:14px;color:#4A5580;border-top:1px solid #D0DAF5;padding-top:20px;margin-top:40px}
+.toc{margin:40px 0;padding:28px;background:#F0F4FF;border-radius:12px}
+.toc h2{font-size:20px;font-weight:800;color:#3B5BDB;margin-bottom:16px}
+.toc ol{padding-left:24px}.toc li{padding:4px 0;font-size:14px;color:#4A5580}
+.chapter{margin-top:48px}
+h2{font-size:22px;font-weight:800;color:#3B5BDB;margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid #E0E8FF}
+h3{font-size:16px;font-weight:700;color:#1a2040;margin:24px 0 8px}
+p{font-size:14px;color:#4A5580;margin-bottom:14px}
+pre{background:#F0F4FF;border:1px solid #D0DAF5;border-radius:8px;padding:16px;font-size:12px;overflow-x:auto;margin:12px 0 16px;line-height:1.6;font-family:'Courier New',monospace;color:#1a2040}
+.tip{background:#22C55E11;border-left:4px solid #22C55E;padding:12px 16px;border-radius:0 8px 8px 0;margin:14px 0;font-size:13px;color:#166534}
+.warn{background:#F59E0B11;border-left:4px solid #F59E0B;padding:12px 16px;border-radius:0 8px 8px 0;margin:14px 0;font-size:13px;color:#92400E}
+.footer{margin-top:60px;padding-top:20px;border-top:2px solid #E0E8FF;text-align:center;font-size:12px;color:#4A5580}
+ul{padding-left:20px;margin-bottom:14px}
+li{font-size:14px;color:#4A5580;padding:2px 0}
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="icon">🏗️</div>
+  <h1>遊戲架構設計模式</h1>
+  <div class="sub">可維護、可擴展的遊戲程式架構</div>
+  <div class="price">NT$1,490 付費課程</div>
+  <div class="author">作者：Frank · frank-dev-blog<br>版本：2026.03<br>✉️ a8398433@gmail.com</div>
+</div>
+
+<div class="toc">
+  <h2>📋 目錄</h2>
+  <ol>
+    <li>為什麼需要架構設計</li>
+    <li>單例模式與全域管理器</li>
+    <li>觀察者模式與事件系統</li>
+    <li>狀態機模式 (FSM)</li>
+    <li>物件池模式</li>
+    <li>MVC/MVVM 在遊戲中的應用</li>
+    <li>資源管理與配置系統</li>
+    <li>實戰：完整遊戲架構案例</li>
+  </ol>
+</div>
+
+<div class="chapter">
+  <h2>第一章：為什麼需要架構設計</h2>
+  <p>當遊戲規模超過 1000 行程式碼，沒有架構的專案會快速變得難以維護。好的架構讓你能快速添加新功能、修復 Bug、和團隊協作。</p>
+  <h3>常見的「義大利麵」問題</h3>
+  <pre>// ❌ 沒有架構：所有邏輯塞在一起
+public class Player : MonoBehaviour {
+    void Update() {
+        HandleInput();
+        HandleMovement();
+        HandleAnimation();
+        HandleUI();          // Player 為什麼要管 UI？
+        HandleSound();       // Player 為什麼要管音效？
+        HandleSaving();      // Player 為什麼要管存檔？
+        HandleAchievements();// 成就系統也塞在這？
+    }
+}
+
+// ✅ 好的架構：職責分離
+// InputManager → 處理輸入
+// PlayerController → 處理移動
+// AnimationController → 處理動畫
+// UIManager → 處理介面
+// AudioManager → 處理音效
+// SaveManager → 處理存檔</pre>
+</div>
+
+<div class="chapter">
+  <h2>第二章：單例模式與全域管理器</h2>
+  <pre>// 安全的單例基底類別
+public abstract class Singleton&lt;T&gt; : MonoBehaviour where T : MonoBehaviour
+{
+    private static T _instance;
+    private static readonly object _lock = new object();
+
+    public static T Instance
+    {
+        get
+        {
+            lock (_lock)
+            {
+                if (_instance == null)
+                {
+                    _instance = FindObjectOfType&lt;T&gt;();
+                    if (_instance == null)
+                    {
+                        var go = new GameObject(typeof(T).Name);
+                        _instance = go.AddComponent&lt;T&gt;();
+                        DontDestroyOnLoad(go);
+                    }
+                }
+                return _instance;
+            }
+        }
+    }
+
+    protected virtual void Awake()
+    {
+        if (_instance != null &amp;&amp; _instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        _instance = this as T;
+        DontDestroyOnLoad(gameObject);
+    }
+}
+
+// 使用
+public class AudioManager : Singleton&lt;AudioManager&gt; { }
+// AudioManager.Instance.PlayBGM(clip);</pre>
+  <div class="warn">⚠️ 單例不要過度使用。只有真正全域唯一的系統才用單例（音效、存檔、網路）。</div>
+</div>
+
+<div class="chapter">
+  <h2>第三章：觀察者模式與事件系統</h2>
+  <pre>// 簡易事件系統
+public static class EventBus
+{
+    private static Dictionary&lt;string, Action&lt;object&gt;&gt; events = new();
+
+    public static void Subscribe(string eventName, Action&lt;object&gt; handler)
+    {
+        if (!events.ContainsKey(eventName))
+            events[eventName] = null;
+        events[eventName] += handler;
+    }
+
+    public static void Unsubscribe(string eventName, Action&lt;object&gt; handler)
+    {
+        if (events.ContainsKey(eventName))
+            events[eventName] -= handler;
+    }
+
+    public static void Publish(string eventName, object data = null)
+    {
+        if (events.ContainsKey(eventName))
+            events[eventName]?.Invoke(data);
+    }
+}
+
+// 使用範例
+EventBus.Subscribe("player-died", (data) => {
+    UIManager.Instance.ShowGameOver();
+    AudioManager.Instance.PlaySFX(deathSound);
+});
+
+EventBus.Publish("player-died");</pre>
+  <div class="tip">💡 事件系統解耦模組間的依賴。Player 不需要知道 UIManager 的存在。</div>
+</div>
+
+<div class="chapter">
+  <h2>第四章：狀態機模式 (FSM)</h2>
+  <pre>// 通用狀態機
+public abstract class State
+{
+    public virtual void Enter() { }
+    public virtual void Update() { }
+    public virtual void Exit() { }
+}
+
+public class StateMachine
+{
+    private State currentState;
+
+    public void ChangeState(State newState)
+    {
+        currentState?.Exit();
+        currentState = newState;
+        currentState.Enter();
+    }
+
+    public void Update() => currentState?.Update();
+}
+
+// 敵人 AI 狀態
+public class PatrolState : State
+{
+    public override void Update()
+    {
+        // 巡邏邏輯
+        if (CanSeePlayer())
+            enemy.fsm.ChangeState(new ChaseState());
+    }
+}
+
+public class ChaseState : State
+{
+    public override void Update()
+    {
+        // 追擊邏輯
+        if (InAttackRange())
+            enemy.fsm.ChangeState(new AttackState());
+    }
+}</pre>
+</div>
+
+<div class="chapter">
+  <h2>第五章：物件池模式</h2>
+  <pre>public class ObjectPool&lt;T&gt; where T : MonoBehaviour
+{
+    private Queue&lt;T&gt; pool = new Queue&lt;T&gt;();
+    private T prefab;
+    private Transform parent;
+
+    public ObjectPool(T prefab, int initialSize, Transform parent = null)
+    {
+        this.prefab = prefab;
+        this.parent = parent;
+        for (int i = 0; i &lt; initialSize; i++)
+            pool.Enqueue(CreateNew());
+    }
+
+    private T CreateNew()
+    {
+        var obj = Object.Instantiate(prefab, parent);
+        obj.gameObject.SetActive(false);
+        return obj;
+    }
+
+    public T Get()
+    {
+        T obj = pool.Count > 0 ? pool.Dequeue() : CreateNew();
+        obj.gameObject.SetActive(true);
+        return obj;
+    }
+
+    public void Return(T obj)
+    {
+        obj.gameObject.SetActive(false);
+        pool.Enqueue(obj);
+    }
+}
+
+// 使用：子彈池
+ObjectPool&lt;Bullet&gt; bulletPool = new(bulletPrefab, 20);
+Bullet b = bulletPool.Get();
+// 子彈生命結束時
+bulletPool.Return(b);</pre>
+</div>
+
+<div class="chapter">
+  <h2>第六章：MVC/MVVM 在遊戲中的應用</h2>
+  <pre>// Model：純資料
+public class PlayerModel
+{
+    public int HP { get; set; } = 100;
+    public int MaxHP { get; set; } = 100;
+    public int Score { get; set; } = 0;
+    public event Action OnDataChanged;
+
+    public void TakeDamage(int dmg)
+    {
+        HP = Mathf.Max(0, HP - dmg);
+        OnDataChanged?.Invoke();
+    }
+}
+
+// View：UI 顯示
+public class PlayerView : MonoBehaviour
+{
+    public TextMeshProUGUI hpText;
+    public Image hpBar;
+
+    public void UpdateView(PlayerModel model)
+    {
+        hpText.text = $"{model.HP}/{model.MaxHP}";
+        hpBar.fillAmount = (float)model.HP / model.MaxHP;
+    }
+}
+
+// Controller：邏輯
+public class PlayerController : MonoBehaviour
+{
+    PlayerModel model = new PlayerModel();
+    PlayerView view;
+
+    void Start()
+    {
+        view = GetComponent&lt;PlayerView&gt;();
+        model.OnDataChanged += () => view.UpdateView(model);
+    }
+}</pre>
+</div>
+
+<div class="chapter">
+  <h2>第七章：資源管理與配置系統</h2>
+  <pre>// ScriptableObject 配置系統
+[CreateAssetMenu(fileName = "EnemyConfig", menuName = "Config/Enemy")]
+public class EnemyConfig : ScriptableObject
+{
+    public string enemyName;
+    public int hp;
+    public float speed;
+    public float attackDamage;
+    public float attackRange;
+    public GameObject prefab;
+}
+
+// 使用配置
+public class Enemy : MonoBehaviour
+{
+    public EnemyConfig config;
+
+    void Start()
+    {
+        hp = config.hp;
+        speed = config.speed;
+    }
+}
+
+// 好處：
+// ✅ 策劃可以在 Inspector 中直接調整數值
+// ✅ 不需要修改程式碼
+// ✅ 支援版本控制
+// ✅ 可以快速建立不同配置的敵人</pre>
+</div>
+
+<div class="chapter">
+  <h2>第八章：實戰完整遊戲架構</h2>
+  <pre>遊戲架構總覽：
+┌─────────────────────────────────────┐
+│           GameManager (入口)          │
+├──────┬──────┬──────┬──────┬─────────┤
+│Audio │Scene │Save  │Event │Config   │
+│Mgr   │Mgr   │Mgr   │Bus   │Manager  │
+├──────┴──────┴──────┴──────┴─────────┤
+│           GamePlay Layer             │
+│  ┌────────┐ ┌──────┐ ┌──────────┐  │
+│  │Player  │ │Enemy │ │Level     │  │
+│  │System  │ │System│ │Manager   │  │
+│  └────────┘ └──────┘ └──────────┘  │
+├─────────────────────────────────────┤
+│           UI Layer (MVC)             │
+│  ┌────┐ ┌──────┐ ┌─────┐ ┌─────┐  │
+│  │HUD │ │Menu  │ │Shop │ │Popup│  │
+│  └────┘ └──────┘ └─────┘ └─────┘  │
+└─────────────────────────────────────┘</pre>
+  <div class="tip">💡 每個 Manager 負責單一職責，透過 EventBus 通訊，資料存在 Model 中。這就是可維護、可擴展的遊戲架構。</div>
+</div>
+
+<div class="footer">
+  <p>🏗️ 遊戲架構設計模式 — Frank Dev Blog</p>
+  <p>© 2026 Frank · a8398433@gmail.com · 付費課程，請勿轉發</p>
+</div>
+
+</body>
+</html>

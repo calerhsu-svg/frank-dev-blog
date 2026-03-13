@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Cocos Creator 3.x チートシート — Frank Dev</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI','Hiragino Kaku Gothic Pro','Meiryo',sans-serif;background:#fff;color:#1a2040;line-height:1.7;max-width:900px;margin:0 auto;padding:32px 28px}
+@media print{body{padding:16px;font-size:11px;max-width:100%}.section{page-break-inside:avoid}h1{font-size:22px}}
+h1{font-size:28px;font-weight:900;color:#3B5BDB;text-align:center;margin-bottom:6px}
+.sub{text-align:center;color:#4A5580;font-size:13px;margin-bottom:28px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:700px){.grid{grid-template-columns:1fr}}
+.section{background:#F7F9FF;border:1.5px solid #D0DAF5;border-radius:12px;padding:18px;margin-bottom:16px}
+.section h2{font-size:15px;font-weight:800;color:#3B5BDB;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.section h3{font-size:12px;font-weight:700;margin:12px 0 4px;color:#1a2040}
+pre{background:#E8EDFF;border-radius:6px;padding:10px 12px;font-size:11px;overflow-x:auto;margin:6px 0 8px;line-height:1.5;font-family:'Courier New',monospace;color:#1a2040}
+.note{font-size:11px;color:#22C55E;font-weight:600;margin:4px 0}
+.footer{margin-top:28px;text-align:center;font-size:11px;color:#4A5580;border-top:1px solid #D0DAF5;padding-top:16px}
+</style>
+</head>
+<body>
+
+<h1>🥥 Cocos Creator 3.x チートシート</h1>
+<div class="sub">クイックリファレンス — よく使うAPI · ライフサイクル · デザインパターン | Frank Dev Blog</div>
+
+<div class="grid">
+
+<div class="section">
+  <h2>📌 ノード操作API</h2>
+  <pre>// ノード取得
+this.node                          // 現在のノード
+this.node.parent                   // 親ノード
+this.node.children                 // 子ノード配列
+find("Canvas/Player")              // グローバルパス検索
+this.node.getChildByName("Weapon") // 名前で取得
+
+// 位置 / 回転 / スケール
+this.node.setPosition(100, 200, 0)
+this.node.getPosition()            // Vec3を返す
+this.node.setRotationFromEuler(0, 0, 45)
+this.node.setScale(2, 2, 1)
+
+// 有効 / 無効
+this.node.active = true   // 表示
+this.node.active = false  // 非表示
+
+// 子ノード追加 / 削除
+parentNode.addChild(childNode)
+childNode.removeFromParent()</pre>
+</div>
+
+<div class="section">
+  <h2>🔄 ライフサイクル</h2>
+  <pre>// 実行順序
+onLoad()        // 最初に一度（初期化）
+onEnable()      // 有効化時
+start()         // 最初のupdate前に一度
+update(dt)      // 毎フレーム
+lateUpdate(dt)  // update後に毎フレーム
+onDisable()     // 無効化時
+onDestroy()     // 破棄時</pre>
+  <div class="note">💡 onLoadはノードのactiveに関係なく呼ばれます</div>
+  <h3>スケジューラー</h3>
+  <pre>// タイマー
+this.schedule(callback, interval, repeat, delay)
+this.scheduleOnce(cb, 2)  // 2秒後に一度
+this.unschedule(callback)
+this.unscheduleAllCallbacks()</pre>
+</div>
+
+<div class="section">
+  <h2>📡 イベントシステム</h2>
+  <pre>// ノードイベント
+this.node.on(Node.EventType.TOUCH_START, this.onTouch, this)
+this.node.off(Node.EventType.TOUCH_START, this.onTouch, this)
+
+// タッチイベント種類
+Node.EventType.TOUCH_START
+Node.EventType.TOUCH_MOVE
+Node.EventType.TOUCH_END
+Node.EventType.TOUCH_CANCEL
+
+// カスタムイベント
+this.node.emit('my-event', data)
+this.node.on('my-event', (data) => {}, this)
+
+// グローバルイベント
+director.on('game-over', handler)
+director.emit('game-over', score)</pre>
+</div>
+
+<div class="section">
+  <h2>✨ Tweenアニメーション</h2>
+  <pre>import { tween, Vec3 } from 'cc'
+
+// 基本Tween
+tween(this.node)
+  .to(1, { position: new Vec3(100,200,0) })
+  .start()
+
+// チェーン
+tween(this.node)
+  .to(0.5, { scale: new Vec3(1.2,1.2,1) })
+  .to(0.5, { scale: new Vec3(1,1,1) })
+  .union()
+  .repeatForever()
+  .start()
+
+// イージング
+.to(1, { position: v }, { easing: 'sineOut' })
+
+// コールバック
+.call(() => { console.log('完了') })</pre>
+</div>
+
+<div class="section">
+  <h2>⚡ 2D物理</h2>
+  <pre>import { RigidBody2D, PhysicsSystem2D } from 'cc'
+
+// Rigidbody取得
+const rb = this.getComponent(RigidBody2D)
+rb.linearVelocity = new Vec2(5, 0)
+rb.applyForceToCenter(new Vec2(0, 500), true)
+
+// 衝突コールバック
+onBeginContact(self, other, contact) {
+  const tag = other.node.name
+  if (tag === 'Enemy') this.takeDamage()
+}
+
+// Raycast
+PhysicsSystem2D.instance.raycast(
+  start, direction, type, mask
+)</pre>
+</div>
+
+<div class="section">
+  <h2>🖼️ UIコンポーネント</h2>
+  <pre>import { Label, Button, Sprite, ProgressBar } from 'cc'
+
+// Label
+const label = node.getComponent(Label)
+label.string = 'スコア: 100'
+
+// Button
+btn.node.on('click', this.onClick, this)
+
+// Sprite
+const sp = node.getComponent(Sprite)
+sp.spriteFrame = newFrame
+
+// ProgressBar
+const bar = node.getComponent(ProgressBar)
+bar.progress = 0.75  // 0~1
+
+// ScrollView, EditBox, Toggle
+// Layout (水平/垂直/グリッド)</pre>
+</div>
+
+<div class="section">
+  <h2>🔊 オーディオ</h2>
+  <pre>import { AudioSource } from 'cc'
+
+// BGM再生
+const audio = node.getComponent(AudioSource)
+audio.clip = bgmClip
+audio.loop = true
+audio.play()
+
+// SE再生
+audio.playOneShot(seClip, 1.0)
+
+// 制御
+audio.pause()
+audio.stop()
+audio.volume = 0.5  // 0~1</pre>
+</div>
+
+<div class="section">
+  <h2>🛠️ ユーティリティ</h2>
+  <pre>import { sys, director, game } from 'cc'
+
+// ローカルストレージ
+sys.localStorage.setItem('key', 'value')
+sys.localStorage.getItem('key')
+
+// シーン遷移
+director.loadScene('GameScene')
+director.preloadScene('NextScene')
+
+// 画面サイズ
+view.getVisibleSize()
+
+// 乱数
+Math.random() * (max - min) + min
+
+// ゲーム制御
+game.pause()
+game.resume()
+director.pause()  // ロジック停止</pre>
+</div>
+
+</div>
+
+<div class="footer">
+  <p>🥥 Cocos Creator 3.x チートシート — Frank Dev Blog</p>
+  <p>© 2026 Frank · a8398433@gmail.com · 無料配布</p>
+</div>
+
+</body>
+</html>

@@ -189,11 +189,12 @@ function openCoursePreview(id){
     return `<p>${b.s}</p>`
   }).join('')
   // Footer action
+  const langLabel={tw:'繁體中文版',jp:'日本語版',cn:'简体中文版',ph:'English Version'}[lang]
   const footer=document.getElementById('cp-footer')
   if(course.type==='free'){
-    footer.innerHTML=`<button class="btn-green" onclick="closeCoursePreview();freeDownload('${id}')">${L.dl_btn||'📥 免費下載'}</button>`
+    footer.innerHTML=`<span style="font-size:12px;color:var(--sub)">📦 ${langLabel}</span><button class="btn-green" onclick="closeCoursePreview();freeDownload('${id}')">${L.dl_btn||'📥 免費下載'}</button>`
   }else{
-    footer.innerHTML=`<button class="btn-primary" onclick="closeCoursePreview();buyCourse('${id}')">${L.buy_btn||'🛒 立即購買'}</button>`
+    footer.innerHTML=`<span style="font-size:12px;color:var(--sub)">📦 ${langLabel}</span><button class="btn-primary" onclick="closeCoursePreview();buyCourse('${id}')">${L.buy_btn||'🛒 立即購買'}</button>`
   }
   document.getElementById('course-modal').classList.add('open')
   document.body.style.overflow='hidden'
@@ -243,16 +244,27 @@ function captureCourseEmail(){
   showToast({tw:'稍後將寄送教材至你的 Email！',jp:'教材を近日中にメールでお送りします！',cn:'稍后将寄送教材至你的 Email！',ph:'Materials will be sent to your email soon!'}[lang])
 }
 function freeDownload(item){
-  const files={'unity-guide':'downloads/unity-beginner-guide.pdf','cocos-cheatsheet':'downloads/cocos-creator-cheatsheet.pdf'}
-  const url=files[item]||'#'
-  const a=document.createElement('a')
-  a.href=url;a.download='';document.body.appendChild(a);a.click();document.body.removeChild(a)
+  const files={'unity-guide':'unity-beginner-guide.html','cocos-cheatsheet':'cocos-creator-cheatsheet.html'}
+  const file=files[item]
+  if(!file) return
+  const url='downloads/'+lang+'/'+file
+  window.open(url,'_blank')
   showToast({tw:'下載開始！',jp:'ダウンロード開始！',cn:'下载开始！',ph:'Download started!'}[lang])
 }
 function buyCourse(item){
   const prices={'perf-course':'NT$990','arch-course':'NT$1,490','fullgame-course':'NT$2,490'}
+  const L=LANG[lang]
+  const titleKey={'perf-course':'cr3_title','arch-course':'cr4_title','fullgame-course':'cr5_title'}
+  const courseName=L[titleKey[item]]||item
   const p=prices[item]||''
-  window.location.href=`mailto:a8398433@gmail.com?subject=${encodeURIComponent('[Frank Dev] 課程購買 '+item)}&body=${encodeURIComponent('我想購買課程: '+item+'\n金額: '+p+'\n\n請問付款方式？')}`
+  const langLabel={tw:'繁體中文',jp:'日本語',cn:'简体中文',ph:'English'}[lang]
+  const body={
+    tw:`我想購買課程: ${courseName}\n金額: ${p}\n語言版本: ${langLabel}\n\n請問付款方式？`,
+    jp:`コースを購入したいです: ${courseName}\n金額: ${p}\n言語: ${langLabel}\n\nお支払い方法を教えてください。`,
+    cn:`我想购买课程: ${courseName}\n金额: ${p}\n语言版本: ${langLabel}\n\n请问付款方式？`,
+    ph:`I want to purchase: ${courseName}\nPrice: ${p}\nLanguage: ${langLabel}\n\nHow can I pay?`
+  }[lang]
+  window.location.href=`mailto:a8398433@gmail.com?subject=${encodeURIComponent('[Frank Dev] 課程購買 / Course Purchase: '+item)}&body=${encodeURIComponent(body)}`
   showToast({tw:'已開啟郵件，確認付款後立即發送教材！',jp:'メールを開きました。お支払い確認後すぐに教材を送ります！',cn:'已打开邮件，确认付款后立即发送教材！',ph:'Email opened! Materials will be sent after payment confirmation!'}[lang])
 }
 function selectAmount(btn,amt){

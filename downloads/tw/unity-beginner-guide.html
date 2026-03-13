@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Unity 入門完整指南 — Frank Dev</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI','Microsoft JhengHei','PingFang TC',sans-serif;background:#fff;color:#1a2040;line-height:1.8;max-width:800px;margin:0 auto;padding:40px 32px}
+@media print{body{padding:20px;font-size:12px}h1{font-size:24px}h2{font-size:18px}h3{font-size:14px}.cover{page-break-after:always}.chapter{page-break-before:always}}
+.cover{text-align:center;padding:120px 0 80px;border-bottom:3px solid #3B5BDB}
+.cover .icon{font-size:80px;margin-bottom:20px}
+.cover h1{font-size:36px;font-weight:900;color:#3B5BDB;margin-bottom:12px}
+.cover .sub{font-size:16px;color:#4A5580;margin-bottom:40px}
+.cover .author{font-size:14px;color:#4A5580;border-top:1px solid #D0DAF5;padding-top:20px;margin-top:40px}
+.toc{margin:40px 0;padding:28px;background:#F0F4FF;border-radius:12px}
+.toc h2{font-size:20px;font-weight:800;color:#3B5BDB;margin-bottom:16px}
+.toc ol{padding-left:24px}
+.toc li{padding:4px 0;font-size:14px;color:#4A5580}
+.chapter{margin-top:48px}
+h2{font-size:22px;font-weight:800;color:#3B5BDB;margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid #E0E8FF}
+h3{font-size:16px;font-weight:700;color:#1a2040;margin:24px 0 8px}
+p{font-size:14px;color:#4A5580;margin-bottom:14px}
+pre{background:#F0F4FF;border:1px solid #D0DAF5;border-radius:8px;padding:16px;font-size:12px;overflow-x:auto;margin:12px 0 16px;line-height:1.6;font-family:'Courier New',monospace;color:#1a2040}
+.tip{background:#22C55E11;border-left:4px solid #22C55E;padding:12px 16px;border-radius:0 8px 8px 0;margin:14px 0;font-size:13px;color:#166534}
+.warn{background:#F59E0B11;border-left:4px solid #F59E0B;padding:12px 16px;border-radius:0 8px 8px 0;margin:14px 0;font-size:13px;color:#92400E}
+.footer{margin-top:60px;padding-top:20px;border-top:2px solid #E0E8FF;text-align:center;font-size:12px;color:#4A5580}
+ul{padding-left:20px;margin-bottom:14px}
+li{font-size:14px;color:#4A5580;padding:2px 0}
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="icon">🎮</div>
+  <h1>Unity 入門完整指南</h1>
+  <div class="sub">從零開始的 Unity 遊戲開發之旅<br>環境設定 · C# 基礎 · 第一個遊戲</div>
+  <div class="author">作者：Frank · frank-dev-blog<br>版本：2026.03 · 免費分享<br>✉️ a8398433@gmail.com</div>
+</div>
+
+<div class="toc">
+  <h2>📋 目錄</h2>
+  <ol>
+    <li>Unity 安裝與環境設定</li>
+    <li>介面導覽與基本操作</li>
+    <li>C# 程式設計基礎</li>
+    <li>GameObject 與 Component</li>
+    <li>物理系統入門</li>
+    <li>UI 系統 (Canvas, Button, Text)</li>
+    <li>動畫系統 (Animator)</li>
+    <li>音效與粒子特效</li>
+    <li>場景管理與切換</li>
+    <li>Build 打包與發布</li>
+    <li>附錄 A：常用快捷鍵一覽</li>
+    <li>附錄 B：推薦學習資源</li>
+  </ol>
+</div>
+
+<div class="chapter">
+  <h2>第一章：Unity 安裝與環境設定</h2>
+  <p>Unity 是目前全球最主流的遊戲引擎之一，支援 2D/3D 遊戲開發、AR/VR、模擬應用等多種場景。本章將手把手帶你從零開始安裝 Unity Hub 與 Unity Editor。</p>
+
+  <h3>1.1 下載 Unity Hub</h3>
+  <p>前往 Unity 官網（unity.com）下載 Unity Hub。Hub 是管理 Unity 版本與專案的統一工具，建議使用最新的 LTS（長期支援版本），穩定性最高。</p>
+  <div class="tip">💡 建議：初學者請選 LTS 版本（如 2022.3 LTS），而非 Tech Stream，避免遇到不穩定的新功能。</div>
+
+  <h3>1.2 建立第一個專案</h3>
+  <p>安裝完成後，在 Unity Hub 中點選「New Project」，選擇 2D 或 3D 模板：</p>
+  <pre>專案設定建議：
+├── 專案名稱：MyFirstGame
+├── 模板：2D (Built-in Render Pipeline)
+├── 位置：桌面/UnityProjects/
+└── Unity 版本：2022.3 LTS
+
+目錄結構自動建立：
+Assets/          ← 所有遊戲資源
+Library/         ← Unity 快取（不要手動修改）
+Packages/        ← 套件管理
+ProjectSettings/ ← 專案設定</pre>
+
+  <h3>1.3 介面初探</h3>
+  <p>打開專案後你會看到五個主要面板：</p>
+  <ul>
+    <li><strong>Scene</strong>：場景編輯視窗，拖拉物件、調整位置</li>
+    <li><strong>Game</strong>：遊戲預覽視窗，按 Play 即可測試</li>
+    <li><strong>Hierarchy</strong>：物件階層，顯示場景中所有 GameObject</li>
+    <li><strong>Inspector</strong>：屬性面板，修改選中物件的 Component</li>
+    <li><strong>Project</strong>：資源管理，管理所有檔案和素材</li>
+  </ul>
+  <div class="tip">💡 面板可以自由拖拉重新排列。建議花 10 分鐘先熟悉預設版面配置。</div>
+</div>
+
+<div class="chapter">
+  <h2>第二章：介面導覽與基本操作</h2>
+  <p>熟悉 Unity 編輯器的操作是提高開發效率的基礎。本章介紹最常用的快捷操作和工作流程。</p>
+
+  <h3>2.1 場景導覽</h3>
+  <pre>場景視窗操控：
+  滑鼠中鍵拖拉    → 平移視角
+  滾輪             → 縮放
+  Alt + 左鍵拖拉   → 旋轉視角（3D）
+  F 鍵             → 聚焦選中物件
+  雙擊 Hierarchy   → 聚焦該物件</pre>
+
+  <h3>2.2 Transform 工具</h3>
+  <p>Scene 視窗左上角有四個變換工具：</p>
+  <ul>
+    <li><strong>W</strong>：移動工具（Move）— 拖拉箭頭移動物件</li>
+    <li><strong>E</strong>：旋轉工具（Rotate）— 拖拉圓環旋轉物件</li>
+    <li><strong>R</strong>：縮放工具（Scale）— 拖拉方塊縮放物件</li>
+    <li><strong>T</strong>：矩形工具（Rect）— UI 元素專用</li>
+  </ul>
+
+  <h3>2.3 Play 模式</h3>
+  <p>按下頂部工具列的 Play 按鈕（或 Ctrl+P）進入遊戲模式。在 Play 模式中的修改不會被保存！這是新手常踩的坑。</p>
+  <div class="warn">⚠️ 注意：Play 模式下的任何修改在停止後都會消失！養成習慣先停止再修改。</div>
+</div>
+
+<div class="chapter">
+  <h2>第三章：C# 程式設計基礎</h2>
+  <p>Unity 使用 C# 作為主要程式語言。如果你有任何程式基礎（JavaScript、Python 等），C# 的學習曲線不會太陡。</p>
+
+  <h3>3.1 第一個腳本</h3>
+  <p>在 Project 面板右鍵 → Create → C# Script，命名為 PlayerController：</p>
+  <pre>using UnityEngine;
+
+public class PlayerController : MonoBehaviour
+{
+    // 公開變數會顯示在 Inspector 面板
+    public float speed = 5f;
+    public float jumpForce = 10f;
+
+    // Start 在第一幀之前呼叫一次
+    void Start()
+    {
+        Debug.Log("遊戲開始！");
+    }
+
+    // Update 每幀呼叫一次
+    void Update()
+    {
+        // 取得水平輸入（左右鍵 / A D 鍵）
+        float h = Input.GetAxis("Horizontal");
+
+        // 移動角色
+        transform.Translate(Vector3.right * h * speed * Time.deltaTime);
+
+        // 按空白鍵跳躍
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            GetComponent&lt;Rigidbody2D&gt;().AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+        }
+    }
+}</pre>
+
+  <h3>3.2 重要概念</h3>
+  <ul>
+    <li><strong>MonoBehaviour</strong>：所有 Unity 腳本的基礎類別</li>
+    <li><strong>Start()</strong>：初始化，只跑一次</li>
+    <li><strong>Update()</strong>：每幀執行，放遊戲邏輯</li>
+    <li><strong>Time.deltaTime</strong>：幀間隔時間，確保不同 FPS 下移動速度一致</li>
+    <li><strong>public 變數</strong>：會出現在 Inspector，可在編輯器中調整</li>
+  </ul>
+
+  <h3>3.3 常用 API</h3>
+  <pre>// 取得 Component
+Rigidbody2D rb = GetComponent&lt;Rigidbody2D&gt;();
+
+// 查找物件
+GameObject player = GameObject.Find("Player");
+GameObject enemy = GameObject.FindWithTag("Enemy");
+
+// 生成與銷毀
+Instantiate(prefab, position, rotation);
+Destroy(gameObject);          // 銷毀自己
+Destroy(gameObject, 2f);      // 2 秒後銷毀
+
+// 定時呼叫
+InvokeRepeating("SpawnEnemy", 1f, 2f);  // 1秒後開始，每2秒執行
+StartCoroutine(MyCoroutine());           // 協程</pre>
+</div>
+
+<div class="chapter">
+  <h2>第四章：GameObject 與 Component</h2>
+  <p>Unity 的核心哲學是「一切皆 GameObject，功能靠 Component」。理解這個概念是掌握 Unity 的關鍵。</p>
+
+  <h3>4.1 GameObject</h3>
+  <p>場景中的每個東西都是 GameObject：角色、敵人、子彈、攝影機、燈光、UI 按鈕，甚至空物件。GameObject 本身只是一個容器，真正的功能來自於附加在上面的 Component。</p>
+
+  <h3>4.2 常用 Component</h3>
+  <ul>
+    <li><strong>Transform</strong>：位置、旋轉、縮放（每個 GO 必有）</li>
+    <li><strong>SpriteRenderer</strong>：2D 圖片渲染</li>
+    <li><strong>Rigidbody2D</strong>：2D 物理（重力、力、速度）</li>
+    <li><strong>Collider2D</strong>：2D 碰撞偵測（BoxCollider2D, CircleCollider2D）</li>
+    <li><strong>AudioSource</strong>：播放音效</li>
+    <li><strong>Animator</strong>：控制動畫狀態機</li>
+  </ul>
+
+  <h3>4.3 Prefab 預製物件</h3>
+  <p>把設定好的 GameObject 從 Hierarchy 拖到 Project 面板，就會建立 Prefab。Prefab 像是「模板」——修改 Prefab 會自動更新所有實例。子彈、敵人、特效都應該做成 Prefab。</p>
+  <pre>// 用程式生成 Prefab
+public GameObject bulletPrefab;  // 在 Inspector 中指定
+
+void Shoot()
+{
+    GameObject bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+    bullet.GetComponent&lt;Rigidbody2D&gt;().velocity = Vector2.right * 10f;
+    Destroy(bullet, 3f);  // 3秒後自動銷毀，避免記憶體洩漏
+}</pre>
+</div>
+
+<div class="chapter">
+  <h2>第五章：物理系統入門</h2>
+  <p>Unity 內建了強大的物理引擎。2D 遊戲使用 Physics2D 系統，只需要加上 Rigidbody2D 和 Collider2D 就能實現真實的物理效果。</p>
+
+  <h3>5.1 設定物理</h3>
+  <pre>設定角色物理：
+1. 選中 Player GameObject
+2. Add Component → Rigidbody2D
+   - Body Type: Dynamic（受力影響）
+   - Gravity Scale: 1（正常重力）
+   - Freeze Rotation Z: ✅（防止旋轉）
+3. Add Component → BoxCollider2D
+   - 調整 Size 符合角色大小
+
+設定地面：
+1. 選中 Ground GameObject
+2. Add Component → BoxCollider2D（不需要 Rigidbody）</pre>
+
+  <h3>5.2 碰撞偵測</h3>
+  <pre>// 碰撞回呼（兩個物件都有 Collider，至少一個有 Rigidbody）
+void OnCollisionEnter2D(Collision2D collision)
+{
+    if (collision.gameObject.CompareTag("Enemy"))
+    {
+        Debug.Log("碰到敵人！");
+        // 處理受傷邏輯
+    }
+}
+
+// 觸發器回呼（Collider 勾選 Is Trigger）
+void OnTriggerEnter2D(Collider2D other)
+{
+    if (other.CompareTag("Coin"))
+    {
+        score += 10;
+        Destroy(other.gameObject);
+    }
+}</pre>
+  <div class="tip">💡 Collision = 物理碰撞（會彈開）；Trigger = 觸發器（穿過去但偵測到）。撿金幣、進入區域用 Trigger。</div>
+</div>
+
+<div class="chapter">
+  <h2>第六章：UI 系統</h2>
+  <p>Unity 的 UI 系統基於 Canvas。所有 UI 元素（按鈕、文字、圖片）都必須是 Canvas 的子物件。</p>
+
+  <h3>6.1 建立 UI</h3>
+  <pre>建立 UI 步驟：
+1. Hierarchy 右鍵 → UI → Canvas
+   - Canvas Scaler → Scale With Screen Size
+   - Reference Resolution: 1920 x 1080
+2. Canvas 右鍵 → UI → Text - TextMeshPro
+   - 輸入 "Score: 0"
+3. Canvas 右鍵 → UI → Button - TextMeshPro
+   - 子物件 Text 改為 "開始遊戲"</pre>
+
+  <h3>6.2 用腳本控制 UI</h3>
+  <pre>using UnityEngine;
+using TMPro;
+
+public class UIManager : MonoBehaviour
+{
+    public TextMeshProUGUI scoreText;
+    public GameObject gameOverPanel;
+
+    private int score = 0;
+
+    public void AddScore(int points)
+    {
+        score += points;
+        scoreText.text = "Score: " + score;
+    }
+
+    public void ShowGameOver()
+    {
+        gameOverPanel.SetActive(true);
+        Time.timeScale = 0f;  // 暫停遊戲
+    }
+
+    public void RestartGame()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+}</pre>
+</div>
+
+<div class="chapter">
+  <h2>第七章：動畫系統</h2>
+  <p>Unity 的 Animator 系統使用狀態機控制動畫切換。2D 遊戲常用 Sprite Animation（圖序動畫）。</p>
+
+  <h3>7.1 建立 Sprite 動畫</h3>
+  <pre>步驟：
+1. 選中角色 → Window → Animation → Animation
+2. Create → 命名 "PlayerIdle.anim"
+3. 把圖片序列拖到時間軸
+4. 調整 Samples（幀率），通常 8-12 FPS
+
+常見動畫狀態：
+Idle → Run → Jump → Fall → Idle（循環）</pre>
+
+  <h3>7.2 Animator Controller</h3>
+  <pre>// 透過程式控制動畫切換
+Animator anim = GetComponent&lt;Animator&gt;();
+
+// 設定參數
+anim.SetFloat("Speed", Mathf.Abs(h));     // 移動速度
+anim.SetBool("IsGrounded", isGrounded);    // 是否著地
+anim.SetTrigger("Jump");                    // 觸發跳躍動畫
+anim.SetTrigger("Attack");                  // 觸發攻擊動畫</pre>
+</div>
+
+<div class="chapter">
+  <h2>第八章：音效與粒子特效</h2>
+
+  <h3>8.1 音效播放</h3>
+  <pre>public class SoundManager : MonoBehaviour
+{
+    public static SoundManager Instance;
+    public AudioClip jumpSound;
+    public AudioClip coinSound;
+    public AudioClip bgm;
+
+    private AudioSource audioSource;
+
+    void Awake()
+    {
+        Instance = this;
+        audioSource = GetComponent&lt;AudioSource&gt;();
+        audioSource.clip = bgm;
+        audioSource.loop = true;
+        audioSource.Play();
+    }
+
+    public void PlaySFX(AudioClip clip)
+    {
+        audioSource.PlayOneShot(clip);  // 不中斷 BGM
+    }
+}
+
+// 其他腳本中呼叫
+SoundManager.Instance.PlaySFX(SoundManager.Instance.jumpSound);</pre>
+
+  <h3>8.2 粒子特效</h3>
+  <p>Hierarchy 右鍵 → Effects → Particle System。常用場景：爆炸、煙霧、撿取金幣閃光、角色著地灰塵。</p>
+  <pre>// 在碰撞時播放粒子特效
+public GameObject explosionPrefab;
+
+void OnDestroy()
+{
+    Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+}</pre>
+</div>
+
+<div class="chapter">
+  <h2>第九章：場景管理與切換</h2>
+  <pre>using UnityEngine.SceneManagement;
+
+// 載入場景（需先在 Build Settings 中加入場景）
+SceneManager.LoadScene("GameScene");           // 用名稱
+SceneManager.LoadScene(1);                      // 用索引
+
+// 重新載入當前場景
+SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+
+// 非同步載入（適合大場景 + Loading 畫面）
+StartCoroutine(LoadAsync("GameScene"));
+
+IEnumerator LoadAsync(string sceneName)
+{
+    AsyncOperation op = SceneManager.LoadSceneAsync(sceneName);
+    while (!op.isDone)
+    {
+        float progress = Mathf.Clamp01(op.progress / 0.9f);
+        loadingBar.value = progress;  // 更新進度條
+        yield return null;
+    }
+}</pre>
+</div>
+
+<div class="chapter">
+  <h2>第十章：Build 打包與發布</h2>
+
+  <h3>10.1 打包步驟</h3>
+  <pre>File → Build Settings
+1. 加入所有場景（Scenes In Build）
+2. 選擇平台：
+   - PC/Mac → Build And Run
+   - Android → 需安裝 Android SDK
+   - iOS → 需要 Mac + Xcode
+3. Player Settings 設定：
+   - Company Name / Product Name
+   - Icon
+   - Resolution
+   - Bundle Identifier (com.你的名字.遊戲名)
+4. 點 Build</pre>
+
+  <h3>10.2 手機遊戲注意事項</h3>
+  <ul>
+    <li>Texture Compression：Android 用 ETC2，iOS 用 ASTC</li>
+    <li>Target API Level：Android 至少 API 33</li>
+    <li>最低 iOS 版本：建議 iOS 14+</li>
+    <li>測試多種解析度和機型</li>
+  </ul>
+</div>
+
+<div class="chapter">
+  <h2>附錄 A：常用快捷鍵</h2>
+  <pre>Ctrl + S          儲存場景
+Ctrl + Z          復原
+Ctrl + P          Play / 停止
+Ctrl + Shift + P  暫停
+W / E / R / T     移動/旋轉/縮放/矩形 工具
+F                  聚焦選中物件
+Ctrl + D          複製物件
+Delete             刪除物件
+Ctrl + Shift + N  建立空 GameObject
+Alt + 左鍵        旋轉場景視角
+滾輪               縮放場景視角</pre>
+</div>
+
+<div class="chapter">
+  <h2>附錄 B：推薦學習資源</h2>
+  <ul>
+    <li><strong>Unity Learn</strong> (learn.unity.com) — 官方免費教學</li>
+    <li><strong>Unity Manual</strong> (docs.unity3d.com) — 官方文件</li>
+    <li><strong>Brackeys YouTube</strong> — 經典 Unity 教學頻道</li>
+    <li><strong>Catlike Coding</strong> — 深度 Unity 教學</li>
+    <li><strong>Game Programming Patterns</strong> (gameprogrammingpatterns.com) — 遊戲設計模式</li>
+  </ul>
+</div>
+
+<div class="footer">
+  <p>🎮 Unity 入門完整指南 — Frank Dev Blog</p>
+  <p>© 2026 Frank · a8398433@gmail.com · 免費分享，歡迎轉發</p>
+</div>
+
+</body>
+</html>

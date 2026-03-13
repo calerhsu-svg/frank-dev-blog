@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Unity 入門完全ガイド — Frank Dev</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI','Hiragino Kaku Gothic Pro','Meiryo',sans-serif;background:#fff;color:#1a2040;line-height:1.8;max-width:800px;margin:0 auto;padding:40px 32px}
+@media print{body{padding:20px;font-size:12px}h1{font-size:24px}h2{font-size:18px}h3{font-size:14px}.cover{page-break-after:always}.chapter{page-break-before:always}}
+.cover{text-align:center;padding:120px 0 80px;border-bottom:3px solid #3B5BDB}
+.cover .icon{font-size:80px;margin-bottom:20px}
+.cover h1{font-size:36px;font-weight:900;color:#3B5BDB;margin-bottom:12px}
+.cover .sub{font-size:16px;color:#4A5580;margin-bottom:40px}
+.cover .author{font-size:14px;color:#4A5580;border-top:1px solid #D0DAF5;padding-top:20px;margin-top:40px}
+.toc{margin:40px 0;padding:28px;background:#F0F4FF;border-radius:12px}
+.toc h2{font-size:20px;font-weight:800;color:#3B5BDB;margin-bottom:16px}
+.toc ol{padding-left:24px}
+.toc li{padding:4px 0;font-size:14px;color:#4A5580}
+.chapter{margin-top:48px}
+h2{font-size:22px;font-weight:800;color:#3B5BDB;margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid #E0E8FF}
+h3{font-size:16px;font-weight:700;color:#1a2040;margin:24px 0 8px}
+p{font-size:14px;color:#4A5580;margin-bottom:14px}
+pre{background:#F0F4FF;border:1px solid #D0DAF5;border-radius:8px;padding:16px;font-size:12px;overflow-x:auto;margin:12px 0 16px;line-height:1.6;font-family:'Courier New',monospace;color:#1a2040}
+.tip{background:#22C55E11;border-left:4px solid #22C55E;padding:12px 16px;border-radius:0 8px 8px 0;margin:14px 0;font-size:13px;color:#166534}
+.warn{background:#F59E0B11;border-left:4px solid #F59E0B;padding:12px 16px;border-radius:0 8px 8px 0;margin:14px 0;font-size:13px;color:#92400E}
+.footer{margin-top:60px;padding-top:20px;border-top:2px solid #E0E8FF;text-align:center;font-size:12px;color:#4A5580}
+ul{padding-left:20px;margin-bottom:14px}
+li{font-size:14px;color:#4A5580;padding:2px 0}
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="icon">🎮</div>
+  <h1>Unity 入門完全ガイド</h1>
+  <div class="sub">ゼロから始めるUnityゲーム開発の旅<br>環境構築 · C#基礎 · 初めてのゲーム</div>
+  <div class="author">著者：Frank · frank-dev-blog<br>バージョン：2026.03 · 無料配布<br>✉️ a8398433@gmail.com</div>
+</div>
+
+<div class="toc">
+  <h2>📋 目次</h2>
+  <ol>
+    <li>Unityのインストールと環境設定</li>
+    <li>インターフェースガイド</li>
+    <li>C#プログラミング基礎</li>
+    <li>GameObjectとComponent</li>
+    <li>物理システム入門</li>
+    <li>UIシステム (Canvas, Button, Text)</li>
+    <li>アニメーションシステム (Animator)</li>
+    <li>オーディオとパーティクル</li>
+    <li>シーン管理と切り替え</li>
+    <li>ビルドと公開</li>
+    <li>付録A：よく使うショートカット</li>
+    <li>付録B：おすすめ学習リソース</li>
+  </ol>
+</div>
+
+<div class="chapter">
+  <h2>第1章：Unityのインストールと環境設定</h2>
+  <p>Unityは世界で最も人気のあるゲームエンジンの一つで、2D/3Dゲーム開発、AR/VR、シミュレーションなど幅広い用途に対応しています。</p>
+  <h3>1.1 Unity Hubのダウンロード</h3>
+  <p>Unity公式サイト（unity.com）からUnity Hubをダウンロードします。Hubはバージョン管理とプロジェクト管理の統合ツールです。LTS（長期サポート版）の使用を推奨します。</p>
+  <div class="tip">💡 初心者はLTSバージョン（例：2022.3 LTS）を選びましょう。Tech Streamは不安定な新機能が含まれる場合があります。</div>
+  <h3>1.2 最初のプロジェクト作成</h3>
+  <pre>プロジェクト設定の推奨：
+├── プロジェクト名：MyFirstGame
+├── テンプレート：2D (Built-in Render Pipeline)
+├── 保存先：デスクトップ/UnityProjects/
+└── Unityバージョン：2022.3 LTS
+
+自動作成されるディレクトリ構造：
+Assets/          ← すべてのゲームリソース
+Library/         ← Unityキャッシュ（手動変更禁止）
+Packages/        ← パッケージ管理
+ProjectSettings/ ← プロジェクト設定</pre>
+  <h3>1.3 インターフェース概要</h3>
+  <ul>
+    <li><strong>Scene</strong>：シーン編集ウィンドウ</li>
+    <li><strong>Game</strong>：ゲームプレビューウィンドウ</li>
+    <li><strong>Hierarchy</strong>：オブジェクト階層</li>
+    <li><strong>Inspector</strong>：プロパティパネル</li>
+    <li><strong>Project</strong>：アセット管理</li>
+  </ul>
+</div>
+
+<div class="chapter">
+  <h2>第2章：インターフェースガイド</h2>
+  <h3>2.1 シーンナビゲーション</h3>
+  <pre>シーンビューの操作：
+  マウス中ボタンドラッグ → パン
+  スクロール           → ズーム
+  Alt + 左ボタン       → 回転（3D）
+  Fキー               → 選択オブジェクトにフォーカス</pre>
+  <h3>2.2 Transformツール</h3>
+  <ul>
+    <li><strong>W</strong>：移動ツール（Move）</li>
+    <li><strong>E</strong>：回転ツール（Rotate）</li>
+    <li><strong>R</strong>：スケールツール（Scale）</li>
+    <li><strong>T</strong>：矩形ツール（Rect）— UI要素用</li>
+  </ul>
+  <h3>2.3 Playモード</h3>
+  <p>上部ツールバーのPlayボタン（またはCtrl+P）でゲームモードに入ります。</p>
+  <div class="warn">⚠️ 注意：Playモード中の変更は停止後にすべて消えます！必ず停止してから編集してください。</div>
+</div>
+
+<div class="chapter">
+  <h2>第3章：C#プログラミング基礎</h2>
+  <h3>3.1 最初のスクリプト</h3>
+  <pre>using UnityEngine;
+
+public class PlayerController : MonoBehaviour
+{
+    // publicの変数はInspectorに表示されます
+    public float speed = 5f;
+    public float jumpForce = 10f;
+
+    // Start は最初のフレームの前に一度だけ呼ばれます
+    void Start()
+    {
+        Debug.Log("ゲーム開始！");
+    }
+
+    // Update は毎フレーム呼ばれます
+    void Update()
+    {
+        float h = Input.GetAxis("Horizontal");
+        transform.Translate(Vector3.right * h * speed * Time.deltaTime);
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            GetComponent&lt;Rigidbody2D&gt;().AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+        }
+    }
+}</pre>
+  <h3>3.2 重要な概念</h3>
+  <ul>
+    <li><strong>MonoBehaviour</strong>：すべてのUnityスクリプトの基底クラス</li>
+    <li><strong>Start()</strong>：初期化、一度だけ実行</li>
+    <li><strong>Update()</strong>：毎フレーム実行</li>
+    <li><strong>Time.deltaTime</strong>：フレーム間隔時間</li>
+  </ul>
+  <h3>3.3 よく使うAPI</h3>
+  <pre>// コンポーネントの取得
+Rigidbody2D rb = GetComponent&lt;Rigidbody2D&gt;();
+
+// オブジェクト検索
+GameObject player = GameObject.Find("Player");
+GameObject enemy = GameObject.FindWithTag("Enemy");
+
+// 生成と破棄
+Instantiate(prefab, position, rotation);
+Destroy(gameObject);
+Destroy(gameObject, 2f);    // 2秒後に破棄
+
+// 定期呼び出し
+InvokeRepeating("SpawnEnemy", 1f, 2f);
+StartCoroutine(MyCoroutine());</pre>
+</div>
+
+<div class="chapter">
+  <h2>第4章：GameObjectとComponent</h2>
+  <p>Unityの核心は「すべてはGameObject、機能はComponentで追加」という設計思想です。</p>
+  <h3>4.1 よく使うComponent</h3>
+  <ul>
+    <li><strong>Transform</strong>：位置・回転・スケール（必須）</li>
+    <li><strong>SpriteRenderer</strong>：2D画像描画</li>
+    <li><strong>Rigidbody2D</strong>：2D物理</li>
+    <li><strong>Collider2D</strong>：2D当たり判定</li>
+    <li><strong>AudioSource</strong>：音声再生</li>
+    <li><strong>Animator</strong>：アニメーション制御</li>
+  </ul>
+  <h3>4.2 Prefab</h3>
+  <pre>// Prefabの生成
+public GameObject bulletPrefab;
+
+void Shoot()
+{
+    GameObject bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+    bullet.GetComponent&lt;Rigidbody2D&gt;().velocity = Vector2.right * 10f;
+    Destroy(bullet, 3f);
+}</pre>
+</div>
+
+<div class="chapter">
+  <h2>第5章：物理システム入門</h2>
+  <h3>5.1 物理設定</h3>
+  <pre>キャラクター物理の設定：
+1. PlayerのGameObjectを選択
+2. Add Component → Rigidbody2D
+   - Body Type: Dynamic
+   - Gravity Scale: 1
+   - Freeze Rotation Z: ✅
+3. Add Component → BoxCollider2D</pre>
+  <h3>5.2 衝突判定</h3>
+  <pre>void OnCollisionEnter2D(Collision2D collision)
+{
+    if (collision.gameObject.CompareTag("Enemy"))
+    {
+        Debug.Log("敵に接触！");
+    }
+}
+
+void OnTriggerEnter2D(Collider2D other)
+{
+    if (other.CompareTag("Coin"))
+    {
+        score += 10;
+        Destroy(other.gameObject);
+    }
+}</pre>
+  <div class="tip">💡 Collision＝物理衝突（跳ね返る）、Trigger＝トリガー（通過するが検知する）。コイン取得やエリア侵入にはTriggerを使います。</div>
+</div>
+
+<div class="chapter">
+  <h2>第6章：UIシステム</h2>
+  <h3>6.1 UI作成手順</h3>
+  <pre>1. Hierarchy右クリック → UI → Canvas
+   - Canvas Scaler → Scale With Screen Size
+   - Reference Resolution: 1920 x 1080
+2. Canvas右クリック → UI → Text - TextMeshPro
+3. Canvas右クリック → UI → Button - TextMeshPro</pre>
+  <h3>6.2 スクリプトでUI制御</h3>
+  <pre>using UnityEngine;
+using TMPro;
+
+public class UIManager : MonoBehaviour
+{
+    public TextMeshProUGUI scoreText;
+    public GameObject gameOverPanel;
+    private int score = 0;
+
+    public void AddScore(int points)
+    {
+        score += points;
+        scoreText.text = "Score: " + score;
+    }
+
+    public void ShowGameOver()
+    {
+        gameOverPanel.SetActive(true);
+        Time.timeScale = 0f;
+    }
+}</pre>
+</div>
+
+<div class="chapter">
+  <h2>第7章：アニメーションシステム</h2>
+  <h3>7.1 スプライトアニメーション作成</h3>
+  <pre>手順：
+1. キャラクター選択 → Window → Animation → Animation
+2. Create → "PlayerIdle.anim" と命名
+3. 画像シーケンスをタイムラインにドラッグ
+4. Samples（フレームレート）を調整：通常8-12 FPS</pre>
+  <h3>7.2 Animator Controller</h3>
+  <pre>Animator anim = GetComponent&lt;Animator&gt;();
+anim.SetFloat("Speed", Mathf.Abs(h));
+anim.SetBool("IsGrounded", isGrounded);
+anim.SetTrigger("Jump");
+anim.SetTrigger("Attack");</pre>
+</div>
+
+<div class="chapter">
+  <h2>第8章：オーディオとパーティクル</h2>
+  <h3>8.1 音声再生</h3>
+  <pre>public class SoundManager : MonoBehaviour
+{
+    public static SoundManager Instance;
+    public AudioClip jumpSound;
+    public AudioClip bgm;
+    private AudioSource audioSource;
+
+    void Awake()
+    {
+        Instance = this;
+        audioSource = GetComponent&lt;AudioSource&gt;();
+        audioSource.clip = bgm;
+        audioSource.loop = true;
+        audioSource.Play();
+    }
+
+    public void PlaySFX(AudioClip clip)
+    {
+        audioSource.PlayOneShot(clip);
+    }
+}</pre>
+  <h3>8.2 パーティクルエフェクト</h3>
+  <pre>public GameObject explosionPrefab;
+
+void OnDestroy()
+{
+    Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+}</pre>
+</div>
+
+<div class="chapter">
+  <h2>第9章：シーン管理</h2>
+  <pre>using UnityEngine.SceneManagement;
+
+SceneManager.LoadScene("GameScene");
+SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+
+IEnumerator LoadAsync(string sceneName)
+{
+    AsyncOperation op = SceneManager.LoadSceneAsync(sceneName);
+    while (!op.isDone)
+    {
+        float progress = Mathf.Clamp01(op.progress / 0.9f);
+        loadingBar.value = progress;
+        yield return null;
+    }
+}</pre>
+</div>
+
+<div class="chapter">
+  <h2>第10章：ビルドと公開</h2>
+  <pre>File → Build Settings
+1. すべてのシーンを追加（Scenes In Build）
+2. プラットフォーム選択：
+   - PC/Mac → Build And Run
+   - Android → Android SDK必要
+   - iOS → Mac + Xcode必要
+3. Player Settings：
+   - Company Name / Product Name
+   - Icon / Resolution
+   - Bundle Identifier</pre>
+</div>
+
+<div class="chapter">
+  <h2>付録A：よく使うショートカット</h2>
+  <pre>Ctrl + S          シーン保存
+Ctrl + Z          元に戻す
+Ctrl + P          Play/停止
+W / E / R / T     移動/回転/スケール/矩形
+F                 選択オブジェクトにフォーカス
+Ctrl + D          オブジェクト複製
+Delete            オブジェクト削除</pre>
+</div>
+
+<div class="chapter">
+  <h2>付録B：おすすめ学習リソース</h2>
+  <ul>
+    <li><strong>Unity Learn</strong> (learn.unity.com) — 公式無料チュートリアル</li>
+    <li><strong>Unity Manual</strong> (docs.unity3d.com) — 公式ドキュメント</li>
+    <li><strong>Brackeys YouTube</strong> — 定番Unity教材チャンネル</li>
+    <li><strong>Catlike Coding</strong> — 深掘りUnityチュートリアル</li>
+    <li><strong>Game Programming Patterns</strong> — ゲームデザインパターン</li>
+  </ul>
+</div>
+
+<div class="footer">
+  <p>🎮 Unity 入門完全ガイド — Frank Dev Blog</p>
+  <p>© 2026 Frank · a8398433@gmail.com · 無料配布・転送歓迎</p>
+</div>
+
+</body>
+</html>

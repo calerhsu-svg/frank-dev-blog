@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>ゲームアーキテクチャ設計パターン — Frank Dev</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI','Hiragino Kaku Gothic Pro','Meiryo',sans-serif;background:#fff;color:#1a2040;line-height:1.8;max-width:800px;margin:0 auto;padding:40px 32px}
+@media print{body{padding:20px;font-size:12px}.cover{page-break-after:always}.chapter{page-break-before:always}}
+.cover{text-align:center;padding:100px 0 60px;border-bottom:3px solid #3B5BDB}
+.cover .icon{font-size:80px;margin-bottom:20px}
+.cover h1{font-size:32px;font-weight:900;color:#3B5BDB;margin-bottom:12px}
+.cover .sub{font-size:16px;color:#4A5580;margin-bottom:8px}
+.cover .price{font-size:14px;color:#E03131;font-weight:700;margin-bottom:40px}
+.cover .author{font-size:14px;color:#4A5580;border-top:1px solid #D0DAF5;padding-top:20px;margin-top:40px}
+.toc{margin:40px 0;padding:28px;background:#F0F4FF;border-radius:12px}
+.toc h2{font-size:20px;font-weight:800;color:#3B5BDB;margin-bottom:16px}
+.toc ol{padding-left:24px}.toc li{padding:4px 0;font-size:14px;color:#4A5580}
+.chapter{margin-top:48px}
+h2{font-size:22px;font-weight:800;color:#3B5BDB;margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid #E0E8FF}
+h3{font-size:16px;font-weight:700;color:#1a2040;margin:24px 0 8px}
+p{font-size:14px;color:#4A5580;margin-bottom:14px}
+pre{background:#F0F4FF;border:1px solid #D0DAF5;border-radius:8px;padding:16px;font-size:12px;overflow-x:auto;margin:12px 0 16px;line-height:1.6;font-family:'Courier New',monospace;color:#1a2040}
+.tip{background:#22C55E11;border-left:4px solid #22C55E;padding:12px 16px;border-radius:0 8px 8px 0;margin:14px 0;font-size:13px;color:#166534}
+.warn{background:#F59E0B11;border-left:4px solid #F59E0B;padding:12px 16px;border-radius:0 8px 8px 0;margin:14px 0;font-size:13px;color:#92400E}
+.footer{margin-top:60px;padding-top:20px;border-top:2px solid #E0E8FF;text-align:center;font-size:12px;color:#4A5580}
+ul{padding-left:20px;margin-bottom:14px}li{font-size:14px;color:#4A5580;padding:2px 0}
+</style>
+</head>
+<body>
+<div class="cover">
+  <div class="icon">🏗️</div>
+  <h1>ゲームアーキテクチャ設計パターン</h1>
+  <div class="sub">保守性・拡張性の高いゲームプログラム設計</div>
+  <div class="price">NT$1,490 有料コース</div>
+  <div class="author">著者：Frank · frank-dev-blog<br>バージョン：2026.03<br>✉️ a8398433@gmail.com</div>
+</div>
+<div class="toc">
+  <h2>📋 目次</h2>
+  <ol>
+    <li>なぜアーキテクチャが必要か</li>
+    <li>シングルトンとグローバルマネージャー</li>
+    <li>オブザーバーパターンとイベントシステム</li>
+    <li>ステートマシン(FSM)</li>
+    <li>オブジェクトプール</li>
+    <li>MVC/MVVMのゲーム応用</li>
+    <li>リソース管理と設定システム</li>
+    <li>実践：完全なゲームアーキテクチャ</li>
+  </ol>
+</div>
+<div class="chapter">
+  <h2>第1章：なぜアーキテクチャが必要か</h2>
+  <pre>// ❌ アーキテクチャなし：すべてが一箇所に
+public class Player : MonoBehaviour {
+    void Update() {
+        HandleInput();
+        HandleMovement();
+        HandleUI();          // なぜPlayerがUIを管理？
+        HandleSound();       // なぜPlayerがサウンドを管理？
+    }
+}
+
+// ✅ 責務分離
+// InputManager → 入力処理
+// PlayerController → 移動処理
+// UIManager → UI処理
+// AudioManager → サウンド処理</pre>
+</div>
+<div class="chapter">
+  <h2>第2章：シングルトン</h2>
+  <pre>public abstract class Singleton&lt;T&gt; : MonoBehaviour where T : MonoBehaviour
+{
+    private static T _instance;
+    public static T Instance {
+        get {
+            if (_instance == null) {
+                _instance = FindObjectOfType&lt;T&gt;();
+                if (_instance == null) {
+                    var go = new GameObject(typeof(T).Name);
+                    _instance = go.AddComponent&lt;T&gt;();
+                    DontDestroyOnLoad(go);
+                }
+            }
+            return _instance;
+        }
+    }
+}
+
+public class AudioManager : Singleton&lt;AudioManager&gt; { }</pre>
+  <div class="warn">⚠️ シングルトンは使いすぎ注意。本当にグローバルなシステムのみに使用。</div>
+</div>
+<div class="chapter">
+  <h2>第3章：イベントシステム</h2>
+  <pre>public static class EventBus
+{
+    static Dictionary&lt;string, Action&lt;object&gt;&gt; events = new();
+
+    public static void Subscribe(string name, Action&lt;object&gt; handler) {
+        if (!events.ContainsKey(name)) events[name] = null;
+        events[name] += handler;
+    }
+
+    public static void Publish(string name, object data = null) {
+        if (events.ContainsKey(name)) events[name]?.Invoke(data);
+    }
+}
+
+// 使用例
+EventBus.Subscribe("player-died", (data) => {
+    UIManager.Instance.ShowGameOver();
+});
+EventBus.Publish("player-died");</pre>
+  <div class="tip">💡 イベントシステムはモジュール間の依存を解消します。</div>
+</div>
+<div class="chapter">
+  <h2>第4章：ステートマシン(FSM)</h2>
+  <pre>public abstract class State {
+    public virtual void Enter() { }
+    public virtual void Update() { }
+    public virtual void Exit() { }
+}
+
+public class StateMachine {
+    private State current;
+    public void ChangeState(State s) {
+        current?.Exit();
+        current = s;
+        current.Enter();
+    }
+    public void Update() => current?.Update();
+}
+
+// 敵AI：Patrol → Chase → Attack</pre>
+</div>
+<div class="chapter">
+  <h2>第5章：オブジェクトプール</h2>
+  <pre>public class ObjectPool&lt;T&gt; where T : MonoBehaviour {
+    Queue&lt;T&gt; pool = new();
+    T prefab;
+
+    public T Get() {
+        T obj = pool.Count > 0 ? pool.Dequeue() : Object.Instantiate(prefab);
+        obj.gameObject.SetActive(true);
+        return obj;
+    }
+
+    public void Return(T obj) {
+        obj.gameObject.SetActive(false);
+        pool.Enqueue(obj);
+    }
+}</pre>
+</div>
+<div class="chapter">
+  <h2>第6章：MVC/MVVMのゲーム応用</h2>
+  <pre>// Model（データ）
+public class PlayerModel {
+    public int HP { get; set; } = 100;
+    public event Action OnDataChanged;
+    public void TakeDamage(int d) { HP -= d; OnDataChanged?.Invoke(); }
+}
+
+// View（UI表示）
+public class PlayerView : MonoBehaviour {
+    public void UpdateView(PlayerModel m) {
+        hpText.text = $"{m.HP}/100";
+    }
+}
+
+// Controller（ロジック）
+// ModelとViewを接続</pre>
+</div>
+<div class="chapter">
+  <h2>第7章：リソース管理</h2>
+  <pre>[CreateAssetMenu(menuName = "Config/Enemy")]
+public class EnemyConfig : ScriptableObject {
+    public string enemyName;
+    public int hp;
+    public float speed;
+}
+// ScriptableObjectで設定をデータ駆動に</pre>
+</div>
+<div class="chapter">
+  <h2>第8章：完全なゲームアーキテクチャ</h2>
+  <pre>┌────────────────────────────────┐
+│        GameManager（入口）       │
+├──────┬──────┬──────┬──────────┤
+│Audio │Scene │Save  │EventBus  │
+├──────┴──────┴──────┴──────────┤
+│        GamePlay Layer          │
+│  Player │ Enemy │ Level       │
+├────────────────────────────────┤
+│        UI Layer (MVC)          │
+│  HUD │ Menu │ Shop │ Popup    │
+└────────────────────────────────┘</pre>
+</div>
+<div class="footer">
+  <p>🏗️ ゲームアーキテクチャ設計パターン — Frank Dev Blog</p>
+  <p>© 2026 Frank · a8398433@gmail.com · 有料コース・再配布禁止</p>
+</div>
+</body>
+</html>

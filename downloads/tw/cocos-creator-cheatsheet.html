@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Cocos Creator 快速上手 Cheatsheet — Frank Dev</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI','Microsoft JhengHei','PingFang TC',sans-serif;background:#fff;color:#1a2040;line-height:1.7;max-width:900px;margin:0 auto;padding:32px 28px}
+@media print{body{padding:16px;font-size:11px;max-width:100%}.section{page-break-inside:avoid}h1{font-size:22px}}
+h1{font-size:28px;font-weight:900;color:#3B5BDB;text-align:center;margin-bottom:6px}
+.sub{text-align:center;color:#4A5580;font-size:13px;margin-bottom:28px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:700px){.grid{grid-template-columns:1fr}}
+.section{background:#F7F9FF;border:1.5px solid #D0DAF5;border-radius:12px;padding:18px;margin-bottom:16px}
+.section h2{font-size:15px;font-weight:800;color:#3B5BDB;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.section h3{font-size:12px;font-weight:700;margin:12px 0 4px;color:#1a2040}
+pre{background:#E8EDFF;border-radius:6px;padding:10px 12px;font-size:11px;overflow-x:auto;margin:6px 0 8px;line-height:1.5;font-family:'Courier New',monospace;color:#1a2040}
+.note{font-size:11px;color:#22C55E;font-weight:600;margin:4px 0}
+.footer{margin-top:28px;text-align:center;font-size:11px;color:#4A5580;border-top:1px solid #D0DAF5;padding-top:16px}
+</style>
+</head>
+<body>
+
+<h1>🥥 Cocos Creator 3.x Cheatsheet</h1>
+<div class="sub">快速上手速查表 — 常用 API · 生命週期 · 設計模式 | Frank Dev Blog</div>
+
+<div class="grid">
+
+<div class="section">
+  <h2>📌 節點操作 API</h2>
+  <pre>// 取得節點
+this.node                          // 當前節點
+this.node.parent                   // 父節點
+this.node.children                 // 子節點陣列
+find("Canvas/Player")              // 全域路徑搜尋
+this.node.getChildByName("Weapon") // 依名稱
+
+// 位置 / 旋轉 / 縮放
+this.node.setPosition(100, 200, 0)
+this.node.getPosition()            // 回傳 Vec3
+this.node.setRotationFromEuler(0, 0, 45)
+this.node.setScale(2, 2, 1)
+
+// 啟用 / 停用
+this.node.active = true   // 顯示
+this.node.active = false  // 隱藏（含子節點）
+
+// 新增 / 移除子節點
+parentNode.addChild(childNode)
+childNode.removeFromParent()
+this.node.destroyAllChildren()</pre>
+</div>
+
+<div class="section">
+  <h2>🔄 生命週期回調</h2>
+  <pre>onLoad()      // 節點初始化（只一次）
+              // 適合：取得 Component 引用
+
+start()       // 第一次 update 前
+              // 適合：初始化邏輯
+
+onEnable()    // 節點啟用時
+onDisable()   // 節點停用時
+
+update(dt)    // 每幀呼叫
+              // dt = delta time (秒)
+
+lateUpdate(dt)// update 之後
+              // 適合：攝影機跟隨
+
+onDestroy()   // 節點銷毀時
+              // 適合：清理事件監聽</pre>
+  <div class="note">⚡ 執行順序：onLoad → onEnable → start → update → lateUpdate</div>
+</div>
+
+<div class="section">
+  <h2>📡 事件系統</h2>
+  <pre>// 節點事件
+this.node.on(Node.EventType.TOUCH_START, (e) => {
+    console.log("觸摸開始", e.getUILocation())
+}, this)
+
+this.node.on(Node.EventType.TOUCH_MOVE, cb, this)
+this.node.on(Node.EventType.TOUCH_END, cb, this)
+
+// 自訂事件
+this.node.emit("my-event", data)
+this.node.on("my-event", (data) => {}, this)
+
+// 全域事件（跨節點通訊）
+director.on("game-over", handler, this)
+director.emit("game-over", { score: 100 })
+
+// 移除事件（防止記憶體洩漏！）
+this.node.off(Node.EventType.TOUCH_START, cb, this)
+director.off("game-over", handler, this)</pre>
+  <div class="note">⚠️ 務必在 onDestroy() 中移除監聽</div>
+</div>
+
+<div class="section">
+  <h2>✨ 動畫 & Tween</h2>
+  <pre>import { tween, Vec3, Quat } from 'cc'
+
+// 基本 Tween
+tween(this.node)
+    .to(1, { position: new Vec3(100, 200, 0) })
+    .start()
+
+// 連續動畫
+tween(this.node)
+    .to(0.3, { scale: new Vec3(1.2, 1.2, 1) })
+    .to(0.3, { scale: new Vec3(1, 1, 1) })
+    .start()
+
+// 重複 & 永久循環
+tween(this.node)
+    .by(1, { position: new Vec3(0, 20, 0) })
+    .by(1, { position: new Vec3(0, -20, 0) })
+    .union()
+    .repeatForever()
+    .start()
+
+// 回呼
+tween(this.node)
+    .to(0.5, { opacity: 0 })
+    .call(() => this.node.destroy())
+    .start()
+
+// 緩動函數
+tween(this.node)
+    .to(1, { position }, { easing: 'quadOut' })
+    .start()
+// 可用: linear, quadIn/Out, cubicIn/Out,
+//       sineIn/Out, bounceOut, elasticOut</pre>
+</div>
+
+<div class="section">
+  <h2>⚡ 物理系統 2D</h2>
+  <pre>// 啟用物理（Project Settings → Physics 2D）
+
+// Rigidbody2D
+let rb = this.getComponent(RigidBody2D)
+rb.linearVelocity = v2(5, 0)    // 設定速度
+rb.applyForce(v2(0, 1000), v2(0,0), true)
+rb.gravityScale = 1              // 重力倍率
+
+// Collider2D 碰撞回呼
+onBeginContact(self, other, contact) {
+    console.log("碰到:", other.node.name)
+}
+onEndContact(self, other, contact) {}
+
+// 設定 Collider Group（分層碰撞）
+// Project Settings → Physics 2D → Collision Matrix
+
+// 射線檢測
+let results = PhysicsSystem2D.instance.raycast(
+    start, direction, ERaycast2DType.All
+)</pre>
+</div>
+
+<div class="section">
+  <h2>🎨 UI 元件</h2>
+  <pre>import { Label, Sprite, Button, ProgressBar,
+         EditBox, Toggle, ScrollView } from 'cc'
+
+// Label（文字）
+let label = this.getComponent(Label)
+label.string = "Score: 100"
+label.fontSize = 24
+label.color = new Color(255, 0, 0)
+
+// Sprite（圖片）
+let sp = this.getComponent(Sprite)
+sp.spriteFrame = newFrame  // 換圖
+
+// Button（按鈕）
+let btn = this.getComponent(Button)
+btn.interactable = false   // 禁用
+
+this.node.on('click', () => {
+    console.log("按鈕點擊")
+}, this)
+
+// ProgressBar（進度條）
+let bar = this.getComponent(ProgressBar)
+bar.progress = 0.75  // 0~1
+
+// 動態載入 UI Prefab
+resources.load("prefab/Dialog", Prefab, (err, pf) => {
+    let node = instantiate(pf)
+    this.node.addChild(node)
+})</pre>
+</div>
+
+<div class="section">
+  <h2>🔊 音效管理</h2>
+  <pre>import { AudioSource, resources, AudioClip } from 'cc'
+
+// 掛在常駐節點上
+let audio = this.getComponent(AudioSource)
+
+// 播放 BGM
+audio.clip = bgmClip
+audio.loop = true
+audio.volume = 0.5
+audio.play()
+
+// 播放 SFX（不中斷 BGM）
+audio.playOneShot(sfxClip, 1.0)
+
+// 動態載入音效
+resources.load("audio/explosion", AudioClip,
+    (err, clip) => {
+        audio.playOneShot(clip)
+    }
+)
+
+// 暫停 / 繼續
+audio.pause()
+audio.resume()
+
+// 全域音量控制
+AudioSource.maxAudioChannel = 24</pre>
+</div>
+
+<div class="section">
+  <h2>🛠 常用工具函數</h2>
+  <pre>// 定時器
+this.schedule(() => {
+    this.spawnEnemy()
+}, 2)  // 每 2 秒
+
+this.scheduleOnce(() => {
+    this.showResult()
+}, 3)  // 3 秒後執行一次
+
+this.unscheduleAllCallbacks()  // 清除所有
+
+// 資源載入
+resources.load("textures/bg", SpriteFrame,
+    (err, sf) => { sprite.spriteFrame = sf })
+
+// JSON 存檔
+sys.localStorage.setItem("save",
+    JSON.stringify({ level: 3, score: 1500 }))
+let data = JSON.parse(
+    sys.localStorage.getItem("save") || "{}")
+
+// 場景切換
+director.loadScene("GameScene")
+director.loadScene("GameScene", () => {
+    console.log("場景載入完成")
+})
+
+// 常駐節點（跨場景不銷毀）
+director.addPersistRootNode(this.node)
+
+// 隨機數
+let r = Math.random()           // 0~1
+let n = Math.floor(Math.random() * 10) // 0~9
+
+// 座標轉換
+let worldPos = this.node.getWorldPosition()
+let localPos = parent.inverseTransformPoint(
+    new Vec3(), worldPos)</pre>
+</div>
+
+</div>
+
+<div class="footer">
+  <p>🥥 Cocos Creator 3.x 快速上手 Cheatsheet — Frank Dev Blog</p>
+  <p>© 2026 Frank · a8398433@gmail.com · 免費分享，歡迎轉發</p>
+  <p>建議列印或存為 PDF 隨時查閱 | Ctrl+P 列印</p>
+</div>
+
+</body>
+</html>

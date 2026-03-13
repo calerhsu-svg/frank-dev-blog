@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Cocos Creator 3.x Cheatsheet — Frank Dev</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI','Helvetica Neue',Arial,sans-serif;background:#fff;color:#1a2040;line-height:1.7;max-width:900px;margin:0 auto;padding:32px 28px}
+@media print{body{padding:16px;font-size:11px;max-width:100%}.section{page-break-inside:avoid}h1{font-size:22px}}
+h1{font-size:28px;font-weight:900;color:#3B5BDB;text-align:center;margin-bottom:6px}
+.sub{text-align:center;color:#4A5580;font-size:13px;margin-bottom:28px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:700px){.grid{grid-template-columns:1fr}}
+.section{background:#F7F9FF;border:1.5px solid #D0DAF5;border-radius:12px;padding:18px;margin-bottom:16px}
+.section h2{font-size:15px;font-weight:800;color:#3B5BDB;margin-bottom:10px}
+.section h3{font-size:12px;font-weight:700;margin:12px 0 4px;color:#1a2040}
+pre{background:#E8EDFF;border-radius:6px;padding:10px 12px;font-size:11px;overflow-x:auto;margin:6px 0 8px;line-height:1.5;font-family:'Courier New',monospace;color:#1a2040}
+.note{font-size:11px;color:#22C55E;font-weight:600;margin:4px 0}
+.footer{margin-top:28px;text-align:center;font-size:11px;color:#4A5580;border-top:1px solid #D0DAF5;padding-top:16px}
+</style>
+</head>
+<body>
+
+<h1>🥥 Cocos Creator 3.x Cheatsheet</h1>
+<div class="sub">Quick Reference — Common APIs · Lifecycle · Design Patterns | Frank Dev Blog</div>
+
+<div class="grid">
+
+<div class="section">
+  <h2>📌 Node API</h2>
+  <pre>this.node                          // Current node
+this.node.parent                   // Parent node
+this.node.children                 // Child array
+find("Canvas/Player")              // Global path search
+this.node.getChildByName("Weapon") // By name
+
+this.node.setPosition(100, 200, 0)
+this.node.getPosition()            // Returns Vec3
+this.node.setRotationFromEuler(0, 0, 45)
+this.node.setScale(2, 2, 1)
+
+this.node.active = true   // Show
+this.node.active = false  // Hide
+
+parentNode.addChild(childNode)
+childNode.removeFromParent()</pre>
+</div>
+
+<div class="section">
+  <h2>🔄 Lifecycle Hooks</h2>
+  <pre>onLoad()        // Called first, once
+onEnable()      // When enabled
+start()         // Before first update
+update(dt)      // Every frame
+lateUpdate(dt)  // After update each frame
+onDisable()     // When disabled
+onDestroy()     // When destroyed</pre>
+  <div class="note">💡 onLoad runs regardless of active state</div>
+  <h3>Scheduler</h3>
+  <pre>this.schedule(callback, interval, repeat, delay)
+this.scheduleOnce(cb, 2)  // Once after 2s
+this.unschedule(callback)
+this.unscheduleAllCallbacks()</pre>
+</div>
+
+<div class="section">
+  <h2>📡 Event System</h2>
+  <pre>this.node.on(Node.EventType.TOUCH_START, this.onTouch, this)
+this.node.off(Node.EventType.TOUCH_START, this.onTouch, this)
+
+Node.EventType.TOUCH_START
+Node.EventType.TOUCH_MOVE
+Node.EventType.TOUCH_END
+
+// Custom events
+this.node.emit('my-event', data)
+this.node.on('my-event', (data) => {}, this)
+
+// Global events
+director.on('game-over', handler)
+director.emit('game-over', score)</pre>
+</div>
+
+<div class="section">
+  <h2>✨ Tween Animation</h2>
+  <pre>import { tween, Vec3 } from 'cc'
+
+tween(this.node)
+  .to(1, { position: new Vec3(100,200,0) })
+  .start()
+
+tween(this.node)
+  .to(0.5, { scale: new Vec3(1.2,1.2,1) })
+  .to(0.5, { scale: new Vec3(1,1,1) })
+  .union()
+  .repeatForever()
+  .start()
+
+.to(1, { position: v }, { easing: 'sineOut' })
+.call(() => { console.log('Done!') })</pre>
+</div>
+
+<div class="section">
+  <h2>⚡ 2D Physics</h2>
+  <pre>import { RigidBody2D, PhysicsSystem2D } from 'cc'
+
+const rb = this.getComponent(RigidBody2D)
+rb.linearVelocity = new Vec2(5, 0)
+rb.applyForceToCenter(new Vec2(0, 500), true)
+
+onBeginContact(self, other, contact) {
+  if (other.node.name === 'Enemy')
+    this.takeDamage()
+}
+
+PhysicsSystem2D.instance.raycast(
+  start, direction, type, mask
+)</pre>
+</div>
+
+<div class="section">
+  <h2>🖼️ UI Components</h2>
+  <pre>import { Label, Button, Sprite, ProgressBar } from 'cc'
+
+const label = node.getComponent(Label)
+label.string = 'Score: 100'
+
+btn.node.on('click', this.onClick, this)
+
+const sp = node.getComponent(Sprite)
+sp.spriteFrame = newFrame
+
+const bar = node.getComponent(ProgressBar)
+bar.progress = 0.75</pre>
+</div>
+
+<div class="section">
+  <h2>🔊 Audio</h2>
+  <pre>import { AudioSource } from 'cc'
+
+const audio = node.getComponent(AudioSource)
+audio.clip = bgmClip
+audio.loop = true
+audio.play()
+
+audio.playOneShot(seClip, 1.0)
+audio.pause()
+audio.stop()
+audio.volume = 0.5</pre>
+</div>
+
+<div class="section">
+  <h2>🛠️ Utility Functions</h2>
+  <pre>import { sys, director, game } from 'cc'
+
+sys.localStorage.setItem('key', 'value')
+sys.localStorage.getItem('key')
+
+director.loadScene('GameScene')
+director.preloadScene('NextScene')
+
+view.getVisibleSize()
+Math.random() * (max - min) + min
+
+game.pause()
+game.resume()</pre>
+</div>
+
+</div>
+
+<div class="footer">
+  <p>🥥 Cocos Creator 3.x Cheatsheet — Frank Dev Blog</p>
+  <p>© 2026 Frank · a8398433@gmail.com · Free to share</p>
+</div>
+
+</body>
+</html>

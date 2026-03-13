@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>ゲームパフォーマンス最適化実践 — Frank Dev</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI','Hiragino Kaku Gothic Pro','Meiryo',sans-serif;background:#fff;color:#1a2040;line-height:1.8;max-width:800px;margin:0 auto;padding:40px 32px}
+@media print{body{padding:20px;font-size:12px}.cover{page-break-after:always}.chapter{page-break-before:always}}
+.cover{text-align:center;padding:100px 0 60px;border-bottom:3px solid #3B5BDB}
+.cover .icon{font-size:80px;margin-bottom:20px}
+.cover h1{font-size:32px;font-weight:900;color:#3B5BDB;margin-bottom:12px}
+.cover .sub{font-size:16px;color:#4A5580;margin-bottom:8px}
+.cover .price{font-size:14px;color:#E03131;font-weight:700;margin-bottom:40px}
+.cover .author{font-size:14px;color:#4A5580;border-top:1px solid #D0DAF5;padding-top:20px;margin-top:40px}
+.toc{margin:40px 0;padding:28px;background:#F0F4FF;border-radius:12px}
+.toc h2{font-size:20px;font-weight:800;color:#3B5BDB;margin-bottom:16px}
+.toc ol{padding-left:24px}.toc li{padding:4px 0;font-size:14px;color:#4A5580}
+.chapter{margin-top:48px}
+h2{font-size:22px;font-weight:800;color:#3B5BDB;margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid #E0E8FF}
+h3{font-size:16px;font-weight:700;color:#1a2040;margin:24px 0 8px}
+p{font-size:14px;color:#4A5580;margin-bottom:14px}
+pre{background:#F0F4FF;border:1px solid #D0DAF5;border-radius:8px;padding:16px;font-size:12px;overflow-x:auto;margin:12px 0 16px;line-height:1.6;font-family:'Courier New',monospace;color:#1a2040}
+.tip{background:#22C55E11;border-left:4px solid #22C55E;padding:12px 16px;border-radius:0 8px 8px 0;margin:14px 0;font-size:13px;color:#166534}
+.warn{background:#F59E0B11;border-left:4px solid #F59E0B;padding:12px 16px;border-radius:0 8px 8px 0;margin:14px 0;font-size:13px;color:#92400E}
+.footer{margin-top:60px;padding-top:20px;border-top:2px solid #E0E8FF;text-align:center;font-size:12px;color:#4A5580}
+ul{padding-left:20px;margin-bottom:14px}li{font-size:14px;color:#4A5580;padding:2px 0}
+</style>
+</head>
+<body>
+<div class="cover">
+  <div class="icon">⚡</div>
+  <h1>ゲームパフォーマンス最適化実践</h1>
+  <div class="sub">Unity &amp; Cocos パフォーマンスチューニング完全攻略</div>
+  <div class="price">NT$990 有料コース</div>
+  <div class="author">著者：Frank · frank-dev-blog<br>バージョン：2026.03<br>✉️ a8398433@gmail.com</div>
+</div>
+<div class="toc">
+  <h2>📋 目次</h2>
+  <ol>
+    <li>プロファイラー入門</li>
+    <li>Draw Call最適化とバッチ処理</li>
+    <li>メモリ管理とリソースロード戦略</li>
+    <li>物理エンジン最適化</li>
+    <li>UIパフォーマンス改善</li>
+    <li>コードレベル最適化(GC/アルゴリズム)</li>
+    <li>Shader・レンダリング最適化</li>
+    <li>実践：30fpsから60fpsへ</li>
+  </ol>
+</div>
+<div class="chapter">
+  <h2>第1章：プロファイラー入門</h2>
+  <p>最適化の第一歩は「推測ではなく計測」です。Unity ProfilerとCocosのDebugパネルを活用しましょう。</p>
+  <pre>Unity Profiler: Window → Analysis → Profiler (Ctrl+7)
+
+主要指標：
+├── CPU Usage    → フレームごとのCPU消費
+├── GPU Usage    → レンダリング消費
+├── Memory       → メモリ割り当て
+├── Rendering    → Draw Call、ポリゴン数
+└── Physics      → 物理計算消費
+
+目標値（60fps）：
+  フレーム予算 = 1000ms / 60 = 16.67ms
+  CPU &lt; 12ms
+  Draw Call &lt; 100（モバイル）
+  ポリゴン &lt; 100K（モバイル）</pre>
+  <div class="tip">💡 必ずターゲットデバイスでテストしてください。エディタの数値は実機と異なります。</div>
+</div>
+<div class="chapter">
+  <h2>第2章：Draw Call最適化</h2>
+  <pre>// Sprite Atlas でDraw Call削減
+// 最適化前：各スプライト1 Draw Call → 50 Draw Calls
+// 最適化後：Atlas全体で1 Draw Call → 1 Draw Call
+
+// 静的バッチング
+// Inspector → Static ✅（動かないオブジェクト用）
+
+// 動的バッチング
+// Project Settings → Player → Dynamic Batching ✅
+// 制限：頂点数 &lt; 300、同一マテリアル
+
+// SRP Batcher（推奨）
+// URP/HDRP で自動有効化</pre>
+</div>
+<div class="chapter">
+  <h2>第3章：メモリ管理</h2>
+  <pre>// Addressables（推奨）
+var handle = Addressables.LoadAssetAsync&lt;GameObject&gt;("enemy");
+handle.Completed += (op) => { Instantiate(op.Result); };
+
+// テクスチャ圧縮
+Android → ETC2 / ASTC
+iOS    → ASTC
+PC     → DXT5 / BC7
+
+// テクスチャサイズは2のべき乗（256, 512, 1024）
+// UIにはMipmap不要</pre>
+</div>
+<div class="chapter">
+  <h2>第4章：物理エンジン最適化</h2>
+  <pre>// Layer Collision Matrix → 不要な衝突層を無効化
+// シンプルな衝突形状を使用
+✅ BoxCollider2D, CircleCollider2D
+❌ PolygonCollider2D（頂点が多い）
+
+Rigidbody2D.sleepMode = RigidbodySleepMode2D.StartAsleep;</pre>
+</div>
+<div class="chapter">
+  <h2>第5章：UIパフォーマンス改善</h2>
+  <pre>// 1. Canvas分離（静的UI / 動的UI）
+// 2. Layout Groupのネストを避ける
+// 3. 不要なRaycast Targetを無効化
+// 4. Object Poolでリスト要素を再利用</pre>
+</div>
+<div class="chapter">
+  <h2>第6章：コードレベル最適化</h2>
+  <pre>// ❌ 毎フレームGC発生
+void Update() {
+    string text = "Score: " + score;
+}
+
+// ✅ StringBuilderで再利用
+StringBuilder sb = new StringBuilder(64);
+void Update() {
+    sb.Clear();
+    sb.Append("Score: ").Append(score);
+    scoreText.text = sb.ToString();
+}
+
+// コンポーネントキャッシュ
+Rigidbody2D rb;
+void Awake() { rb = GetComponent&lt;Rigidbody2D&gt;(); }</pre>
+</div>
+<div class="chapter">
+  <h2>第7章：Shader・レンダリング最適化</h2>
+  <pre>// モバイル向けShaderを使用
+✅ Unlit、Mobile/Diffuse
+❌ Standard Shader
+
+// Overdraw削減：半透明オブジェクトを最小限に
+// LOD（Level of Detail）：遠距離は低ポリモデル
+// Occlusion Culling：遮蔽物の裏は非レンダリング</pre>
+</div>
+<div class="chapter">
+  <h2>第8章：実践 30fps → 60fps</h2>
+  <pre>Step 1：Profiler分析 → CPU瓶頸を特定
+Step 2：Sprite Atlas → Draw Call 287→42
+Step 3：Canvas分離 → UI再構築 8ms→1ms
+Step 4：GC最適化 → 2.4KB/フレーム→0
+Step 5：物理最適化 → 3ms→0.8ms
+結果：33ms → 14ms（安定60fps）</pre>
+</div>
+<div class="footer">
+  <p>⚡ ゲームパフォーマンス最適化実践 — Frank Dev Blog</p>
+  <p>© 2026 Frank · a8398433@gmail.com · 有料コース・再配布禁止</p>
+</div>
+</body>
+</html>

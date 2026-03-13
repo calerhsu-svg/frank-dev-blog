@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>ゼロからリリースまで：完全ゲーム開発 — Frank Dev</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI','Hiragino Kaku Gothic Pro','Meiryo',sans-serif;background:#fff;color:#1a2040;line-height:1.8;max-width:800px;margin:0 auto;padding:40px 32px}
+@media print{body{padding:20px;font-size:12px}.cover{page-break-after:always}.chapter{page-break-before:always}}
+.cover{text-align:center;padding:100px 0 60px;border-bottom:3px solid #3B5BDB}
+.cover .icon{font-size:80px;margin-bottom:20px}
+.cover h1{font-size:32px;font-weight:900;color:#3B5BDB;margin-bottom:12px}
+.cover .sub{font-size:16px;color:#4A5580;margin-bottom:8px}
+.cover .price{font-size:14px;color:#E03131;font-weight:700;margin-bottom:40px}
+.cover .author{font-size:14px;color:#4A5580;border-top:1px solid #D0DAF5;padding-top:20px;margin-top:40px}
+.toc{margin:40px 0;padding:28px;background:#F0F4FF;border-radius:12px}
+.toc h2{font-size:20px;font-weight:800;color:#3B5BDB;margin-bottom:16px}
+.toc ol{padding-left:24px}.toc li{padding:4px 0;font-size:14px;color:#4A5580}
+.chapter{margin-top:48px}
+h2{font-size:22px;font-weight:800;color:#3B5BDB;margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid #E0E8FF}
+h3{font-size:16px;font-weight:700;color:#1a2040;margin:24px 0 8px}
+p{font-size:14px;color:#4A5580;margin-bottom:14px}
+pre{background:#F0F4FF;border:1px solid #D0DAF5;border-radius:8px;padding:16px;font-size:12px;overflow-x:auto;margin:12px 0 16px;line-height:1.6;font-family:'Courier New',monospace;color:#1a2040}
+.tip{background:#22C55E11;border-left:4px solid #22C55E;padding:12px 16px;border-radius:0 8px 8px 0;margin:14px 0;font-size:13px;color:#166534}
+.warn{background:#F59E0B11;border-left:4px solid #F59E0B;padding:12px 16px;border-radius:0 8px 8px 0;margin:14px 0;font-size:13px;color:#92400E}
+.footer{margin-top:60px;padding-top:20px;border-top:2px solid #E0E8FF;text-align:center;font-size:12px;color:#4A5580}
+ul{padding-left:20px;margin-bottom:14px}li{font-size:14px;color:#4A5580;padding:2px 0}
+</style>
+</head>
+<body>
+<div class="cover">
+  <div class="icon">🚀</div>
+  <h1>ゼロからリリースまで：完全ゲーム開発</h1>
+  <div class="sub">リリース可能なゲームを一歩ずつ完成させる</div>
+  <div class="price">NT$2,490 有料コース</div>
+  <div class="author">著者：Frank · frank-dev-blog<br>バージョン：2026.03<br>✉️ a8398433@gmail.com</div>
+</div>
+<div class="toc">
+  <h2>📋 目次</h2>
+  <ol>
+    <li>ゲーム企画とプロトタイプ</li>
+    <li>コアゲームプレイ実装</li>
+    <li>レベルデザインと数値バランス</li>
+    <li>UI/UXデザイン</li>
+    <li>サウンドとビジュアルエフェクト</li>
+    <li>セーブシステムとクラウド同期</li>
+    <li>広告とアプリ内課金</li>
+    <li>多言語対応とローカライズ</li>
+    <li>テストとデバッグ</li>
+    <li>リリース準備と運営戦略</li>
+  </ol>
+</div>
+<div class="chapter">
+  <h2>第1章：ゲーム企画とプロトタイプ</h2>
+  <pre>企画テンプレート：
+├── ゲーム名：Pixel Dungeon Rush
+├── ジャンル：ローグライクアクション
+├── プラットフォーム：iOS / Android
+├── ターゲット：カジュアルゲーマー (18-35歳)
+├── コア体験：一文で説明
+├── 収益モデル：無料+広告+課金
+└── 開発期間：3ヶ月</pre>
+  <div class="tip">💡 プロトタイプルール：48時間以内にプレイ可能版を作る。面白くなければ方向転換。</div>
+</div>
+<div class="chapter">
+  <h2>第2章：コアゲームプレイ実装</h2>
+  <pre>public class PlayerController : MonoBehaviour {
+    public float moveSpeed = 5f;
+    public int attackDamage = 10;
+    private Rigidbody2D rb;
+    private StateMachine fsm;
+
+    void Awake() {
+        rb = GetComponent&lt;Rigidbody2D&gt;();
+        fsm = new StateMachine();
+        fsm.ChangeState(new IdleState(this));
+    }
+    void Update() => fsm.Update();
+}</pre>
+</div>
+<div class="chapter">
+  <h2>第3章：レベルデザインと数値バランス</h2>
+  <pre>// 敵HP = baseHP * (1 + level * 0.15)
+// 敵攻撃 = baseDMG * (1 + level * 0.1)
+// クリア目標時間：各ステージ2-3分</pre>
+  <div class="warn">⚠️ 数値バランスは繰り返しテストが必要。Excelで管理推奨。</div>
+</div>
+<div class="chapter">
+  <h2>第4章：UI/UXデザイン</h2>
+  <pre>UI画面リスト：
+├── タイトル画面
+├── ステージ選択
+├── ゲームHUD
+├── ポーズメニュー
+├── ゲームオーバー
+├── ショップ
+├── 設定
+└── ローディング</pre>
+</div>
+<div class="chapter">
+  <h2>第5章：サウンドとVFX</h2>
+  <pre>サウンドリスト：
+├── BGM：メニュー、バトル、ボス、勝利、敗北
+├── UI SFX：ボタン、購入、レベルアップ
+├── ゲームSFX：攻撃、被ダメ、死亡、アイテム取得
+└── 環境音：足音、環境音</pre>
+</div>
+<div class="chapter">
+  <h2>第6章：セーブシステム</h2>
+  <pre>[System.Serializable]
+public class SaveData {
+    public int level = 1;
+    public int gold = 0;
+    public List&lt;string&gt; unlockedItems = new();
+}
+
+public static class SaveSystem {
+    static string path => Application.persistentDataPath + "/save.json";
+    public static void Save(SaveData d) {
+        File.WriteAllText(path, JsonUtility.ToJson(d, true));
+    }
+    public static SaveData Load() {
+        if (!File.Exists(path)) return new SaveData();
+        return JsonUtility.FromJson&lt;SaveData&gt;(File.ReadAllText(path));
+    }
+}</pre>
+</div>
+<div class="chapter">
+  <h2>第7章：広告とアプリ内課金</h2>
+  <pre>// Unity Ads
+Advertisement.Initialize(gameId, false, this);
+// リワード広告 → コイン2倍、復活
+// インタースティシャル → ステージクリア時
+
+// アプリ内課金（Unity IAP）
+// 消費型：コインパック
+// 非消費型：広告非表示
+// サブスク型：VIPパス</pre>
+  <div class="warn">⚠️ Apple/Googleは30%の手数料。価格設定に考慮すること。</div>
+</div>
+<div class="chapter">
+  <h2>第8章：多言語対応</h2>
+  <pre>public class LocalizationManager : Singleton&lt;LocalizationManager&gt; {
+    Dictionary&lt;string, Dictionary&lt;string, string&gt;&gt; translations;
+    public string CurrentLang { get; private set; } = "ja";
+    public string Get(string key) {
+        if (translations.TryGetValue(CurrentLang, out var d))
+            if (d.TryGetValue(key, out var v)) return v;
+        return key;
+    }
+}</pre>
+</div>
+<div class="chapter">
+  <h2>第9章：テストとデバッグ</h2>
+  <pre>テストチェックリスト：
+☐ コアゲームプレイ一通り
+☐ 全UI画面のナビゲーション
+☐ セーブ/ロード
+☐ 広告表示とリワード付与
+☐ 課金フロー（Sandbox）
+☐ 多言語切り替え
+☐ 異なる画面比率
+☐ 低スペック端末テスト</pre>
+</div>
+<div class="chapter">
+  <h2>第10章：リリースと運営</h2>
+  <pre>リリースチェックリスト：
+☐ アプリアイコン（1024x1024）
+☐ ストアスクリーンショット（4枚以上）
+☐ プロモーション動画
+☐ ストア説明文
+☐ プライバシーポリシーURL
+☐ 年齢レーティング
+☐ 審査提出</pre>
+  <div class="tip">💡 リリースは始まりに過ぎません。継続的な運営とユーザーフィードバックが成功の鍵です。</div>
+</div>
+<div class="footer">
+  <p>🚀 ゼロからリリースまで：完全ゲーム開発 — Frank Dev Blog</p>
+  <p>© 2026 Frank · a8398433@gmail.com · 有料コース・再配布禁止</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Unity Beginner's Complete Guide — Frank Dev</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI','Helvetica Neue',Arial,sans-serif;background:#fff;color:#1a2040;line-height:1.8;max-width:800px;margin:0 auto;padding:40px 32px}
+@media print{body{padding:20px;font-size:12px}h1{font-size:24px}h2{font-size:18px}h3{font-size:14px}.cover{page-break-after:always}.chapter{page-break-before:always}}
+.cover{text-align:center;padding:120px 0 80px;border-bottom:3px solid #3B5BDB}
+.cover .icon{font-size:80px;margin-bottom:20px}
+.cover h1{font-size:36px;font-weight:900;color:#3B5BDB;margin-bottom:12px}
+.cover .sub{font-size:16px;color:#4A5580;margin-bottom:40px}
+.cover .author{font-size:14px;color:#4A5580;border-top:1px solid #D0DAF5;padding-top:20px;margin-top:40px}
+.toc{margin:40px 0;padding:28px;background:#F0F4FF;border-radius:12px}
+.toc h2{font-size:20px;font-weight:800;color:#3B5BDB;margin-bottom:16px}
+.toc ol{padding-left:24px}
+.toc li{padding:4px 0;font-size:14px;color:#4A5580}
+.chapter{margin-top:48px}
+h2{font-size:22px;font-weight:800;color:#3B5BDB;margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid #E0E8FF}
+h3{font-size:16px;font-weight:700;color:#1a2040;margin:24px 0 8px}
+p{font-size:14px;color:#4A5580;margin-bottom:14px}
+pre{background:#F0F4FF;border:1px solid #D0DAF5;border-radius:8px;padding:16px;font-size:12px;overflow-x:auto;margin:12px 0 16px;line-height:1.6;font-family:'Courier New',monospace;color:#1a2040}
+.tip{background:#22C55E11;border-left:4px solid #22C55E;padding:12px 16px;border-radius:0 8px 8px 0;margin:14px 0;font-size:13px;color:#166534}
+.warn{background:#F59E0B11;border-left:4px solid #F59E0B;padding:12px 16px;border-radius:0 8px 8px 0;margin:14px 0;font-size:13px;color:#92400E}
+.footer{margin-top:60px;padding-top:20px;border-top:2px solid #E0E8FF;text-align:center;font-size:12px;color:#4A5580}
+ul{padding-left:20px;margin-bottom:14px}
+li{font-size:14px;color:#4A5580;padding:2px 0}
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="icon">🎮</div>
+  <h1>Unity Beginner's Complete Guide</h1>
+  <div class="sub">Your Journey into Unity Game Development from Scratch<br>Setup · C# Basics · Your First Game</div>
+  <div class="author">Author: Frank · frank-dev-blog<br>Version: 2026.03 · Free Resource<br>✉️ a8398433@gmail.com</div>
+</div>
+
+<div class="toc">
+  <h2>📋 Table of Contents</h2>
+  <ol>
+    <li>Installing Unity &amp; Environment Setup</li>
+    <li>Interface Tour &amp; Basic Operations</li>
+    <li>C# Programming Fundamentals</li>
+    <li>GameObject &amp; Component System</li>
+    <li>Physics System Basics</li>
+    <li>UI System (Canvas, Button, Text)</li>
+    <li>Animation System (Animator)</li>
+    <li>Audio &amp; Particle Effects</li>
+    <li>Scene Management</li>
+    <li>Building &amp; Publishing</li>
+    <li>Appendix A: Essential Shortcuts</li>
+    <li>Appendix B: Recommended Resources</li>
+  </ol>
+</div>
+
+<div class="chapter">
+  <h2>Chapter 1: Installing Unity &amp; Environment Setup</h2>
+  <p>Unity is one of the world's most popular game engines, supporting 2D/3D game development, AR/VR, simulations, and more.</p>
+  <h3>1.1 Download Unity Hub</h3>
+  <p>Visit unity.com to download Unity Hub. It's the unified tool for managing Unity versions and projects. Always use the LTS (Long Term Support) version for stability.</p>
+  <div class="tip">💡 Beginners should choose the LTS version (e.g., 2022.3 LTS) instead of Tech Stream to avoid unstable features.</div>
+  <h3>1.2 Create Your First Project</h3>
+  <pre>Recommended Project Settings:
+├── Project Name: MyFirstGame
+├── Template: 2D (Built-in Render Pipeline)
+├── Location: Desktop/UnityProjects/
+└── Unity Version: 2022.3 LTS
+
+Auto-generated Directory Structure:
+Assets/          ← All game resources
+Library/         ← Unity cache (don't modify)
+Packages/        ← Package management
+ProjectSettings/ ← Project settings</pre>
+  <h3>1.3 Interface Overview</h3>
+  <ul>
+    <li><strong>Scene</strong>: Scene editing window</li>
+    <li><strong>Game</strong>: Game preview window</li>
+    <li><strong>Hierarchy</strong>: Object hierarchy panel</li>
+    <li><strong>Inspector</strong>: Properties panel</li>
+    <li><strong>Project</strong>: Asset management</li>
+  </ul>
+</div>
+
+<div class="chapter">
+  <h2>Chapter 2: Interface Tour &amp; Basic Operations</h2>
+  <h3>2.1 Scene Navigation</h3>
+  <pre>Scene View Controls:
+  Middle mouse drag  → Pan
+  Scroll wheel       → Zoom
+  Alt + Left click   → Orbit (3D)
+  F key              → Focus on selected object</pre>
+  <h3>2.2 Transform Tools</h3>
+  <ul>
+    <li><strong>W</strong>: Move tool</li>
+    <li><strong>E</strong>: Rotate tool</li>
+    <li><strong>R</strong>: Scale tool</li>
+    <li><strong>T</strong>: Rect tool — for UI elements</li>
+  </ul>
+  <div class="warn">⚠️ Warning: Any changes made in Play mode will be lost when you stop! Always stop playing before making edits.</div>
+</div>
+
+<div class="chapter">
+  <h2>Chapter 3: C# Programming Fundamentals</h2>
+  <h3>3.1 Your First Script</h3>
+  <pre>using UnityEngine;
+
+public class PlayerController : MonoBehaviour
+{
+    // Public variables appear in the Inspector
+    public float speed = 5f;
+    public float jumpForce = 10f;
+
+    // Called once before the first frame
+    void Start()
+    {
+        Debug.Log("Game started!");
+    }
+
+    // Called every frame
+    void Update()
+    {
+        float h = Input.GetAxis("Horizontal");
+        transform.Translate(Vector3.right * h * speed * Time.deltaTime);
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            GetComponent&lt;Rigidbody2D&gt;().AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+        }
+    }
+}</pre>
+  <h3>3.2 Key Concepts</h3>
+  <ul>
+    <li><strong>MonoBehaviour</strong>: Base class for all Unity scripts</li>
+    <li><strong>Start()</strong>: Initialization, runs once</li>
+    <li><strong>Update()</strong>: Runs every frame</li>
+    <li><strong>Time.deltaTime</strong>: Time between frames for consistent movement</li>
+  </ul>
+  <h3>3.3 Common APIs</h3>
+  <pre>Rigidbody2D rb = GetComponent&lt;Rigidbody2D&gt;();
+GameObject player = GameObject.Find("Player");
+GameObject enemy = GameObject.FindWithTag("Enemy");
+
+Instantiate(prefab, position, rotation);
+Destroy(gameObject);
+Destroy(gameObject, 2f);    // Destroy after 2 seconds
+
+InvokeRepeating("SpawnEnemy", 1f, 2f);
+StartCoroutine(MyCoroutine());</pre>
+</div>
+
+<div class="chapter">
+  <h2>Chapter 4: GameObject &amp; Component System</h2>
+  <p>Unity's core philosophy: everything is a GameObject, functionality comes from Components.</p>
+  <h3>4.1 Common Components</h3>
+  <ul>
+    <li><strong>Transform</strong>: Position, rotation, scale (required)</li>
+    <li><strong>SpriteRenderer</strong>: 2D image rendering</li>
+    <li><strong>Rigidbody2D</strong>: 2D physics</li>
+    <li><strong>Collider2D</strong>: 2D collision detection</li>
+    <li><strong>AudioSource</strong>: Audio playback</li>
+    <li><strong>Animator</strong>: Animation control</li>
+  </ul>
+  <h3>4.2 Prefabs</h3>
+  <pre>public GameObject bulletPrefab;
+
+void Shoot()
+{
+    GameObject bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+    bullet.GetComponent&lt;Rigidbody2D&gt;().velocity = Vector2.right * 10f;
+    Destroy(bullet, 3f);
+}</pre>
+</div>
+
+<div class="chapter">
+  <h2>Chapter 5: Physics System Basics</h2>
+  <h3>5.1 Collision Detection</h3>
+  <pre>void OnCollisionEnter2D(Collision2D collision)
+{
+    if (collision.gameObject.CompareTag("Enemy"))
+        Debug.Log("Hit an enemy!");
+}
+
+void OnTriggerEnter2D(Collider2D other)
+{
+    if (other.CompareTag("Coin"))
+    {
+        score += 10;
+        Destroy(other.gameObject);
+    }
+}</pre>
+  <div class="tip">💡 Collision = physical collision (bounces off); Trigger = passes through but detects contact. Use Triggers for pickups and area detection.</div>
+</div>
+
+<div class="chapter">
+  <h2>Chapter 6: UI System</h2>
+  <pre>using UnityEngine;
+using TMPro;
+
+public class UIManager : MonoBehaviour
+{
+    public TextMeshProUGUI scoreText;
+    public GameObject gameOverPanel;
+    private int score = 0;
+
+    public void AddScore(int points)
+    {
+        score += points;
+        scoreText.text = "Score: " + score;
+    }
+
+    public void ShowGameOver()
+    {
+        gameOverPanel.SetActive(true);
+        Time.timeScale = 0f;
+    }
+}</pre>
+</div>
+
+<div class="chapter">
+  <h2>Chapter 7: Animation System</h2>
+  <pre>Animator anim = GetComponent&lt;Animator&gt;();
+anim.SetFloat("Speed", Mathf.Abs(h));
+anim.SetBool("IsGrounded", isGrounded);
+anim.SetTrigger("Jump");
+anim.SetTrigger("Attack");</pre>
+</div>
+
+<div class="chapter">
+  <h2>Chapter 8: Audio &amp; Particle Effects</h2>
+  <pre>public class SoundManager : MonoBehaviour
+{
+    public static SoundManager Instance;
+    public AudioClip jumpSound;
+    public AudioClip bgm;
+    private AudioSource audioSource;
+
+    void Awake()
+    {
+        Instance = this;
+        audioSource = GetComponent&lt;AudioSource&gt;();
+        audioSource.clip = bgm;
+        audioSource.loop = true;
+        audioSource.Play();
+    }
+
+    public void PlaySFX(AudioClip clip)
+    {
+        audioSource.PlayOneShot(clip);
+    }
+}</pre>
+</div>
+
+<div class="chapter">
+  <h2>Chapter 9: Scene Management</h2>
+  <pre>using UnityEngine.SceneManagement;
+
+SceneManager.LoadScene("GameScene");
+SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);</pre>
+</div>
+
+<div class="chapter">
+  <h2>Chapter 10: Building &amp; Publishing</h2>
+  <pre>File → Build Settings
+1. Add all scenes (Scenes In Build)
+2. Select platform: PC/Mac, Android, iOS
+3. Configure Player Settings
+4. Click Build</pre>
+</div>
+
+<div class="chapter">
+  <h2>Appendix A: Essential Shortcuts</h2>
+  <pre>Ctrl + S    Save scene       Ctrl + Z    Undo
+Ctrl + P    Play/Stop        W/E/R/T    Move/Rotate/Scale/Rect
+F           Focus object     Ctrl + D    Duplicate object</pre>
+</div>
+
+<div class="chapter">
+  <h2>Appendix B: Recommended Resources</h2>
+  <ul>
+    <li><strong>Unity Learn</strong> (learn.unity.com) — Official free tutorials</li>
+    <li><strong>Unity Manual</strong> (docs.unity3d.com) — Official documentation</li>
+    <li><strong>Brackeys YouTube</strong> — Classic Unity tutorial channel</li>
+    <li><strong>Game Programming Patterns</strong> — Game design patterns</li>
+  </ul>
+</div>
+
+<div class="footer">
+  <p>🎮 Unity Beginner's Complete Guide — Frank Dev Blog</p>
+  <p>© 2026 Frank · a8398433@gmail.com · Free to share</p>
+</div>
+
+</body>
+</html>
