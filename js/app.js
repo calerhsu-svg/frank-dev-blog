@@ -252,11 +252,12 @@ function freeDownload(item){
   showToast({tw:'下載開始！',jp:'ダウンロード開始！',cn:'下载开始！',ph:'Download started!'}[lang])
 }
 // ── PAYMENT ─────────────────────────────────────────────────────
-// Stripe Payment Link IDs — replace with real links from Stripe Dashboard
-const STRIPE_LINKS={
-  'perf-course':'STRIPE_LINK_PERF',
-  'arch-course':'STRIPE_LINK_ARCH',
-  'fullgame-course':'STRIPE_LINK_FULLGAME'
+// ECPay 收款連結 — replace with real links from ECPay Dashboard
+// 建立方式：ECPay 後台 → 收款連結 → 新增收款連結
+const ECPAY_LINKS={
+  'perf-course':'ECPAY_LINK_PERF',
+  'arch-course':'ECPAY_LINK_ARCH',
+  'fullgame-course':'ECPAY_LINK_FULLGAME'
 }
 const COURSE_PRICES={'perf-course':'NT$990','arch-course':'NT$1,490','fullgame-course':'NT$2,490'}
 const COURSE_TITLE_KEYS={'perf-course':'cr3_title','arch-course':'cr4_title','fullgame-course':'cr5_title'}
@@ -283,15 +284,14 @@ function closePayModal(e){
   document.body.style.overflow=''
   currentPayItem=null
 }
-function payWithStripe(){
+function payWithECPay(){
   if(!currentPayItem) return
-  const link=STRIPE_LINKS[currentPayItem]
-  if(!link||link.startsWith('STRIPE_LINK_')){
-    showToast({tw:'Stripe 付款連結尚未設定',jp:'Stripe決済リンク未設定',cn:'Stripe 付款链接尚未设置',ph:'Stripe payment link not configured'}[lang])
+  const link=ECPAY_LINKS[currentPayItem]
+  if(!link||link.startsWith('ECPAY_LINK_')){
+    showToast({tw:'ECPay 收款連結尚未設定',jp:'ECPay決済リンク未設定',cn:'ECPay 收款链接尚未设置',ph:'ECPay payment link not configured'}[lang])
     return
   }
-  const ref=currentPayItem+'_'+lang
-  window.location.href=link+'?client_reference_id='+encodeURIComponent(ref)
+  window.location.href=link
   closePayModal()
 }
 function payWithBank(){

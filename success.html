@@ -9,81 +9,73 @@
 .success-container{max-width:520px;margin:80px auto;padding:40px 32px;text-align:center}
 .success-icon{font-size:64px;margin-bottom:16px}
 .success-title{font-size:24px;font-weight:800;color:var(--primary);margin-bottom:12px}
-.success-sub{font-size:14px;color:var(--sub);margin-bottom:32px}
-.success-spinner{display:inline-block;width:40px;height:40px;border:4px solid var(--border);border-top-color:var(--primary);border-radius:50%;animation:spin 0.8s linear infinite;margin:24px 0}
-@keyframes spin{to{transform:rotate(360deg)}}
-.success-error{color:#E03131;font-size:14px;margin:16px 0}
-.btn-download{display:inline-block;padding:14px 32px;background:var(--primary);color:#fff;border:none;border-radius:8px;font-size:16px;font-weight:700;cursor:pointer;text-decoration:none;margin-top:16px}
-.btn-download:hover{opacity:0.9}
-.fallback-link{display:block;margin-top:16px;font-size:13px;color:var(--sub)}
-.fallback-link a{color:var(--primary)}
+.success-sub{font-size:14px;color:var(--sub);margin-bottom:24px;line-height:1.7}
+.success-info{background:var(--tag-bg);border:1px solid var(--border);border-radius:12px;padding:20px;margin:24px 0;text-align:left;font-size:13px;color:var(--text);line-height:1.8}
+.success-info h4{font-size:14px;font-weight:700;margin-bottom:8px}
+.success-steps{list-style:none;padding:0;margin:0}
+.success-steps li{padding:4px 0}
+.btn-home{display:inline-block;padding:14px 32px;background:var(--primary);color:#fff;border:none;border-radius:8px;font-size:16px;font-weight:700;cursor:pointer;text-decoration:none;margin-top:8px}
+.btn-home:hover{opacity:0.9}
+.contact-link{display:block;margin-top:16px;font-size:13px;color:var(--sub)}
+.contact-link a{color:var(--primary)}
 </style>
 </head>
 <body>
-<div class="success-container" id="success-page">
-  <div id="state-loading">
-    <div class="success-icon">💳</div>
-    <div class="success-title" id="loading-title">驗證付款中...</div>
-    <div class="success-spinner"></div>
-    <div class="success-sub" id="loading-sub">請稍候，正在確認您的付款</div>
+<div class="success-container">
+  <div class="success-icon">✅</div>
+  <div class="success-title" id="s-title">付款成功！</div>
+  <div class="success-sub" id="s-sub">感謝您的購買！我們已收到您的付款。</div>
+  <div class="success-info">
+    <h4 id="s-next-title">📦 接下來...</h4>
+    <ul class="success-steps">
+      <li id="s-step1">1. 我們將在確認付款後，於 1 個工作天內將教材寄送至您的 Email</li>
+      <li id="s-step2">2. 如未收到，請檢查垃圾郵件資料夾</li>
+      <li id="s-step3">3. 如有任何問題，請聯繫我們</li>
+    </ul>
   </div>
-  <div id="state-success" style="display:none">
-    <div class="success-icon">✅</div>
-    <div class="success-title" id="success-title">付款成功！</div>
-    <div class="success-sub" id="success-sub">感謝您的購買，請點擊下方按鈕下載課程</div>
-    <a class="btn-download" id="download-btn" href="#">📥 下載課程</a>
-  </div>
-  <div id="state-error" style="display:none">
-    <div class="success-icon">❌</div>
-    <div class="success-title" id="error-title">驗證失敗</div>
-    <div class="success-sub" id="error-sub">付款驗證失敗，請聯繫客服</div>
-    <div class="fallback-link">
-      <a href="mailto:a8398433@gmail.com?subject=[Frank Dev] Payment Issue">✉️ <span id="contact-text">聯繫客服</span></a>
-    </div>
+  <a class="btn-home" href="/" id="s-home-btn">🏠 返回首頁</a>
+  <div class="contact-link">
+    <a href="mailto:a8398433@gmail.com?subject=[Frank Dev] Course Purchase Question" id="s-contact">✉️ a8398433@gmail.com</a>
   </div>
 </div>
 
 <script>
 const TEXTS = {
   tw: {
-    loading_title: '驗證付款中...',
-    loading_sub: '請稍候，正在確認您的付款',
-    success_title: '付款成功！',
-    success_sub: '感謝您的購買，請點擊下方按鈕下載課程',
-    download_btn: '📥 下載課程',
-    error_title: '驗證失敗',
-    error_sub: '付款驗證失敗，請聯繫客服',
-    contact: '聯繫客服'
+    title: '付款成功！',
+    sub: '感謝您的購買！我們已收到您的付款。',
+    next_title: '📦 接下來...',
+    step1: '1. 我們將在確認付款後，於 1 個工作天內將教材寄送至您的 Email',
+    step2: '2. 如未收到，請檢查垃圾郵件資料夾',
+    step3: '3. 如有任何問題，請聯繫我們',
+    home_btn: '🏠 返回首頁'
   },
   jp: {
-    loading_title: 'お支払い確認中...',
-    loading_sub: 'しばらくお待ちください',
-    success_title: 'お支払い完了！',
-    success_sub: 'ご購入ありがとうございます。下のボタンからコースをダウンロードしてください',
-    download_btn: '📥 コースをダウンロード',
-    error_title: '確認失敗',
-    error_sub: 'お支払いの確認に失敗しました。サポートまでお問い合わせください',
-    contact: 'サポートに連絡'
+    title: 'お支払い完了！',
+    sub: 'ご購入ありがとうございます！お支払いを受け取りました。',
+    next_title: '📦 次のステップ...',
+    step1: '1. お支払い確認後、1営業日以内に教材をメールでお送りします',
+    step2: '2. 届かない場合は迷惑メールフォルダをご確認ください',
+    step3: '3. ご不明な点がございましたらお問い合わせください',
+    home_btn: '🏠 トップページへ'
   },
   cn: {
-    loading_title: '验证付款中...',
-    loading_sub: '请稍候，正在确认您的付款',
-    success_title: '付款成功！',
-    success_sub: '感谢您的购买，请点击下方按钮下载课程',
-    download_btn: '📥 下载课程',
-    error_title: '验证失败',
-    error_sub: '付款验证失败，请联系客服',
-    contact: '联系客服'
+    title: '付款成功！',
+    sub: '感谢您的购买！我们已收到您的付款。',
+    next_title: '📦 接下来...',
+    step1: '1. 我们将在确认付款后，于 1 个工作天内将教材寄送至您的 Email',
+    step2: '2. 如未收到，请检查垃圾邮件文件夹',
+    step3: '3. 如有任何问题，请联系我们',
+    home_btn: '🏠 返回首页'
   },
   ph: {
-    loading_title: 'Verifying payment...',
-    loading_sub: 'Please wait while we confirm your payment',
-    success_title: 'Payment Successful!',
-    success_sub: 'Thank you for your purchase. Click below to download your course',
-    download_btn: '📥 Download Course',
-    error_title: 'Verification Failed',
-    error_sub: 'Payment verification failed. Please contact support',
-    contact: 'Contact Support'
+    title: 'Payment Successful!',
+    sub: 'Thank you for your purchase! We have received your payment.',
+    next_title: '📦 What\'s next...',
+    step1: '1. We will send the course materials to your email within 1 business day after payment confirmation',
+    step2: '2. If you don\'t receive it, please check your spam folder',
+    step3: '3. If you have any questions, please contact us',
+    home_btn: '🏠 Back to Home'
   }
 }
 
@@ -100,53 +92,15 @@ function getLang() {
   return 'tw'
 }
 
-function applyTexts(lang) {
-  const t = TEXTS[lang] || TEXTS.tw
-  document.getElementById('loading-title').textContent = t.loading_title
-  document.getElementById('loading-sub').textContent = t.loading_sub
-  document.getElementById('success-title').textContent = t.success_title
-  document.getElementById('success-sub').textContent = t.success_sub
-  document.getElementById('download-btn').textContent = t.download_btn
-  document.getElementById('error-title').textContent = t.error_title
-  document.getElementById('error-sub').textContent = t.error_sub
-  document.getElementById('contact-text').textContent = t.contact
-}
-
-function showState(state) {
-  document.getElementById('state-loading').style.display = state === 'loading' ? '' : 'none'
-  document.getElementById('state-success').style.display = state === 'success' ? '' : 'none'
-  document.getElementById('state-error').style.display = state === 'error' ? '' : 'none'
-}
-
-async function verifyPayment() {
-  const params = new URLSearchParams(window.location.search)
-  const sessionId = params.get('session_id')
-
-  if (!sessionId) {
-    showState('error')
-    return
-  }
-
-  try {
-    const resp = await fetch('/api/download?session_id=' + encodeURIComponent(sessionId))
-    if (resp.ok) {
-      const html = await resp.text()
-      const blob = new Blob([html], { type: 'text/html' })
-      const url = URL.createObjectURL(blob)
-      document.getElementById('download-btn').href = url
-      document.getElementById('download-btn').download = 'course.html'
-      showState('success')
-    } else {
-      showState('error')
-    }
-  } catch {
-    showState('error')
-  }
-}
-
 const lang = getLang()
-applyTexts(lang)
-verifyPayment()
+const t = TEXTS[lang] || TEXTS.tw
+document.getElementById('s-title').textContent = t.title
+document.getElementById('s-sub').textContent = t.sub
+document.getElementById('s-next-title').textContent = t.next_title
+document.getElementById('s-step1').textContent = t.step1
+document.getElementById('s-step2').textContent = t.step2
+document.getElementById('s-step3').textContent = t.step3
+document.getElementById('s-home-btn').textContent = t.home_btn
 </script>
 </body>
 </html>
