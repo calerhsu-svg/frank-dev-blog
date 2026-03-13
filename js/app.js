@@ -251,20 +251,63 @@ function freeDownload(item){
   window.open(url,'_blank')
   showToast({tw:'下載開始！',jp:'ダウンロード開始！',cn:'下载开始！',ph:'Download started!'}[lang])
 }
+// ── PAYMENT ─────────────────────────────────────────────────────
+// Stripe Payment Link IDs — replace with real links from Stripe Dashboard
+const STRIPE_LINKS={
+  'perf-course':'STRIPE_LINK_PERF',
+  'arch-course':'STRIPE_LINK_ARCH',
+  'fullgame-course':'STRIPE_LINK_FULLGAME'
+}
+const COURSE_PRICES={'perf-course':'NT$990','arch-course':'NT$1,490','fullgame-course':'NT$2,490'}
+const COURSE_TITLE_KEYS={'perf-course':'cr3_title','arch-course':'cr4_title','fullgame-course':'cr5_title'}
+let currentPayItem=null
+
 function buyCourse(item){
-  const prices={'perf-course':'NT$990','arch-course':'NT$1,490','fullgame-course':'NT$2,490'}
+  currentPayItem=item
   const L=LANG[lang]
-  const titleKey={'perf-course':'cr3_title','arch-course':'cr4_title','fullgame-course':'cr5_title'}
-  const courseName=L[titleKey[item]]||item
-  const p=prices[item]||''
+  const courseName=L[COURSE_TITLE_KEYS[item]]||item
+  const price=COURSE_PRICES[item]||''
+  document.getElementById('pay-course-name').textContent=courseName
+  document.getElementById('pay-price').textContent=price
+  // Apply i18n to modal
+  document.querySelectorAll('#pay-modal [data-i18n]').forEach(el=>{
+    const k=el.getAttribute('data-i18n')
+    if(L[k]!==undefined) el.textContent=L[k]
+  })
+  document.getElementById('pay-modal').classList.add('open')
+  document.body.style.overflow='hidden'
+}
+function closePayModal(e){
+  if(e&&e.target!==document.getElementById('pay-modal')&&!e.target.classList.contains('modal-close'))return
+  document.getElementById('pay-modal').classList.remove('open')
+  document.body.style.overflow=''
+  currentPayItem=null
+}
+function payWithStripe(){
+  if(!currentPayItem) return
+  const link=STRIPE_LINKS[currentPayItem]
+  if(!link||link.startsWith('STRIPE_LINK_')){
+    showToast({tw:'Stripe 付款連結尚未設定',jp:'Stripe決済リンク未設定',cn:'Stripe 付款链接尚未设置',ph:'Stripe payment link not configured'}[lang])
+    return
+  }
+  const ref=currentPayItem+'_'+lang
+  window.location.href=link+'?client_reference_id='+encodeURIComponent(ref)
+  closePayModal()
+}
+function payWithBank(){
+  if(!currentPayItem) return
+  const L=LANG[lang]
+  const courseName=L[COURSE_TITLE_KEYS[currentPayItem]]||currentPayItem
+  const price=COURSE_PRICES[currentPayItem]||''
   const langLabel={tw:'繁體中文',jp:'日本語',cn:'简体中文',ph:'English'}[lang]
   const body={
-    tw:`我想購買課程: ${courseName}\n金額: ${p}\n語言版本: ${langLabel}\n\n請問付款方式？`,
-    jp:`コースを購入したいです: ${courseName}\n金額: ${p}\n言語: ${langLabel}\n\nお支払い方法を教えてください。`,
-    cn:`我想购买课程: ${courseName}\n金额: ${p}\n语言版本: ${langLabel}\n\n请问付款方式？`,
-    ph:`I want to purchase: ${courseName}\nPrice: ${p}\nLanguage: ${langLabel}\n\nHow can I pay?`
+    tw:`我想購買課程: ${courseName}\n金額: ${price}\n語言版本: ${langLabel}\n\n請問銀行轉帳方式？`,
+    jp:`コースを購入したいです: ${courseName}\n金額: ${price}\n言語: ${langLabel}\n\n銀行振込の方法を教えてください。`,
+    cn:`我想购买课程: ${courseName}\n金额: ${price}\n语言版本: ${langLabel}\n\n请问银行转账方式？`,
+    ph:`I want to purchase: ${courseName}\nPrice: ${price}\nLanguage: ${langLabel}\n\nHow can I pay via bank transfer?`
   }[lang]
-  window.location.href=`mailto:a8398433@gmail.com?subject=${encodeURIComponent('[Frank Dev] 課程購買 / Course Purchase: '+item)}&body=${encodeURIComponent(body)}`
+  window.location.href=`mailto:a8398433@gmail.com?subject=${encodeURIComponent('[Frank Dev] 課程購買 / Course Purchase: '+currentPayItem)}&body=${encodeURIComponent(body)}`
+  closePayModal()
   showToast({tw:'已開啟郵件，確認付款後立即發送教材！',jp:'メールを開きました。お支払い確認後すぐに教材を送ります！',cn:'已打开邮件，确认付款后立即发送教材！',ph:'Email opened! Materials will be sent after payment confirmation!'}[lang])
 }
 function selectAmount(btn,amt){

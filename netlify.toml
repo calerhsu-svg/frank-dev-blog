@@ -1,0 +1,21 @@
+[build]
+  publish = "."
+
+# Block direct access to paid course downloads
+[[redirects]]
+  from = "/downloads/*/perf-course.html"
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/downloads/*/arch-course.html"
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/downloads/*/fullgame-course.html"
+  to = "/404.html"
+  status = 404
+  force = true
