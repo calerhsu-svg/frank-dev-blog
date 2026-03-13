@@ -4,7 +4,37 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Frank Dev Blog — 遊戲開發部落格</title>
-<meta name="description" content="Frank 的遊戲開發部落格，專注 Unity 與 Cocos Creator 開發技巧、教學與接案服務">
+<meta name="description" content="Frank 的遊戲開發部落格，專注 Unity 與 Cocos Creator 開發技巧、教學與接案服務。提供手機遊戲開發、效能優化、技術顧問等專業服務。">
+<meta name="keywords" content="Unity, Cocos Creator, 遊戲開發, game development, mobile game, 手機遊戲, 效能優化, performance optimization, freelance, 接案, ゲーム開発, tutorial">
+<meta name="author" content="Frank">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://frank-dev-blog.netlify.app/">
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://frank-dev-blog.netlify.app/">
+<meta property="og:title" content="Frank Dev Blog — Game Dev × Freelance × Tutorials">
+<meta property="og:description" content="Professional game developer specializing in Unity & Cocos Creator. Free tutorials, courses, and freelance services.">
+<meta property="og:image" content="https://frank-dev-blog.netlify.app/og-image.png">
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Frank Dev Blog — Game Dev × Freelance × Tutorials">
+<meta name="twitter:description" content="Professional game developer specializing in Unity & Cocos Creator. Free tutorials, courses, and freelance services.">
+<meta name="twitter:image" content="https://frank-dev-blog.netlify.app/og-image.png">
+<!-- Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": "Frank Dev Blog",
+  "description": "Professional game development services, tutorials, and courses for Unity and Cocos Creator",
+  "url": "https://frank-dev-blog.netlify.app/",
+  "email": "a8398433@gmail.com",
+  "knowsAbout": ["Unity", "Cocos Creator", "Game Development", "Mobile Games", "Performance Optimization"],
+  "priceRange": "NT$3,000 - NT$150,000"
+}
+</script>
+<!-- Google AdSense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -19,6 +49,7 @@
     <button class="nav-link" data-page="services" onclick="showPage('services')" data-i18n="nav_services">服務</button>
     <button class="nav-link" data-page="courses" onclick="showPage('courses')" data-i18n="nav_courses">教學</button>
     <button class="nav-link" data-page="daily" onclick="showPage('daily')" data-i18n="nav_daily">每日教學</button>
+    <button class="nav-link" data-page="portfolio" onclick="showPage('portfolio')" data-i18n="nav_portfolio">作品集</button>
     <button class="nav-link" data-page="games" onclick="showPage('games')" data-i18n="nav_games">小遊戲</button>
     <button class="nav-link" data-page="donate" onclick="showPage('donate')" data-i18n="nav_donate">贊助</button>
     <button class="nav-link" data-page="about" onclick="showPage('about')" data-i18n="nav_about">關於</button>
@@ -61,6 +92,33 @@
       <button class="btn-outline" onclick="showPage('posts')" data-i18n="home_more">查看所有文章</button>
     </div>
   </div>
+  <!-- Ad placement - Home page -->
+  <div class="section" style="padding-top:0;padding-bottom:0">
+    <div class="ad-banner">
+      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+  </div>
+  <!-- Social sharing -->
+  <div class="section" style="padding-top:12px;padding-bottom:0">
+    <div class="social-share-bar">
+      <span class="share-label" data-i18n="share_label">📣 分享給朋友</span>
+      <div class="share-buttons">
+        <button class="share-btn fb" onclick="shareOn('facebook')" title="Facebook">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        </button>
+        <button class="share-btn tw" onclick="shareOn('twitter')" title="X / Twitter">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </button>
+        <button class="share-btn line" onclick="shareOn('line')" title="LINE">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63h2.386c.346 0 .627.285.627.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63.346 0 .628.285.628.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
+        </button>
+        <button class="share-btn copy" onclick="shareOn('copy')" title="Copy Link">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
   <div class="section" style="padding-top:0">
     <div class="email-capture">
       <h3 data-i18n="email_title">📧 訂閱免費資源</h3>
@@ -80,6 +138,11 @@
     <div class="section-sub" id="post-count">共 6 篇文章</div>
     <div class="filter-bar" id="filter-bar"></div>
     <div class="grid" id="posts-grid"></div>
+    <!-- Ad placement - Posts page -->
+    <div class="ad-banner" style="margin:28px 0 0">
+      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
     <div style="margin-top:28px">
       <div class="email-capture">
         <h3 data-i18n="posts_cta_h">想學更多？</h3>
@@ -345,6 +408,80 @@
           <button class="btn-primary" onclick="captureDailyEmail()" data-i18n="email_btn">訂閱</button>
         </div>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- PORTFOLIO -->
+<div class="page" id="page-portfolio">
+  <div class="hero" style="padding:40px 24px 48px">
+    <h1 data-i18n="pf_h1">🏆 作品集</h1>
+    <p data-i18n="pf_sub">精選案例展示，看看我如何將創意化為產品</p>
+  </div>
+  <div class="section">
+    <div class="section-title" data-i18n="pf_cases">📂 精選案例</div>
+    <div class="section-sub" data-i18n="pf_cases_sub">以下為已完成的代表性專案（客戶資訊已脫敏）</div>
+    <div class="portfolio-grid">
+      <div class="portfolio-card">
+        <div class="pf-cover" style="background:linear-gradient(135deg,#FF6B6B,#FF8E53)">🎰</div>
+        <div class="pf-info">
+          <div class="pf-tags"><span class="tag-chip">Unity</span><span class="tag-chip" data-i18n="pf_tag_mobile">手機遊戲</span></div>
+          <h3 data-i18n="pf1_title">休閒博弈遊戲 App</h3>
+          <p data-i18n="pf1_desc">為日本客戶開發的休閒老虎機遊戲，包含多款機台、每日獎勵系統、排行榜功能。上架 iOS / Android，月活躍用戶超過 5,000。</p>
+          <div class="pf-stats">
+            <span data-i18n="pf1_time">⏱ 工期 2.5 個月</span>
+            <span data-i18n="pf1_tech">⚙️ Unity + C#</span>
+          </div>
+        </div>
+      </div>
+      <div class="portfolio-card">
+        <div class="pf-cover" style="background:linear-gradient(135deg,#3B5BDB,#7048E8)">🏰</div>
+        <div class="pf-info">
+          <div class="pf-tags"><span class="tag-chip">Cocos Creator</span><span class="tag-chip" data-i18n="pf_tag_h5">H5 遊戲</span></div>
+          <h3 data-i18n="pf2_title">H5 塔防遊戲</h3>
+          <p data-i18n="pf2_desc">為台灣行銷公司開發的 H5 塔防遊戲，嵌入品牌官網作為互動行銷活動。支援手機與桌面瀏覽器，活動期間參與人數超過 20,000。</p>
+          <div class="pf-stats">
+            <span data-i18n="pf2_time">⏱ 工期 3 週</span>
+            <span data-i18n="pf2_tech">⚙️ Cocos Creator + TS</span>
+          </div>
+        </div>
+      </div>
+      <div class="portfolio-card">
+        <div class="pf-cover" style="background:linear-gradient(135deg,#22C55E,#059669)">📊</div>
+        <div class="pf-info">
+          <div class="pf-tags"><span class="tag-chip">Unity</span><span class="tag-chip" data-i18n="pf_tag_opt">效能優化</span></div>
+          <h3 data-i18n="pf3_title">MMORPG 效能優化</h3>
+          <p data-i18n="pf3_desc">協助中國遊戲公司優化 Unity MMORPG 專案，Draw Call 從 800+ 降至 120，載入時間縮短 60%，低階手機幀率從 18fps 提升至穩定 30fps。</p>
+          <div class="pf-stats">
+            <span data-i18n="pf3_time">⏱ 工期 2 週</span>
+            <span data-i18n="pf3_tech">⚙️ Unity Profiler</span>
+          </div>
+        </div>
+      </div>
+      <div class="portfolio-card">
+        <div class="pf-cover" style="background:linear-gradient(135deg,#F59E0B,#D97706)">🧩</div>
+        <div class="pf-info">
+          <div class="pf-tags"><span class="tag-chip">Cocos Creator</span><span class="tag-chip" data-i18n="pf_tag_puzzle">益智遊戲</span></div>
+          <h3 data-i18n="pf4_title">兒童教育益智遊戲</h3>
+          <p data-i18n="pf4_desc">為菲律賓教育機構製作的兒童數學益智 App，包含 50+ 關卡、成就系統、家長控制面板。支援英語/菲律賓語雙語。</p>
+          <div class="pf-stats">
+            <span data-i18n="pf4_time">⏱ 工期 6 週</span>
+            <span data-i18n="pf4_tech">⚙️ Cocos Creator + TS</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ad placement -->
+    <div class="ad-banner" style="margin:28px 0">
+      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+
+    <div class="pf-cta">
+      <h3 data-i18n="pf_cta_h">🤝 想看到你的專案在這裡嗎？</h3>
+      <p data-i18n="pf_cta_p">無論大小專案，都歡迎洽談合作</p>
+      <button class="btn-primary" onclick="showPage('services')" data-i18n="pf_cta_btn">💼 洽談接案</button>
     </div>
   </div>
 </div>

@@ -321,6 +321,24 @@ function submitDonation(){
   showToast({tw:'謝謝你的支持！❤️',jp:'ご支援ありがとうございます！❤️',cn:'谢谢你的支持！❤️',ph:'Thank you for your support! ❤️'}[lang])
 }
 
+// ── SOCIAL SHARING ──────────────────────────────────────────────
+function shareOn(platform){
+  const url=encodeURIComponent(window.location.href)
+  const title=encodeURIComponent(document.title)
+  const shareUrls={
+    facebook:`https://www.facebook.com/sharer/sharer.php?u=${url}`,
+    twitter:`https://twitter.com/intent/tweet?url=${url}&text=${title}`,
+    line:`https://social-plugins.line.me/lineit/share?url=${url}`
+  }
+  if(platform==='copy'){
+    navigator.clipboard.writeText(window.location.href).then(()=>{
+      showToast({tw:'已複製連結！',jp:'リンクをコピーしました！',cn:'已复制链接！',ph:'Link copied!'}[lang])
+    })
+    return
+  }
+  if(shareUrls[platform]) window.open(shareUrls[platform],'_blank','width=600,height=400')
+}
+
 // ── INIT ─────────────────────────────────────────────────────────
 renderAll()
 applyLang()
