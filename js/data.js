@@ -79,7 +79,46 @@ const POSTS_TW=[
      {t:"p",s:"Cocos 3.x 強力建議使用 TypeScript，但很多新手還是像寫 JavaScript 一樣隨意。型別宣告可以讓 IDE 幫你找到大量的低級錯誤。"},
      {t:"h3",s:"坑 5：跳過版控直接開發"},
      {t:"p",s:"沒有版控直接開發是災難的開始。現在就建立 Git repo，每次有意義的進展就 commit。"}
-   ],tags:["Cocos","教學","心得"],date:"2025-11-28",readTime:"6 分鐘"}
+   ],tags:["Cocos","教學","心得"],date:"2025-11-28",readTime:"6 分鐘"},
+  {id:7,cover:"🤖",title:"AI 輔助遊戲開發：用 ChatGPT 和 Copilot 提升 10 倍效率",
+   excerpt:"AI 工具已經徹底改變了我的開發流程。從自動生成程式碼到 NPC 對話設計，這篇分享我每天實際在用的 AI 工作流……",
+   content:[
+     {t:"p",s:"2025 年之後，AI 工具已經成為我開發遊戲時不可或缺的助手。這不是炒作——我每天都在用，而且實實在在地提升了效率。"},
+     {t:"h3",s:"程式碼生成：GitHub Copilot"},
+     {t:"p",s:"寫重複性高的邏輯時，Copilot 能幫你省下大量時間。例如寫 UI 綁定、資料序列化、API 對接這些模式固定的程式碼，Copilot 幾乎能直接生成可用的版本。但要注意：它產生的效能優化相關程式碼品質不穩定，務必手動檢查。"},
+     {t:"h3",s:"遊戲設計：用 AI 腦力激盪"},
+     {t:"p",s:"當你在關卡設計或遊戲機制上卡關時，可以把目前的設計方向丟給 ChatGPT，請它提供 10 個不同的變體方案。不是每個都能用，但往往能激發出你沒想到的方向。"},
+     {t:"h3",s:"NPC 對話與劇情生成"},
+     {t:"p",s:"用 AI 生成 NPC 對話的初稿，再手動調整語氣和風格，速度比從零開始快 5 倍。特別適合需要大量對話文本的 RPG 類型遊戲。"},
+     {t:"h3",s:"AI 不能取代的部分"},
+     {t:"p",s:"核心遊戲設計、玩家體驗的直覺判斷、效能瓶頸的診斷——這些仍然需要你自己的經驗和判斷。AI 是工具，不是替代品。把它當成一個非常快的助手，而不是決策者。"}
+   ],tags:["Unity","教學"],date:"2026-03-05",readTime:"6 分鐘"},
+  {id:8,cover:"🧩",title:"ECS 架構實戰：為什麼你的遊戲需要 Entity Component System",
+   excerpt:"傳統的 OOP 繼承在遊戲開發中容易遇到「鑽石問題」和效能瓶頸。ECS 架構是解決方案，Unity DOTS 就是基於這個概念……",
+   content:[
+     {t:"p",s:"如果你的遊戲有數百個不同行為的物件，傳統的繼承架構會變得非常難維護。ECS（Entity Component System）是一種資料導向的架構模式，能同時解決擴展性和效能問題。"},
+     {t:"h3",s:"什麼是 ECS？"},
+     {t:"p",s:"Entity 是一個 ID，Component 是純資料（例如 Position、Health、Velocity），System 是邏輯（例如 MovementSystem 處理所有有 Position + Velocity 的 Entity）。這種分離讓你可以自由組合功能，不需要複雜的繼承鏈。"},
+     {t:"h3",s:"ECS 的效能優勢"},
+     {t:"p",s:"因為 Component 是連續存放在記憶體中的，CPU Cache 命中率極高。在處理上千個物件時，ECS 比傳統 OOP 快 10-50 倍。Unity 的 DOTS（Data-Oriented Technology Stack）就是官方的 ECS 實現。"},
+     {t:"h3",s:"什麼時候該用 ECS？"},
+     {t:"p",s:"如果你的遊戲有大量相似但略有不同的物件（子彈、敵人、粒子），或者效能是關鍵需求（手機端大量物件），ECS 會是非常好的選擇。但小型專案用傳統 MonoBehaviour 反而更快更直覺。"},
+     {t:"h3",s:"實作建議"},
+     {t:"p",s:"不一定要用 Unity DOTS。你可以自己寫一個輕量的 ECS 框架，核心概念只需要一個 Entity Manager、Component 陣列和 System 迴圈。從小專案開始練習，逐步掌握這種思維方式。"}
+   ],tags:["Unity","效能優化"],date:"2026-02-28",readTime:"8 分鐘"},
+  {id:9,cover:"🌐",title:"Web 遊戲開發新趨勢：WebGPU、WebAssembly 與跨平台未來",
+   excerpt:"瀏覽器遊戲不再是「陽春版」的代名詞。WebGPU 帶來接近原生的渲染效能，WebAssembly 讓 C++ 遊戲直接跑在瀏覽器裡……",
+   content:[
+     {t:"p",s:"瀏覽器遊戲正在經歷一場革命。WebGPU、WebAssembly、WebXR 這些新技術讓「在瀏覽器裡玩 3A 等級遊戲」不再是天方夜譚。"},
+     {t:"h3",s:"WebGPU：下一代瀏覽器渲染 API"},
+     {t:"p",s:"WebGPU 是 WebGL 的繼任者，提供接近 Vulkan/Metal 等級的 GPU 存取能力。它支援 Compute Shader，讓瀏覽器中的粒子系統、物理模擬都能在 GPU 上高效運行。Chrome 已經正式支援，其他瀏覽器也在跟進。"},
+     {t:"h3",s:"WebAssembly：原生效能在瀏覽器中"},
+     {t:"p",s:"WebAssembly（Wasm）讓你可以把 C/C++/Rust 編寫的遊戲引擎直接編譯成瀏覽器可執行的格式，效能接近原生應用的 90%。Unity 和 Cocos 都支援 Wasm 匯出，這代表你的手機遊戲可以零修改跑在瀏覽器裡。"},
+     {t:"h3",s:"為什麼 Web 平台重要？"},
+     {t:"p",s:"無需下載安裝、一個連結就能玩、SEO 可索引、更新即時生效。對於推廣和用戶獲取來說，Web 平台的門檻是最低的。微信小遊戲的成功已經證明了這一點。"},
+     {t:"h3",s:"給遊戲開發者的建議"},
+     {t:"p",s:"現在就開始學習 Web 導出。Cocos Creator 天生擅長 Web 平台，Unity 的 WebGL/WebGPU 匯出也越來越成熟。掌握跨平台開發能力，你的遊戲能觸及更多玩家。"}
+   ],tags:["Cocos","教學"],date:"2026-03-10",readTime:"7 分鐘"}
 ]
 
 const POSTS_JP=[
@@ -150,7 +189,46 @@ const POSTS_JP=[
      {t:"p",s:"find()で動的にノードを検索するのはパフォーマンスが悪いだけでなく、ノード名変更でエラーが発生しやすいです。Inspectorで@propertyドラッグ指定を習慣にしましょう。"},
      {t:"h3",s:"落とし穴3：Canvasのスケールロジックを理解しない"},
      {t:"p",s:"CocosのCanvasには複数のスケールモードがあり、間違えると異なる画面比率でUIが崩れます。多くのモバイルゲームはFIXED_HEIGHTを推奨します。"}
-   ],tags:["Cocos","チュートリアル","体験談"],date:"2025-11-28",readTime:"6分"}
+   ],tags:["Cocos","チュートリアル","体験談"],date:"2025-11-28",readTime:"6分"},
+  {id:7,cover:"🤖",title:"AI活用ゲーム開発：ChatGPTとCopilotで効率10倍アップ",
+   excerpt:"AIツールが開発フローを根本から変えました。コード自動生成からNPC対話設計まで、毎日実際に使っているAIワークフローを共有します……",
+   content:[
+     {t:"p",s:"2025年以降、AIツールはゲーム開発に欠かせない存在になりました。誇張ではなく、毎日使って確実に効率が上がっています。"},
+     {t:"h3",s:"コード生成：GitHub Copilot"},
+     {t:"p",s:"繰り返しの多いロジックを書く際、Copilotが大幅に時間を節約してくれます。UIバインディング、データシリアライズ、API連携など、パターンが決まったコードはほぼそのまま使える品質で生成されます。ただし、パフォーマンス最適化関連のコードは必ず手動で確認しましょう。"},
+     {t:"h3",s:"ゲームデザイン：AIでブレインストーミング"},
+     {t:"p",s:"レベルデザインやゲームメカニクスで行き詰まったとき、現在の設計方針をChatGPTに投げて10個のバリエーションを提案してもらいます。すべてが使えるわけではありませんが、思いもよらないアイデアが生まれることがあります。"},
+     {t:"h3",s:"NPC対話とストーリー生成"},
+     {t:"p",s:"AIでNPC対話の初稿を生成し、手動でトーンやスタイルを調整。ゼロから書くより5倍速いです。特に大量のテキストが必要なRPGに最適です。"},
+     {t:"h3",s:"AIが代替できない部分"},
+     {t:"p",s:"コアなゲームデザイン、プレイヤー体験の直感的判断、パフォーマンスボトルネックの診断はまだ人間の経験と判断が必要です。AIは非常に速いアシスタントであり、意思決定者ではありません。"}
+   ],tags:["Unity","チュートリアル"],date:"2026-03-05",readTime:"6分"},
+  {id:8,cover:"🧩",title:"ECSアーキテクチャ実践：Entity Component Systemが必要な理由",
+   excerpt:"従来のOOP継承はゲーム開発で「ダイヤモンド問題」やパフォーマンスのボトルネックに直面しがちです。ECSアーキテクチャがその解決策です……",
+   content:[
+     {t:"p",s:"数百の異なる振る舞いを持つオブジェクトがあるゲームでは、従来の継承アーキテクチャは非常にメンテナンスしにくくなります。ECS（Entity Component System）はデータ指向のアーキテクチャパターンで、拡張性とパフォーマンスの問題を同時に解決します。"},
+     {t:"h3",s:"ECSとは？"},
+     {t:"p",s:"EntityはID、Componentは純粋なデータ（Position、Health、Velocityなど）、Systemはロジック（例：MovementSystemがPosition+Velocityを持つすべてのEntityを処理）。この分離により、複雑な継承チェーンなしに機能を自由に組み合わせられます。"},
+     {t:"h3",s:"ECSのパフォーマンス優位性"},
+     {t:"p",s:"Componentがメモリ上で連続して配置されるため、CPUキャッシュヒット率が非常に高くなります。数千のオブジェクトを処理する場合、ECSは従来のOOPより10-50倍高速です。UnityのDOTSが公式のECS実装です。"},
+     {t:"h3",s:"いつECSを使うべきか？"},
+     {t:"p",s:"大量の類似オブジェクト（弾、敵、パーティクル）がある場合や、パフォーマンスが重要な要件（モバイル端末での大量オブジェクト）の場合、ECSは最適です。ただし小規模プロジェクトでは従来のMonoBehaviourの方が速く直感的です。"},
+     {t:"h3",s:"実装のアドバイス"},
+     {t:"p",s:"必ずしもUnity DOTSを使う必要はありません。軽量なECSフレームワークを自作できます。小さなプロジェクトから始めて、このデータ指向の考え方を段階的にマスターしましょう。"}
+   ],tags:["Unity","最適化"],date:"2026-02-28",readTime:"8分"},
+  {id:9,cover:"🌐",title:"Webゲーム開発の新トレンド：WebGPU、WebAssemblyとクロスプラットフォームの未来",
+   excerpt:"ブラウザゲームはもう「簡易版」ではありません。WebGPUがネイティブ級のレンダリング性能を、WebAssemblyがC++ゲームのブラウザ実行を可能にします……",
+   content:[
+     {t:"p",s:"ブラウザゲームは革命の真っ只中です。WebGPU、WebAssembly、WebXRといった新技術により、ブラウザでAAA級ゲームをプレイすることが現実的になってきました。"},
+     {t:"h3",s:"WebGPU：次世代ブラウザレンダリングAPI"},
+     {t:"p",s:"WebGPUはWebGLの後継で、Vulkan/Metal級のGPUアクセスを提供します。Compute Shaderをサポートし、ブラウザ内のパーティクルシステムや物理シミュレーションをGPU上で効率的に実行できます。Chromeは既に正式サポートしています。"},
+     {t:"h3",s:"WebAssembly：ブラウザでネイティブ性能"},
+     {t:"p",s:"WebAssembly（Wasm）により、C/C++/Rustで書かれたゲームエンジンをブラウザで直接実行可能な形式にコンパイルでき、ネイティブの約90%の性能が出ます。UnityもCocosもWasmエクスポートをサポートしています。"},
+     {t:"h3",s:"なぜWebプラットフォームが重要か？"},
+     {t:"p",s:"ダウンロード不要、リンク一つでプレイ可能、SEOでインデックス可能、更新が即時反映。ユーザー獲得の面で、Webプラットフォームは最も障壁が低いです。"},
+     {t:"h3",s:"ゲーム開発者へのアドバイス"},
+     {t:"p",s:"今すぐWebエクスポートを学びましょう。Cocos Creatorは元々Webが得意、UnityのWebGL/WebGPUエクスポートも成熟してきています。クロスプラットフォーム開発能力を身につけることで、より多くのプレイヤーにリーチできます。"}
+   ],tags:["Cocos","チュートリアル"],date:"2026-03-10",readTime:"7分"}
 ]
 
 const POSTS_CN=[
@@ -233,7 +311,46 @@ const POSTS_CN=[
      {t:"p",s:"Cocos 3.x 强力建议使用 TypeScript，类型声明可以让 IDE 帮你找到大量的低级错误。"},
      {t:"h3",s:"坑 5：跳过版控直接开发"},
      {t:"p",s:"没有版控直接开发是灾难的开始。现在就建立 Git repo，每次有意义的进展就 commit。"}
-   ],tags:["Cocos","教学","心得"],date:"2025-11-28",readTime:"6 分钟"}
+   ],tags:["Cocos","教学","心得"],date:"2025-11-28",readTime:"6 分钟"},
+  {id:7,cover:"🤖",title:"AI 辅助游戏开发：用 ChatGPT 和 Copilot 提升 10 倍效率",
+   excerpt:"AI 工具已经彻底改变了我的开发流程。从自动生成代码到 NPC 对话设计，这篇分享我每天实际在用的 AI 工作流……",
+   content:[
+     {t:"p",s:"2025 年之后，AI 工具已经成为我开发游戏时不可或缺的助手。这不是炒作——我每天都在用，而且实实在在地提升了效率。"},
+     {t:"h3",s:"代码生成：GitHub Copilot"},
+     {t:"p",s:"写重复性高的逻辑时，Copilot 能帮你省下大量时间。例如写 UI 绑定、数据序列化、API 对接这些模式固定的代码，Copilot 几乎能直接生成可用的版本。但要注意：它产生的性能优化相关代码品质不稳定，务必手动检查。"},
+     {t:"h3",s:"游戏设计：用 AI 脑力激荡"},
+     {t:"p",s:"当你在关卡设计或游戏机制上卡关时，可以把目前的设计方向丢给 ChatGPT，请它提供 10 个不同的变体方案。不是每个都能用，但往往能激发出你没想到的方向。"},
+     {t:"h3",s:"NPC 对话与剧情生成"},
+     {t:"p",s:"用 AI 生成 NPC 对话的初稿，再手动调整语气和风格，速度比从零开始快 5 倍。特别适合需要大量对话文本的 RPG 类型游戏。"},
+     {t:"h3",s:"AI 不能取代的部分"},
+     {t:"p",s:"核心游戏设计、玩家体验的直觉判断、性能瓶颈的诊断——这些仍然需要你自己的经验和判断。AI 是工具，不是替代品。"}
+   ],tags:["Unity","教学"],date:"2026-03-05",readTime:"6 分钟"},
+  {id:8,cover:"🧩",title:"ECS 架构实战：为什么你的游戏需要 Entity Component System",
+   excerpt:"传统的 OOP 继承在游戏开发中容易遇到「钻石问题」和性能瓶颈。ECS 架构是解决方案……",
+   content:[
+     {t:"p",s:"如果你的游戏有数百个不同行为的对象，传统的继承架构会变得非常难维护。ECS（Entity Component System）是一种数据导向的架构模式，能同时解决扩展性和性能问题。"},
+     {t:"h3",s:"什么是 ECS？"},
+     {t:"p",s:"Entity 是一个 ID，Component 是纯数据（例如 Position、Health、Velocity），System 是逻辑。这种分离让你可以自由组合功能，不需要复杂的继承链。"},
+     {t:"h3",s:"ECS 的性能优势"},
+     {t:"p",s:"因为 Component 是连续存放在内存中的，CPU Cache 命中率极高。在处理上千个对象时，ECS 比传统 OOP 快 10-50 倍。Unity 的 DOTS 就是官方的 ECS 实现。"},
+     {t:"h3",s:"什么时候该用 ECS？"},
+     {t:"p",s:"如果你的游戏有大量相似但略有不同的对象（子弹、敌人、粒子），或者性能是关键需求，ECS 会是非常好的选择。但小型项目用传统 MonoBehaviour 反而更快更直觉。"},
+     {t:"h3",s:"实作建议"},
+     {t:"p",s:"不一定要用 Unity DOTS。你可以自己写一个轻量的 ECS 框架，核心概念只需要一个 Entity Manager、Component 数组和 System 循环。从小项目开始练习。"}
+   ],tags:["Unity","性能优化"],date:"2026-02-28",readTime:"8 分钟"},
+  {id:9,cover:"🌐",title:"Web 游戏开发新趋势：WebGPU、WebAssembly 与跨平台未来",
+   excerpt:"浏览器游戏不再是「阳春版」的代名词。WebGPU 带来接近原生的渲染性能，WebAssembly 让 C++ 游戏直接跑在浏览器里……",
+   content:[
+     {t:"p",s:"浏览器游戏正在经历一场革命。WebGPU、WebAssembly、WebXR 这些新技术让「在浏览器里玩 3A 级游戏」不再是天方夜谭。"},
+     {t:"h3",s:"WebGPU：下一代浏览器渲染 API"},
+     {t:"p",s:"WebGPU 是 WebGL 的继任者，提供接近 Vulkan/Metal 级别的 GPU 访问能力。它支持 Compute Shader，让浏览器中的粒子系统、物理模拟都能在 GPU 上高效运行。Chrome 已经正式支持。"},
+     {t:"h3",s:"WebAssembly：原生性能在浏览器中"},
+     {t:"p",s:"WebAssembly（Wasm）让你可以把 C/C++/Rust 编写的游戏引擎直接编译成浏览器可执行的格式，性能接近原生应用的 90%。Unity 和 Cocos 都支持 Wasm 导出。"},
+     {t:"h3",s:"为什么 Web 平台重要？"},
+     {t:"p",s:"无需下载安装、一个链接就能玩、SEO 可索引、更新即时生效。对于推广和用户获取来说，Web 平台的门槛是最低的。"},
+     {t:"h3",s:"给游戏开发者的建议"},
+     {t:"p",s:"现在就开始学习 Web 导出。Cocos Creator 天生擅长 Web 平台，Unity 的 WebGL/WebGPU 导出也越来越成熟。掌握跨平台开发能力，你的游戏能触及更多玩家。"}
+   ],tags:["Cocos","教学"],date:"2026-03-10",readTime:"7 分钟"}
 ]
 
 const POSTS_PH=[
@@ -314,5 +431,44 @@ const POSTS_PH=[
      {t:"p",s:"Cocos 3.x ay strongly recommends TypeScript. Type declarations ay tumutulong sa IDE na mahanap ang bugs."},
      {t:"h3",s:"Pitfall 5: Walang Version Control"},
      {t:"p",s:"Development without Git ay recipe for disaster. Mag-commit sa bawat meaningful progress."}
-   ],tags:["Cocos","Tutorial","Experience"],date:"2025-11-28",readTime:"6 min"}
+   ],tags:["Cocos","Tutorial","Experience"],date:"2025-11-28",readTime:"6 min"},
+  {id:7,cover:"🤖",title:"AI-Powered Game Dev: 10x Your Efficiency with ChatGPT & Copilot",
+   excerpt:"AI tools have completely transformed my dev workflow. From auto-generating code to NPC dialogue design, here's how I use AI every day……",
+   content:[
+     {t:"p",s:"Since 2025, AI tools have become indispensable in my game development workflow. This isn't hype — I use them daily and the efficiency gains are real."},
+     {t:"h3",s:"Code Generation: GitHub Copilot"},
+     {t:"p",s:"For repetitive logic like UI bindings, data serialization, and API integrations, Copilot generates near-usable code instantly. However, always manually review performance-related code — its quality can be inconsistent in that area."},
+     {t:"h3",s:"Game Design: AI Brainstorming"},
+     {t:"p",s:"When stuck on level design or game mechanics, feed your current design direction to ChatGPT and ask for 10 variations. Not all will be useful, but they often spark ideas you wouldn't have thought of."},
+     {t:"h3",s:"NPC Dialogue & Story Generation"},
+     {t:"p",s:"Using AI to generate first drafts of NPC dialogue, then manually adjusting tone and style, is 5x faster than writing from scratch. Especially useful for dialogue-heavy RPGs."},
+     {t:"h3",s:"What AI Can't Replace"},
+     {t:"p",s:"Core game design, intuitive player experience judgment, and performance bottleneck diagnosis still require your own experience. AI is a very fast assistant, not a decision-maker."}
+   ],tags:["Unity","Tutorial"],date:"2026-03-05",readTime:"6 min"},
+  {id:8,cover:"🧩",title:"ECS Architecture in Practice: Why Your Game Needs Entity Component System",
+   excerpt:"Traditional OOP inheritance in game dev often hits the 'diamond problem' and performance walls. ECS architecture is the solution……",
+   content:[
+     {t:"p",s:"If your game has hundreds of objects with different behaviors, traditional inheritance becomes a maintenance nightmare. ECS (Entity Component System) is a data-oriented pattern that solves both scalability and performance issues."},
+     {t:"h3",s:"What is ECS?"},
+     {t:"p",s:"Entity is just an ID. Component is pure data (Position, Health, Velocity). System is logic (e.g., MovementSystem processes all entities with Position + Velocity). This separation lets you freely combine behaviors without complex inheritance chains."},
+     {t:"h3",s:"ECS Performance Advantage"},
+     {t:"p",s:"Components are stored contiguously in memory, giving extremely high CPU cache hit rates. When processing thousands of objects, ECS can be 10-50x faster than traditional OOP. Unity's DOTS is the official ECS implementation."},
+     {t:"h3",s:"When Should You Use ECS?"},
+     {t:"p",s:"If your game has many similar objects with slight variations (bullets, enemies, particles) or performance is critical (mobile with lots of objects), ECS is excellent. But for small projects, traditional MonoBehaviour is faster and more intuitive."},
+     {t:"h3",s:"Implementation Tips"},
+     {t:"p",s:"You don't have to use Unity DOTS. You can build a lightweight ECS framework yourself — the core just needs an Entity Manager, Component arrays, and System loops. Start with a small project to practice the mindset."}
+   ],tags:["Unity","Optimization"],date:"2026-02-28",readTime:"8 min"},
+  {id:9,cover:"🌐",title:"Web Game Dev Trends: WebGPU, WebAssembly & the Cross-Platform Future",
+   excerpt:"Browser games are no longer 'lite versions.' WebGPU brings near-native rendering, WebAssembly lets C++ games run in the browser……",
+   content:[
+     {t:"p",s:"Browser gaming is going through a revolution. WebGPU, WebAssembly, and WebXR are making it realistic to play AAA-quality games right in the browser."},
+     {t:"h3",s:"WebGPU: Next-Gen Browser Rendering API"},
+     {t:"p",s:"WebGPU succeeds WebGL, offering Vulkan/Metal-level GPU access. It supports Compute Shaders, enabling efficient particle systems and physics simulations on the GPU in-browser. Chrome already has full support."},
+     {t:"h3",s:"WebAssembly: Native Performance in the Browser"},
+     {t:"p",s:"WebAssembly (Wasm) lets you compile C/C++/Rust game engines into browser-executable format at ~90% native performance. Both Unity and Cocos support Wasm export, meaning your mobile game can run in a browser with zero modifications."},
+     {t:"h3",s:"Why the Web Platform Matters"},
+     {t:"p",s:"No downloads needed, playable via a single link, SEO-indexable, instant updates. For user acquisition and distribution, the web platform has the lowest barrier of entry."},
+     {t:"h3",s:"Advice for Game Developers"},
+     {t:"p",s:"Start learning web export now. Cocos Creator is built for web, and Unity's WebGL/WebGPU export is maturing fast. Mastering cross-platform development means reaching more players."}
+   ],tags:["Cocos","Tutorial"],date:"2026-03-10",readTime:"7 min"}
 ]

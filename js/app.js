@@ -13,8 +13,10 @@ function detectLang(){
     return 'cn'
   }
   if(code.startsWith('fil')||code.startsWith('tl')) return 'ph'
-  // Default to tw for unsupported locales
-  return 'tw'
+  if(code.startsWith('en')) return 'ph'
+  if(code.startsWith('ko')||code.startsWith('ms')||code.startsWith('vi')||code.startsWith('th')) return 'ph'
+  // Default to English for unsupported locales
+  return 'ph'
 }
 
 function loadLang(){
