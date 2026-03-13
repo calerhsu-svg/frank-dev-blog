@@ -246,6 +246,7 @@
         <p data-i18n="cr1_desc">30 頁完整入門指南，涵蓋環境設定、C# 基礎、第一個遊戲製作全流程</p>
         <div class="course-meta">
           <span class="course-free" data-i18n="free">免費</span>
+          <button class="btn-outline" onclick="openCoursePreview('unity-guide')" data-i18n="preview_btn">👁 預覽</button>
           <button class="btn-green" onclick="freeDownload('unity-guide')" data-i18n="dl_btn">📥 免費下載</button>
         </div>
       </div>
@@ -257,6 +258,7 @@
         <p data-i18n="cr2_desc">常用 API、生命週期、節點操作一張表搞定，開發必備參考卡</p>
         <div class="course-meta">
           <span class="course-free" data-i18n="free">免費</span>
+          <button class="btn-outline" onclick="openCoursePreview('cocos-cheatsheet')" data-i18n="preview_btn">👁 預覽</button>
           <button class="btn-green" onclick="freeDownload('cocos-cheatsheet')" data-i18n="dl_btn">📥 免費下載</button>
         </div>
       </div>
@@ -271,6 +273,7 @@
         <p data-i18n="cr3_desc">5 個影片 + 範例 Unity 專案，學習 Object Pooling、Draw Call 優化、記憶體管理，讓你的遊戲在低階機上也跑得順</p>
         <div class="course-meta">
           <span class="course-price">NT$990</span>
+          <button class="btn-outline" onclick="openCoursePreview('perf-course')" data-i18n="preview_btn">👁 預覽</button>
           <button class="btn-primary" onclick="buyCourse('perf-course')" data-i18n="buy_btn">🛒 立即購買</button>
         </div>
       </div>
@@ -282,6 +285,7 @@
         <p data-i18n="cr4_desc">設計可擴展的遊戲架構：事件系統、狀態機、MVC 設計模式在遊戲中的實戰應用，含完整範例專案</p>
         <div class="course-meta">
           <span class="course-price">NT$1,490</span>
+          <button class="btn-outline" onclick="openCoursePreview('arch-course')" data-i18n="preview_btn">👁 預覽</button>
           <button class="btn-primary" onclick="buyCourse('arch-course')" data-i18n="buy_btn">🛒 立即購買</button>
         </div>
       </div>
@@ -293,6 +297,7 @@
         <p data-i18n="cr5_desc">8 小時完整課程，從專案建立到 App Store 上架，完整製作一款休閒遊戲，含完整原始碼</p>
         <div class="course-meta">
           <span class="course-price">NT$2,490</span>
+          <button class="btn-outline" onclick="openCoursePreview('fullgame-course')" data-i18n="preview_btn">👁 預覽</button>
           <button class="btn-primary" onclick="buyCourse('fullgame-course')" data-i18n="buy_btn">🛒 立即購買</button>
         </div>
       </div>
@@ -521,6 +526,22 @@
   </div>
 </div>
 
+<!-- COURSE PREVIEW MODAL -->
+<div class="modal-overlay" id="course-modal" onclick="closeCoursePreview(event)">
+  <div class="modal course-preview-modal">
+    <button class="modal-close" onclick="closeCoursePreview()">✕</button>
+    <div class="cp-header">
+      <div class="modal-icon" id="cp-icon"></div>
+      <div class="cp-badge" id="cp-badge"></div>
+      <h1 id="cp-title"></h1>
+    </div>
+    <div class="cp-toc" id="cp-toc"></div>
+    <hr>
+    <div class="cp-body" id="cp-body"></div>
+    <div class="cp-footer" id="cp-footer"></div>
+  </div>
+</div>
+
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
 
@@ -532,6 +553,7 @@
 <!-- Scripts (load order matters: data & i18n first, then features, then app init) -->
 <script src="js/data.js"></script>
 <script src="js/i18n.js"></script>
+<script src="js/courses.js"></script>
 <script src="js/daily.js"></script>
 <script src="js/games.js"></script>
 <script src="js/app.js"></script>

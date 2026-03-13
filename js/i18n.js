@@ -76,7 +76,8 @@ tw:{
   game_click_play:"點擊開始遊玩",game_score:"分數",
   game1_title:"🐍 貪吃蛇",game1_desc:"經典貪吃蛇遊戲！使用方向鍵或滑動操控蛇的方向，吃掉食物讓身體變長。",
   game2_title:"🧱 打磚塊",game2_desc:"移動底部的擋板反彈球，擊碎所有磚塊。使用左右鍵或滑動控制。",
-  game3_title:"🐦 飛翔小鳥",game3_desc:"點擊螢幕或按空白鍵讓小鳥飛起來，躲避柱子障礙物。"
+  game3_title:"🐦 飛翔小鳥",game3_desc:"點擊螢幕或按空白鍵讓小鳥飛起來，躲避柱子障礙物。",
+  preview_btn:"👁 預覽",cp_toc:"目錄"
 },
 jp:{
   site_title:"フランク開発ブログ · ゲーム開発 × 受注 × 教学",
@@ -154,7 +155,8 @@ jp:{
   game_click_play:"クリックしてプレイ",game_score:"スコア",
   game1_title:"🐍 スネークゲーム",game1_desc:"クラシックなスネークゲーム！矢印キーまたはスワイプで操作し、食べ物を取って長くなろう。",
   game2_title:"🧱 ブロック崩し",game2_desc:"パドルを動かしてボールを跳ね返し、すべてのブロックを壊そう。左右キーまたはスワイプで操作。",
-  game3_title:"🐦 フラッピーバード",game3_desc:"クリックまたはスペースキーで鳥を飛ばし、柱をよけよう。"
+  game3_title:"🐦 フラッピーバード",game3_desc:"クリックまたはスペースキーで鳥を飛ばし、柱をよけよう。",
+  preview_btn:"👁 プレビュー",cp_toc:"目次"
 },
 cn:{
   site_title:"Frank Dev Blog · 游戏开发 × 接案 × 教学",
@@ -232,7 +234,8 @@ cn:{
   game_click_play:"点击开始游玩",game_score:"分数",
   game1_title:"🐍 贪吃蛇",game1_desc:"经典贪吃蛇游戏！使用方向键或滑动操控蛇的方向，吃掉食物让身体变长。",
   game2_title:"🧱 打砖块",game2_desc:"移动底部的挡板反弹球，击碎所有砖块。使用左右键或滑动控制。",
-  game3_title:"🐦 飞翔小鸟",game3_desc:"点击屏幕或按空格键让小鸟飞起来，躲避柱子障碍物。"
+  game3_title:"🐦 飞翔小鸟",game3_desc:"点击屏幕或按空格键让小鸟飞起来，躲避柱子障碍物。",
+  preview_btn:"👁 预览",cp_toc:"目录"
 },
 ph:{
   site_title:"Frank Dev Blog · Game Dev × Freelance × Tutorials",
@@ -310,5 +313,6 @@ ph:{
   game_click_play:"Click to Play",game_score:"Score",
   game1_title:"🐍 Snake",game1_desc:"Classic snake game! Use arrow keys or swipe to control the snake and eat food to grow.",
   game2_title:"🧱 Breakout",game2_desc:"Move the paddle to bounce the ball and break all bricks. Use left/right keys or swipe.",
-  game3_title:"🐦 Flappy Bird",game3_desc:"Click or press space to make the bird fly up and dodge the pillars."
+  game3_title:"🐦 Flappy Bird",game3_desc:"Click or press space to make the bird fly up and dodge the pillars.",
+  preview_btn:"👁 Preview",cp_toc:"Table of Contents"
 }}

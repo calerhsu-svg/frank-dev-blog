@@ -1,7 +1,29 @@
 // ── STATE ────────────────────────────────────────────────────────
-let lang='tw', darkMode=false, activeTag=null, dailyOffset=0
 const LANGS=['tw','jp','cn','ph']
 const LANG_LABELS={tw:'🇹🇼 TW',jp:'🇯🇵 JP',cn:'🇨🇳 CN',ph:'🇵🇭 PH'}
+
+// Map browser language codes to our supported langs
+function detectLang(){
+  const nav=navigator.language||navigator.userLanguage||''
+  const code=nav.toLowerCase()
+  if(code.startsWith('ja')) return 'jp'
+  if(code.startsWith('zh')){
+    // zh-TW, zh-Hant → tw; zh-CN, zh-Hans, zh → cn
+    if(code.includes('tw')||code.includes('hant')) return 'tw'
+    return 'cn'
+  }
+  if(code.startsWith('fil')||code.startsWith('tl')) return 'ph'
+  // Default to tw for unsupported locales
+  return 'tw'
+}
+
+function loadLang(){
+  const saved=localStorage.getItem('frank-dev-lang')
+  if(saved&&LANGS.includes(saved)) return saved
+  return detectLang()
+}
+
+let lang=loadLang(), darkMode=false, activeTag=null, dailyOffset=0
 
 // ── LANG ─────────────────────────────────────────────────────────
 function applyLang(){
@@ -25,6 +47,7 @@ function toggleLangMenu(){
 }
 function setLang(l){
   lang=l;activeTag=null
+  localStorage.setItem('frank-dev-lang',l)
   document.getElementById('langMenu').classList.remove('open')
   applyLang();renderAll();renderDaily()
 }
@@ -124,6 +147,60 @@ function openModal(post){
 function closeModal(e){
   if(e&&e.target!==document.getElementById('modal-overlay')&&!e.target.classList.contains('modal-close'))return
   document.getElementById('modal-overlay').classList.remove('open')
+  document.body.style.overflow=''
+}
+
+// ── COURSE PREVIEW ──────────────────────────────────────────────
+function openCoursePreview(id){
+  const course=COURSES[id]
+  if(!course) return
+  const L=LANG[lang]
+  document.getElementById('cp-icon').textContent=course.icon
+  // Badge
+  const badge=document.getElementById('cp-badge')
+  if(course.type==='free'){
+    badge.className='cp-badge free'
+    badge.textContent=L.free||'免費'
+  }else{
+    badge.className='cp-badge paid'
+    badge.textContent=course.price
+  }
+  // Title
+  const titleKey={'unity-guide':'cr1_title','cocos-cheatsheet':'cr2_title','perf-course':'cr3_title','arch-course':'cr4_title','fullgame-course':'cr5_title'}
+  document.getElementById('cp-title').textContent=L[titleKey[id]]||id
+  // TOC
+  const tocEl=document.getElementById('cp-toc')
+  const tocItems=course.toc?course.toc[lang]||course.toc.tw:course.lessons?course.lessons[lang]||course.lessons.tw:[]
+  if(tocItems.length){
+    const tocLabel=L.cp_toc||'目錄'
+    tocEl.innerHTML=`<h3>📋 ${tocLabel}</h3><ol>${tocItems.map((item,i)=>`<li${i===0?' class="highlight"':''}>${item}</li>`).join('')}</ol>`
+    tocEl.style.display='block'
+  }else{
+    tocEl.style.display='none'
+  }
+  // Body (preview content)
+  const preview=course.preview?course.preview[lang]||course.preview.tw:[]
+  const bodyEl=document.getElementById('cp-body')
+  bodyEl.innerHTML=preview.map(b=>{
+    if(b.t==='h3') return `<h3>${b.s}</h3>`
+    if(b.t==='h4') return `<h4>${b.s}</h4>`
+    if(b.t==='code') return `<pre>${b.s}</pre>`
+    if(b.t==='lock') return `<div class="cp-lock">${b.s}</div>`
+    return `<p>${b.s}</p>`
+  }).join('')
+  // Footer action
+  const footer=document.getElementById('cp-footer')
+  if(course.type==='free'){
+    footer.innerHTML=`<button class="btn-green" onclick="closeCoursePreview();freeDownload('${id}')">${L.dl_btn||'📥 免費下載'}</button>`
+  }else{
+    footer.innerHTML=`<button class="btn-primary" onclick="closeCoursePreview();buyCourse('${id}')">${L.buy_btn||'🛒 立即購買'}</button>`
+  }
+  document.getElementById('course-modal').classList.add('open')
+  document.body.style.overflow='hidden'
+}
+function closeCoursePreview(e){
+  if(e&&e.target!==document.getElementById('course-modal')&&!e.target.classList.contains('modal-close'))return
+  document.getElementById('course-modal').classList.remove('open')
   document.body.style.overflow=''
 }
 

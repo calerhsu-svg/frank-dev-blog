@@ -257,6 +257,26 @@ footer p{color:var(--sub);font-size:12px}
 .game-info p{font-size:12px;color:var(--sub);line-height:1.6}
 .game-score{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:13px;font-weight:700;color:var(--accent)}
 
+/* ── COURSE PREVIEW MODAL ─────────────────────────────────────── */
+.course-preview-modal{max-width:800px}
+.cp-header{text-align:center;margin-bottom:20px}
+.cp-header .modal-icon{font-size:48px;margin-bottom:8px}
+.cp-badge{display:inline-block;border-radius:20px;padding:4px 14px;font-size:12px;font-weight:700;margin-bottom:12px}
+.cp-badge.free{background:#22C55E22;color:var(--green);border:1px solid #22C55E44}
+.cp-badge.paid{background:var(--primary);color:#fff}
+.cp-header h1{font-size:clamp(18px,4vw,22px);font-weight:900;line-height:1.3}
+.cp-toc{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:18px 22px;margin-bottom:20px}
+.cp-toc h3{font-size:14px;font-weight:800;margin-bottom:10px;color:var(--primary)}
+.cp-toc ol{padding-left:20px;margin:0}
+.cp-toc li{font-size:13px;color:var(--sub);padding:3px 0;line-height:1.5}
+.cp-toc li.highlight{color:var(--primary);font-weight:700}
+.cp-body h3{font-size:17px;font-weight:800;color:var(--primary);margin:16px 0 8px}
+.cp-body h4{font-size:14px;font-weight:700;margin:14px 0 6px;color:var(--text)}
+.cp-body p{font-size:13px;color:var(--sub);line-height:1.8;margin-bottom:10px}
+.cp-body pre{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:16px;font-size:12px;overflow-x:auto;margin:10px 0;line-height:1.6;color:var(--text);font-family:'Courier New',monospace}
+.cp-body .cp-lock{background:linear-gradient(135deg,#3B5BDB11,#7048E811);border:1.5px dashed var(--border);border-radius:12px;padding:20px;text-align:center;font-size:14px;color:var(--sub);margin-top:16px}
+.cp-footer{margin-top:20px;padding-top:18px;border-top:1px solid var(--border);text-align:center;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+
 /* ── RESPONSIVE ────────────────────────────────────────────────── */
 @media(max-width:600px){
   .form-row{grid-template-columns:1fr}
