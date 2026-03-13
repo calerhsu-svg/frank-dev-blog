@@ -243,8 +243,11 @@ function captureCourseEmail(){
   showToast({tw:'稍後將寄送教材至你的 Email！',jp:'教材を近日中にメールでお送りします！',cn:'稍后将寄送教材至你的 Email！',ph:'Materials will be sent to your email soon!'}[lang])
 }
 function freeDownload(item){
-  captureEmail()
-  showToast(lang==='tw'?'確認 Email 後即可下載！':'メール確認後にダウンロードできます！')
+  const files={'unity-guide':'downloads/unity-beginner-guide.pdf','cocos-cheatsheet':'downloads/cocos-creator-cheatsheet.pdf'}
+  const url=files[item]||'#'
+  const a=document.createElement('a')
+  a.href=url;a.download='';document.body.appendChild(a);a.click();document.body.removeChild(a)
+  showToast({tw:'下載開始！',jp:'ダウンロード開始！',cn:'下载开始！',ph:'Download started!'}[lang])
 }
 function buyCourse(item){
   const prices={'perf-course':'NT$990','arch-course':'NT$1,490','fullgame-course':'NT$2,490'}
