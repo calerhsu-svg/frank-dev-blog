@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CalerSpark Unity Assets — 108 C# Scripts & Tools</title>
+<meta name="description" content="Professional Unity C# scripts and tools. 108 assets covering AI, UI, audio, gameplay systems, and more. Instant download.">
+<meta property="og:title" content="CalerSpark Unity Assets">
+<meta property="og:description" content="108 Unity C# assets — download and ship your game faster">
+<style>
+  :root {
+    --bg: #0d0d1a;
+    --card-bg: #161628;
+    --card-hover: #1e1e35;
+    --accent: #7c3aed;
+    --accent2: #a855f7;
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+    --border: #2d2d4e;
+    --green: #22c55e;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    min-height: 100vh;
+  }
+  
+  /* Hero */
+  .hero {
+    background: linear-gradient(135deg, #0d0d1a 0%, #1a0a2e 50%, #0d1a2e 100%);
+    padding: 80px 20px 60px;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at 50% 50%, rgba(124,58,237,0.15) 0%, transparent 70%);
+  }
+  .hero-badge {
+    display: inline-block;
+    background: rgba(124,58,237,0.2);
+    border: 1px solid rgba(124,58,237,0.4);
+    color: var(--accent2);
+    padding: 4px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+    margin-bottom: 20px;
+    font-weight: 500;
+  }
+  .hero h1 {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 800;
+    line-height: 1.1;
+    background: linear-gradient(135deg, #fff 0%, var(--accent2) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 16px;
+  }
+  .hero p {
+    font-size: 1.1rem;
+    color: var(--muted);
+    max-width: 560px;
+    margin: 0 auto 32px;
+    line-height: 1.6;
+  }
+  .hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    margin-bottom: 36px;
+  }
+  .stat {
+    text-align: center;
+  }
+  .stat-num {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--accent2);
+  }
+  .stat-label {
+    font-size: 0.8rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .hero-buttons {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: all 0.2s;
+    cursor: pointer;
+    border: none;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: white;
+  }
+  .btn-primary:hover { background: #6d28d9; transform: translateY(-1px); }
+  .btn-secondary {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+  .btn-secondary:hover { background: var(--card-bg); transform: translateY(-1px); }
+  .btn-gumroad {
+    background: #ff90e8;
+    color: #1a0033;
+  }
+  .btn-gumroad:hover { background: #ff70dc; transform: translateY(-1px); }
+  
+  /* Filter bar */
+  .filter-bar {
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    border-bottom: 1px solid var(--border);
+    background: var(--card-bg);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .search-input {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    width: 280px;
+    outline: none;
+  }
+  .search-input:focus { border-color: var(--accent); }
+  .search-input::placeholder { color: var(--muted); }
+  .count-badge {
+    background: rgba(124,58,237,0.2);
+    color: var(--accent2);
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+  
+  /* Grid */
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 32px 20px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+  }
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 16px;
+    text-decoration: none;
+    color: var(--text);
+    transition: all 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+    cursor: pointer;
+  }
+  .card:hover {
+    background: var(--card-hover);
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(124,58,237,0.2);
+  }
+  .card-icon { font-size: 2rem; }
+  .card-title {
+    font-size: 0.85rem;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--text);
+  }
+  .card-price {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--green);
+    background: rgba(34,197,94,0.1);
+    padding: 2px 10px;
+    border-radius: 999px;
+  }
+  
+  /* Bundle section */
+  .bundle {
+    background: linear-gradient(135deg, #1e0a3c 0%, #0a1a3c 100%);
+    border: 1px solid rgba(124,58,237,0.4);
+    border-radius: 16px;
+    padding: 40px;
+    text-align: center;
+    margin: 40px 0;
+  }
+  .bundle h2 {
+    font-size: 1.8rem;
+    font-weight: 800;
+    margin-bottom: 12px;
+    background: linear-gradient(135deg, #fff 0%, #ff90e8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .bundle p { color: var(--muted); margin-bottom: 24px; font-size: 1rem; }
+  .bundle-price {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+  .bundle-price .new { font-size: 2.5rem; font-weight: 800; color: #ff90e8; }
+  .bundle-price .old { font-size: 1.2rem; color: var(--muted); text-decoration: line-through; }
+  
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 40px 20px;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+  footer a { color: var(--accent2); text-decoration: none; }
+  
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-badge">⚡ Unity C# Assets</div>
+  <h1>Ship Your Game Faster</h1>
+  <p>108 battle-tested Unity scripts — ready-to-drop into any project. Instant download, clean code.</p>
+  <div class="hero-stats">
+    <div class="stat">
+      <div class="stat-num">108</div>
+      <div class="stat-label">Assets</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">C#</div>
+      <div class="stat-label">Language</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">$3+</div>
+      <div class="stat-label">From</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">⚡</div>
+      <div class="stat-label">Instant</div>
+    </div>
+  </div>
+  <div class="hero-buttons">
+    <a href="https://calerspark.itch.io" target="_blank" class="btn btn-primary">Browse on itch.io</a>
+    <a href="https://calerspark.gumroad.com/l/ipoui" target="_blank" class="btn btn-gumroad">🎁 Full Bundle $19</a>
+    <a href="https://calerspark.gumroad.com" target="_blank" class="btn btn-secondary">Gumroad Store</a>
+  </div>
+</section>
+
+<div class="filter-bar">
+  <input type="text" class="search-input" id="searchInput" placeholder="🔍  Search assets…" oninput="filterCards()">
+  <span class="count-badge" id="countBadge">108 assets</span>
+</div>
+
+<div class="container">
+
+  <!-- Bundle banner -->
+  <div class="bundle">
+    <h2>🎁 Complete Bundle — All 108 Assets</h2>
+    <p>Get every script in one download. Save over 80% vs buying individually.</p>
+    <div class="bundle-price">
+      <span class="new">$19</span>
+      <span class="old">$347</span>
+    </div>
+    <br>
+    <a href="https://calerspark.gumroad.com/l/ipoui" target="_blank" class="btn btn-gumroad" style="font-size:1.1rem;padding:14px 32px;">Buy Full Bundle on Gumroad</a>
+  </div>
+
+  <!-- Asset grid -->
+  <div class="grid" id="assetGrid">
+
+    <a href="https://calerspark.itch.io/singleton-base" target="_blank" class="card">
+      <div class="card-icon">🧩</div>
+      <div class="card-title">Unity Singleton Base Class</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/event-system" target="_blank" class="card">
+      <div class="card-icon">📡</div>
+      <div class="card-title">Unity Typed Event System</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/timer-system" target="_blank" class="card">
+      <div class="card-icon">⏱️</div>
+      <div class="card-title">Unity Timer & Countdown System</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/health-damage" target="_blank" class="card">
+      <div class="card-icon">⚔️</div>
+      <div class="card-title">Unity Health & Damage System</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/state-machine" target="_blank" class="card">
+      <div class="card-icon">🔄</div>
+      <div class="card-title">Unity Generic State Machine</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/save-load-json" target="_blank" class="card">
+      <div class="card-icon">💾</div>
+      <div class="card-title">Unity JSON Save & Load System</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/audio-manager" target="_blank" class="card">
+      <div class="card-icon">🎵</div>
+      <div class="card-title">Unity Audio Manager</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/object-pool-v2" target="_blank" class="card">
+      <div class="card-icon">♻️</div>
+      <div class="card-title">Unity Generic Object Pool v2</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/camera-shake" target="_blank" class="card">
+      <div class="card-icon">📷</div>
+      <div class="card-title">Unity Camera Shake System</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/inventory-system" target="_blank" class="card">
+      <div class="card-icon">🎒</div>
+      <div class="card-title">Unity Inventory System</div>
+      <div class="card-price">$5 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/dialogue-system" target="_blank" class="card">
+      <div class="card-icon">💬</div>
+      <div class="card-title">Unity Dialogue System</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/wave-spawner" target="_blank" class="card">
+      <div class="card-icon">🌀</div>
+      <div class="card-title">Unity Wave Spawner System</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/input-manager" target="_blank" class="card">
+      <div class="card-icon">🕹️</div>
+      <div class="card-title">Unity Input Manager Wrapper</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/scene-manager" target="_blank" class="card">
+      <div class="card-icon">💾</div>
+      <div class="card-title">Unity Scene Manager with Loading Screen</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/currency-system" target="_blank" class="card">
+      <div class="card-icon">🛠️</div>
+      <div class="card-title">Unity Currency & Shop System</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/score-manager" target="_blank" class="card">
+      <div class="card-icon">🛠️</div>
+      <div class="card-title">Unity Score Manager</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/achievement-system" target="_blank" class="card">
+      <div class="card-icon">🏆</div>
+      <div class="card-title">Unity Achievement System</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/object-spawner" target="_blank" class="card">
+      <div class="card-icon">🌀</div>
+      <div class="card-title">Unity Random Object Spawner</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/day-night-cycle" target="_blank" class="card">
+      <div class="card-icon">🌤️</div>
+      <div class="card-title">Unity Day Night Cycle</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/follow-cam" target="_blank" class="card">
+      <div class="card-icon">📷</div>
+      <div class="card-title">Unity Smooth Follow Camera</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/minimap" target="_blank" class="card">
+      <div class="card-icon">🗺️</div>
+      <div class="card-title">Unity Minimap System</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/popup-manager" target="_blank" class="card">
+      <div class="card-icon">🖥️</div>
+      <div class="card-title">Unity Popup & Modal Manager</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/tooltip-system" target="_blank" class="card">
+      <div class="card-icon">🖥️</div>
+      <div class="card-title">Unity Tooltip System</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/drag-drop-ui" target="_blank" class="card">
+      <div class="card-icon">🖥️</div>
+      <div class="card-title">Unity UI Drag and Drop</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/quest-system" target="_blank" class="card">
+      <div class="card-icon">🏆</div>
+      <div class="card-title">Unity Quest System</div>
+      <div class="card-price">$5 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/patrol-ai" target="_blank" class="card">
+      <div class="card-icon">🤖</div>
+      <div class="card-title">Unity Patrol AI</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/fov-detection" target="_blank" class="card">
+      <div class="card-icon">🛠️</div>
+      <div class="card-title">Unity Field of View Detection</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/movement-topdown" target="_blank" class="card">
+      <div class="card-icon">🛠️</div>
+      <div class="card-title">Unity Top-Down Movement Controller</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/movement-platformer" target="_blank" class="card">
+      <div class="card-icon">🛠️</div>
+      <div class="card-title">Unity Platformer Controller 2D</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/grid-system" target="_blank" class="card">
+      <div class="card-icon">📐</div>
+      <div class="card-title">Unity Grid System</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/buff-debuff" target="_blank" class="card">
+      <div class="card-icon">🛠️</div>
+      <div class="card-title">Unity Buff/Debuff System</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/tween-engine" target="_blank" class="card">
+      <div class="card-icon">🛠️</div>
+      <div class="card-title">Unity Tween Engine</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/screen-flash" target="_blank" class="card">
+      <div class="card-icon">💫</div>
+      <div class="card-title">Unity Screen Flash Effect</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/slow-motion" target="_blank" class="card">
+      <div class="card-icon">💫</div>
+      <div class="card-title">Unity Slow Motion Effect</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/footstep-system" target="_blank" class="card">
+      <div class="card-icon">🎵</div>
+      <div class="card-title">Unity Footstep Sound System</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/localization" target="_blank" class="card">
+      <div class="card-icon">🌐</div>
+      <div class="card-title">Unity Localization System</div>
+      <div class="card-price">$4 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/object-fader" target="_blank" class="card">
+      <div class="card-icon">🎞️</div>
+      <div class="card-title">Unity Object Fader</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/runtime-console" target="_blank" class="card">
+      <div class="card-icon">🐛</div>
+      <div class="card-title">Unity Runtime Debug Console</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/fps-counter" target="_blank" class="card">
+      <div class="card-icon">🛠️</div>
+      <div class="card-title">Unity FPS Counter & Perf Monitor</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/screenshot-tool" target="_blank" class="card">
+      <div class="card-icon">🛠️</div>
+      <div class="card-title">Unity Screenshot & Share Tool</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/number-counter" target="_blank" class="card">
+      <div class="card-icon">🛠️</div>
+      <div class="card-title">Unity Animated Number Counter</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/progress-bar" target="_blank" class="card">
+      <div class="card-icon">📡</div>
+      <div class="card-title">Unity Event-Driven Progress Bar</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/tab-system" target="_blank" class="card">
+      <div class="card-icon">🖥️</div>
+      <div class="card-title">Unity UI Tab System</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/command-pattern" target="_blank" class="card">
+      <div class="card-icon">🧩</div>
+      <div class="card-title">Unity Command Pattern Undo Redo</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/object-outline" target="_blank" class="card">
+      <div class="card-icon">✨</div>
+      <div class="card-title">Unity Runtime Object Outline</div>
+      <div class="card-price">$4 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/bezier-path" target="_blank" class="card">
+      <div class="card-icon">🛠️</div>
+      <div class="card-title">Unity Bezier Path & Follower</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/grid-pathfinding" target="_blank" class="card">
+      <div class="card-icon">🧭</div>
+      <div class="card-title">Unity A* Pathfinding Grid</div>
+      <div class="card-price">$5 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/flocking" target="_blank" class="card">
+      <div class="card-icon">🛠️</div>
+      <div class="card-title">Unity Boids Flocking System</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/spring-physics" target="_blank" class="card">
+      <div class="card-icon">🛠️</div>
+      <div class="card-title">Unity Spring Physics Component</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/trail-generator" target="_blank" class="card">
+      <div class="card-icon">🤖</div>
+      <div class="card-title">Unity Runtime Trail Generator</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/perlin-terrain" target="_blank" class="card">
+      <div class="card-icon">🤖</div>
+      <div class="card-title">Unity Procedural Terrain Perlin</div>
+      <div class="card-price">$5 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/room-generator" target="_blank" class="card">
+      <div class="card-icon">🦾</div>
+      <div class="card-title">Unity Procedural Room Generator</div>
+      <div class="card-price">$5 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/weather-system" target="_blank" class="card">
+      <div class="card-icon">🌤️</div>
+      <div class="card-title">Unity Weather System</div>
+      <div class="card-price">$4 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/steering-behaviors" target="_blank" class="card">
+      <div class="card-icon">🤖</div>
+      <div class="card-title">Unity Steering Behaviors</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/settings-manager" target="_blank" class="card">
+      <div class="card-icon">⚙️</div>
+      <div class="card-title">Unity Settings Manager</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/platform-detector" target="_blank" class="card">
+      <div class="card-icon">🛠️</div>
+      <div class="card-title">Unity Platform & Device Detector</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/touch-joystick" target="_blank" class="card">
+      <div class="card-icon">🛠️</div>
+      <div class="card-title">Unity Virtual Joystick Mobile</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/swipe-detector" target="_blank" class="card">
+      <div class="card-icon">🛠️</div>
+      <div class="card-title">Unity Swipe Gesture Detector</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/banner-scroller" target="_blank" class="card">
+      <div class="card-icon">🛠️</div>
+      <div class="card-title">Unity Infinite Banner Scroller</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/spin-wheel-v2" target="_blank" class="card">
+      <div class="card-icon">🛠️</div>
+      <div class="card-title">Unity Spin Wheel Fortune Wheel</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/card-flip" target="_blank" class="card">
+      <div class="card-icon">💫</div>
+      <div class="card-title">Unity Card Flip Effect</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/loot-table" target="_blank" class="card">
+      <div class="card-icon">🎒</div>
+      <div class="card-title">Unity Weighted Loot Table</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/grid-match3" target="_blank" class="card">
+      <div class="card-icon">📐</div>
+      <div class="card-title">Unity Match-3 Grid Logic</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/card-game-base" target="_blank" class="card">
+      <div class="card-icon">🛠️</div>
+      <div class="card-title">Unity Card Game Base Framework</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/puzzle-sliding" target="_blank" class="card">
+      <div class="card-icon">🧩</div>
+      <div class="card-title">Unity Sliding Puzzle</div>
+      <div class="card-price">$4 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/quiz-engine" target="_blank" class="card">
+      <div class="card-icon">🖥️</div>
+      <div class="card-title">Unity Quiz Game Engine</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/runner-system" target="_blank" class="card">
+      <div class="card-icon">🛠️</div>
+      <div class="card-title">Unity Endless Runner System</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/leaderboard-local" target="_blank" class="card">
+      <div class="card-icon">🏅</div>
+      <div class="card-title">Unity Local Leaderboard</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/achievements-ui" target="_blank" class="card">
+      <div class="card-icon">🖥️</div>
+      <div class="card-title">Unity Achievement Toast UI</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/data-binding" target="_blank" class="card">
+      <div class="card-icon">🛠️</div>
+      <div class="card-title">Unity Simple Data Binding</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/service-locator" target="_blank" class="card">
+      <div class="card-icon">🧩</div>
+      <div class="card-title">Unity Service Locator Pattern</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/object-recycler" target="_blank" class="card">
+      <div class="card-icon">♻️</div>
+      <div class="card-title">Unity Object Recycler Pool Bridge</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/extension-methods" target="_blank" class="card">
+      <div class="card-icon">🛠️</div>
+      <div class="card-title">Unity C# Extension Methods Pack</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/math-utils" target="_blank" class="card">
+      <div class="card-icon">🛠️</div>
+      <div class="card-title">Unity Math Utilities Pack</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/color-utils" target="_blank" class="card">
+      <div class="card-icon">🛠️</div>
+      <div class="card-title">Unity Color Utilities Pack</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/texture-utils" target="_blank" class="card">
+      <div class="card-icon">🛠️</div>
+      <div class="card-title">Unity Texture Utilities Pack</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/enemy-health-bar" target="_blank" class="card">
+      <div class="card-icon">⚔️</div>
+      <div class="card-title">Unity Enemy Health Bar World Space</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/damage-numbers" target="_blank" class="card">
+      <div class="card-icon">⚔️</div>
+      <div class="card-title">Unity Floating Damage Numbers</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/outline-selection" target="_blank" class="card">
+      <div class="card-icon">🛠️</div>
+      <div class="card-title">Unity Object Selection & Highlight</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/camera-zoom" target="_blank" class="card">
+      <div class="card-icon">📷</div>
+      <div class="card-title">Unity Camera Zoom Pinch & Scroll</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/camera-orbit" target="_blank" class="card">
+      <div class="card-icon">📷</div>
+      <div class="card-title">Unity Orbit Camera Third Person</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/waypoint-system" target="_blank" class="card">
+      <div class="card-icon">🛠️</div>
+      <div class="card-title">Unity Waypoint Path System</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/trigger-zone" target="_blank" class="card">
+      <div class="card-icon">🛠️</div>
+      <div class="card-title">Unity Smart Trigger Zone</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/ragdoll-toggle" target="_blank" class="card">
+      <div class="card-icon">🛠️</div>
+      <div class="card-title">Unity Ragdoll Toggle</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/ik-foot-placement" target="_blank" class="card">
+      <div class="card-icon">🤚</div>
+      <div class="card-title">Unity IK Foot Placement</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/noise-generator" target="_blank" class="card">
+      <div class="card-icon">🛠️</div>
+      <div class="card-title">Unity Noise Generator Perlin Simplex</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/grass-renderer" target="_blank" class="card">
+      <div class="card-icon">🛠️</div>
+      <div class="card-title">Unity GPU Grass Renderer</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/minimap-icon" target="_blank" class="card">
+      <div class="card-icon">🗺️</div>
+      <div class="card-title">Unity Minimap Icon Tracker</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/floating-text" target="_blank" class="card">
+      <div class="card-icon">🛠️</div>
+      <div class="card-title">Unity Floating Text System</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/camera-bounds" target="_blank" class="card">
+      <div class="card-icon">📷</div>
+      <div class="card-title">Unity Camera 2D Bounds Clamp</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/parallax-bg" target="_blank" class="card">
+      <div class="card-icon">🛠️</div>
+      <div class="card-title">Unity Parallax Background</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/pixel-perfect-cam" target="_blank" class="card">
+      <div class="card-icon">📷</div>
+      <div class="card-title">Unity Pixel Perfect Camera Helper</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/animator-controller" target="_blank" class="card">
+      <div class="card-icon">🛠️</div>
+      <div class="card-title">Unity Animator Helper</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/cutscene-system" target="_blank" class="card">
+      <div class="card-icon">🎬</div>
+      <div class="card-title">Unity Simple Cutscene System</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/interaction-system" target="_blank" class="card">
+      <div class="card-icon">🛠️</div>
+      <div class="card-title">Unity Interaction System E to Interact</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/resource-node" target="_blank" class="card">
+      <div class="card-icon">📦</div>
+      <div class="card-title">Unity Harvestable Resource Node</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/combat-system" target="_blank" class="card">
+      <div class="card-icon">⚔️</div>
+      <div class="card-title">Unity Melee Combat System</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/ragdoll-death" target="_blank" class="card">
+      <div class="card-icon">🛠️</div>
+      <div class="card-title">Unity Ragdoll Death System</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/grid-builder" target="_blank" class="card">
+      <div class="card-icon">🖥️</div>
+      <div class="card-title">Unity Grid Builder Placement System</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/fog-of-war" target="_blank" class="card">
+      <div class="card-icon">🛠️</div>
+      <div class="card-title">Unity Fog of War System</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/procedural-animation" target="_blank" class="card">
+      <div class="card-icon">🦾</div>
+      <div class="card-title">Unity Procedural Leg Animation IK</div>
+      <div class="card-price">$5 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/ui-safe-area" target="_blank" class="card">
+      <div class="card-icon">🖥️</div>
+      <div class="card-title">Unity UI Safe Area Notch Support</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/notification-system" target="_blank" class="card">
+      <div class="card-icon">🔔</div>
+      <div class="card-title">Unity In-Game Notification System</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/replay-system" target="_blank" class="card">
+      <div class="card-icon">⏪</div>
+      <div class="card-title">Unity Simple Replay System</div>
+      <div class="card-price">$5 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/analytics-tracker" target="_blank" class="card">
+      <div class="card-icon">📡</div>
+      <div class="card-title">Unity Analytics Event Tracker</div>
+      <div class="card-price">$4 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/in-app-purchase-helper" target="_blank" class="card">
+      <div class="card-icon">💰</div>
+      <div class="card-title">Unity IAP Helper Wrapper</div>
+      <div class="card-price">$5 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/ads-manager" target="_blank" class="card">
+      <div class="card-icon">💰</div>
+      <div class="card-title">Unity Ads Manager AdMob Unity Ads</div>
+      <div class="card-price">$5 USD</div>
+    </a>
+    <a href="https://calerspark.itch.io/rate-prompt" target="_blank" class="card">
+      <div class="card-icon">⭐</div>
+      <div class="card-title">Unity Rate Us Prompt</div>
+      <div class="card-price">$3 USD</div>
+    </a>
+  </div>
+
+</div>
+
+<footer>
+  <p>Made by <strong>CalerSpark</strong> · <a href="https://calerspark.itch.io" target="_blank">itch.io</a> · <a href="https://calerspark.gumroad.com" target="_blank">Gumroad</a></p>
+  <p style="margin-top:8px; color:#64748b;">All assets are MIT licensed. Use in personal & commercial projects.</p>
+</footer>
+
+<script>
+function filterCards() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  const cards = document.querySelectorAll('#assetGrid .card');
+  let shown = 0;
+  cards.forEach(c => {
+    const text = c.querySelector('.card-title').textContent.toLowerCase();
+    if (!q || text.includes(q)) {
+      c.classList.remove('hidden');
+      shown++;
+    } else {
+      c.classList.add('hidden');
+    }
+  });
+  document.getElementById('countBadge').textContent = shown + ' assets';
+}
+</script>
+
+</body>
+</html>
