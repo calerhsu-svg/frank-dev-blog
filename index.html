@@ -1,67 +1,227 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="zh-TW">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Frank Dev Blog — 遊戲開發部落格</title>
-<meta name="description" content="Frank 的遊戲開發部落格，專注 Unity 與 Cocos Creator 開發技巧、教學與接案服務。提供手機遊戲開發、效能優化、技術顧問等專業服務。">
-<meta name="keywords" content="Unity, Cocos Creator, 遊戲開發, game development, mobile game, 手機遊戲, 效能優化, performance optimization, freelance, 接案, ゲーム開発, tutorial">
-<meta name="author" content="Frank">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://frank-dev-blog.netlify.app/">
-<!-- Open Graph / Facebook -->
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://frank-dev-blog.netlify.app/">
-<meta property="og:title" content="Frank Dev Blog — Game Dev × Freelance × Tutorials">
-<meta property="og:description" content="Professional game developer specializing in Unity & Cocos Creator. Free tutorials, courses, and freelance services.">
-<meta property="og:image" content="https://frank-dev-blog.netlify.app/og-image.png">
-<!-- Twitter Card -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Frank Dev Blog — Game Dev × Freelance × Tutorials">
-<meta name="twitter:description" content="Professional game developer specializing in Unity & Cocos Creator. Free tutorials, courses, and freelance services.">
-<meta name="twitter:image" content="https://frank-dev-blog.netlify.app/og-image.png">
-<!-- Structured Data -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "ProfessionalService",
-  "name": "Frank Dev Blog",
-  "description": "Professional game development services, tutorials, and courses for Unity and Cocos Creator",
-  "url": "https://frank-dev-blog.netlify.app/",
-  "email": "a8398433@gmail.com",
-  "knowsAbout": ["Unity", "Cocos Creator", "Game Development", "Mobile Games", "Performance Optimization"],
-  "priceRange": "NT$3,000 - NT$150,000"
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Frank Dev Blog · 遊戲開發 × 接案 × 教學</title>
+<meta name="description" content="Frank 的遊戲開發日誌，分享 Unity、Cocos 開發技巧、接案經驗與教學資源。"/>
+<meta name="keywords" content="Unity,Cocos Creator,遊戲開發,接案,教學,手機遊戲"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#F0F4FF;--card:#F7F9FF;--border:#D0DAF5;--text:#1A2040;--sub:#4A5580;
+  --primary:#3B5BDB;--accent:#7048E8;--tag-bg:#E0E8FF;--tag-txt:#2C45B0;
+  --nav-bg:#F7F9FFee;--green:#22C55E;--red:#EF4444;--gold:#F59E0B;
 }
-</script>
-<!-- Google AdSense -->
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="css/style.css">
+[data-dark="true"]{
+  --bg:#0D1117;--card:#161B27;--border:#2A3050;--text:#E0E8FF;--sub:#8899CC;
+  --tag-bg:#1E2A50;--tag-txt:#7A9AFF;--nav-bg:#0D1117ee;
+}
+body{font-family:'Segoe UI','Microsoft JhengHei','PingFang TC',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;transition:background .3s,color .3s}
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:var(--nav-bg);border-bottom:1px solid var(--border);height:60px;padding:0 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 16px #3B5BDB18;backdrop-filter:blur(12px)}
+.nav-logo{font-weight:900;font-size:19px;color:var(--primary);cursor:pointer;background:none;border:none;font-family:inherit;letter-spacing:-.5px;white-space:nowrap}
+.nav-right{display:flex;align-items:center;gap:4px;flex-wrap:wrap}
+.nav-link{background:none;border:none;cursor:pointer;padding:5px 10px;border-radius:20px;font-size:13px;font-weight:600;color:var(--text);font-family:inherit;transition:all .2s;white-space:nowrap}
+.nav-link.active,.nav-link:hover{background:var(--primary);color:#fff}
+.nav-icon-btn{width:34px;height:34px;border-radius:50%;border:none;cursor:pointer;font-size:16px;background:var(--tag-bg);transition:background .3s;display:flex;align-items:center;justify-content:center;margin-left:2px}
+.lang-btn{background:var(--tag-bg);color:var(--tag-txt);border:1.5px solid var(--border);border-radius:20px;padding:5px 12px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s}
+.lang-btn:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
+/* PAGES */
+.page{display:none}
+.page.active{display:block}
+/* HERO */
+.hero{background:linear-gradient(135deg,#1a2a6c 0%,#3B5BDB 50%,#7048E8 100%);padding:64px 24px 72px;text-align:center;position:relative;overflow:hidden}
+.hero h1{font-size:clamp(24px,5vw,44px);font-weight:900;color:#fff;margin-bottom:14px;line-height:1.2}
+.hero p{font-size:16px;color:#C5D5FF;max-width:520px;margin:0 auto 24px;line-height:1.8}
+.hero-badges{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:28px}
+.hero-badge{background:#ffffff22;color:#fff;border:1px solid #ffffff44;border-radius:20px;padding:5px 12px;font-size:12px;font-weight:600}
+.hero-ctas{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.btn-hero{background:#fff;color:var(--primary);border:none;border-radius:30px;padding:12px 24px;font-size:14px;font-weight:700;cursor:pointer;box-shadow:0 4px 20px #0004;transition:all .2s;font-family:inherit}
+.btn-hero:hover{transform:translateY(-2px);box-shadow:0 6px 24px #0006}
+.btn-hero.outline{background:transparent;color:#fff;border:2px solid #fff}
+/* SECTIONS */
+.section{max-width:1100px;margin:0 auto;padding:40px 20px}
+.section-title{font-size:22px;font-weight:800;margin-bottom:6px}
+.section-sub{color:var(--sub);font-size:13px;margin-bottom:24px}
+/* GRID CARDS */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:20px}
+.card{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:22px;cursor:pointer;transition:all .25s}
+.card:hover{transform:translateY(-4px);border-color:var(--primary);box-shadow:0 8px 32px #3B5BDB22}
+.card-icon{font-size:36px;margin-bottom:10px}
+.card-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.tag-chip{background:var(--tag-bg);color:var(--tag-txt);border-radius:10px;padding:2px 9px;font-size:11px;font-weight:600}
+.card h3{font-size:16px;font-weight:700;margin-bottom:6px;line-height:1.4}
+.card p{font-size:13px;color:var(--sub);line-height:1.7;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:14px}
+.card-meta{display:flex;justify-content:space-between;font-size:11px;color:var(--sub)}
+/* FILTER */
+.filter-bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px}
+.filter-tag{background:var(--tag-bg);color:var(--tag-txt);border:1.5px solid var(--border);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit}
+.filter-tag.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:#00000099;z-index:200;align-items:flex-start;justify-content:center;padding:40px 16px;overflow-y:auto;backdrop-filter:blur(6px)}
+.modal-overlay.open{display:flex}
+.modal{background:var(--card);border-radius:20px;max-width:720px;width:100%;border:1.5px solid var(--border);box-shadow:0 20px 80px #3B5BDB30;padding:36px 36px 44px;position:relative}
+.modal-close{position:absolute;top:14px;right:14px;background:var(--tag-bg);border:none;border-radius:50%;width:34px;height:34px;font-size:17px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.modal-icon{font-size:44px;margin-bottom:14px}
+.modal h1{font-size:clamp(18px,4vw,24px);font-weight:900;margin-bottom:10px;line-height:1.3}
+.modal-meta{display:flex;gap:14px;font-size:12px;color:var(--sub);margin-bottom:24px}
+.modal hr{border:none;border-top:1px solid var(--border);margin-bottom:20px}
+.modal-body p{color:var(--sub);line-height:1.9;font-size:14px;margin-bottom:14px}
+.modal-body h3{color:var(--primary);font-weight:800;font-size:16px;margin:20px 0 6px}
+/* SERVICE PAGE */
+.service-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-bottom:32px}
+.service-card{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:24px;text-align:center;transition:all .25s}
+.service-card:hover{border-color:var(--primary);transform:translateY(-3px);box-shadow:0 6px 24px #3B5BDB18}
+.service-card .s-icon{font-size:40px;margin-bottom:10px}
+.service-card h3{font-size:15px;font-weight:700;margin-bottom:6px}
+.service-card p{font-size:12px;color:var(--sub);line-height:1.7;margin-bottom:14px}
+.service-card .s-price{font-size:18px;font-weight:800;color:var(--primary);margin-bottom:14px}
+/* PRICING */
+.pricing-section{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:28px;margin-bottom:28px}
+.pricing-section h2{font-size:18px;font-weight:800;margin-bottom:16px}
+.pricing-table{width:100%;border-collapse:collapse}
+.pricing-table th,.pricing-table td{padding:10px 14px;text-align:left;border-bottom:1px solid var(--border);font-size:13px}
+.pricing-table th{font-weight:700;color:var(--sub);font-size:12px;text-transform:uppercase;letter-spacing:.5px}
+.pricing-table tr:last-child td{border-bottom:none}
+/* CONTACT FORM */
+.contact-form{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:28px;margin-bottom:28px}
+.contact-form h2{font-size:18px;font-weight:800;margin-bottom:20px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.form-group{margin-bottom:16px}
+.form-group label{display:block;font-size:13px;font-weight:600;margin-bottom:6px;color:var(--text)}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:10px 14px;border-radius:10px;border:1.5px solid var(--border);background:var(--bg);color:var(--text);font-family:inherit;font-size:13px;transition:border .2s;outline:none}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--primary)}
+.form-group textarea{resize:vertical;min-height:90px}
+/* PAYMENT PANEL */
+.payment-panel{background:linear-gradient(135deg,var(--tag-bg),var(--card));border:1.5px solid var(--border);border-radius:16px;padding:24px;margin-bottom:24px}
+.payment-panel h3{font-size:15px;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.payment-method{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)}
+.payment-method:last-child{border-bottom:none}
+.pm-icon{font-size:24px;width:40px;text-align:center}
+.pm-info h4{font-size:13px;font-weight:700;margin-bottom:2px}
+.pm-info p{font-size:11px;color:var(--sub);word-break:break-all}
+.pm-copy{background:var(--primary);color:#fff;border:none;border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;font-family:inherit;margin-left:auto;white-space:nowrap}
+/* TRUST BADGES */
+.trust-badges{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:32px}
+.trust-badge{display:flex;align-items:center;gap:8px;background:var(--card);border:1.5px solid var(--border);border-radius:12px;padding:10px 16px;font-size:12px;font-weight:600}
+/* PRODUCTS PAGE */
+.product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px}
+.product-card{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:22px;transition:all .25s}
+.product-card:hover{border-color:var(--primary);transform:translateY(-3px)}
+.product-card .p-icon{font-size:36px;margin-bottom:10px}
+.product-card h3{font-size:15px;font-weight:700;margin-bottom:6px}
+.product-card p{font-size:12px;color:var(--sub);line-height:1.7;margin-bottom:14px}
+.product-card .p-price{font-size:16px;font-weight:800;color:var(--green);margin-bottom:14px}
+.product-card .free{color:var(--green)}
+/* COURSES */
+.course-card{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:24px;margin-bottom:16px;display:flex;gap:18px;align-items:flex-start;transition:all .25s}
+.course-card:hover{border-color:var(--primary)}
+.course-icon{font-size:40px;flex-shrink:0}
+.course-info h3{font-size:15px;font-weight:700;margin-bottom:6px}
+.course-info p{font-size:12px;color:var(--sub);line-height:1.7;margin-bottom:10px}
+.course-meta{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.course-price{font-size:15px;font-weight:800;color:var(--primary)}
+.course-free{color:var(--green)}
+/* DONATE */
+.donate-hero{background:linear-gradient(135deg,#FF6B6B22,#FF8E5322);border:1.5px solid #FF6B6B44;border-radius:16px;padding:32px;text-align:center;margin-bottom:28px}
+.donate-hero h2{font-size:22px;font-weight:900;margin-bottom:8px}
+.donate-hero p{color:var(--sub);font-size:14px;margin-bottom:20px}
+.donate-amounts{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:16px}
+.donate-amt{background:var(--card);border:2px solid var(--border);border-radius:12px;padding:10px 20px;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;font-family:inherit}
+.donate-amt:hover,.donate-amt.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+.qr-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px;margin-bottom:28px}
+.qr-card{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:20px;text-align:center}
+.qr-card img{width:140px;height:140px;border-radius:8px;border:3px solid var(--border);background:#fff}
+.qr-card h4{font-size:13px;font-weight:700;margin:10px 0 4px}
+.qr-card p{font-size:10px;color:var(--sub);word-break:break-all}
+/* NFT */
+.nft-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:18px}
+.nft-card{background:var(--card);border:1.5px solid var(--border);border-radius:16px;overflow:hidden;transition:all .25s}
+.nft-card:hover{border-color:var(--accent);transform:translateY(-3px);box-shadow:0 8px 32px #7048E822}
+.nft-img{width:100%;height:160px;background:linear-gradient(135deg,#3B5BDB,#7048E8);display:flex;align-items:center;justify-content:center;font-size:56px}
+.nft-info{padding:16px}
+.nft-info h3{font-size:14px;font-weight:700;margin-bottom:4px}
+.nft-info p{font-size:11px;color:var(--sub);margin-bottom:10px}
+.nft-price{font-size:15px;font-weight:800;color:var(--accent)}
+/* SUBSCRIPTION */
+.sub-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px;margin-bottom:28px}
+.sub-card{background:var(--card);border:2px solid var(--border);border-radius:20px;padding:28px;text-align:center;position:relative;transition:all .25s}
+.sub-card.featured{border-color:var(--primary);box-shadow:0 8px 32px #3B5BDB22}
+.sub-card.featured::before{content:'推薦';position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--primary);color:#fff;font-size:11px;font-weight:700;padding:3px 12px;border-radius:20px}
+.sub-card h3{font-size:15px;font-weight:700;margin-bottom:6px}
+.sub-price{font-size:32px;font-weight:900;color:var(--primary);margin:12px 0}
+.sub-price span{font-size:14px;font-weight:400;color:var(--sub)}
+.sub-features{list-style:none;text-align:left;margin:16px 0;font-size:13px;color:var(--sub)}
+.sub-features li{padding:4px 0;display:flex;align-items:center;gap:6px}
+.sub-features li::before{content:'✓';color:var(--green);font-weight:700}
+/* MICROTASKS */
+.task-card{background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:18px 22px;margin-bottom:14px;display:flex;gap:14px;align-items:center;transition:all .25s}
+.task-card:hover{border-color:var(--primary)}
+.task-icon{font-size:28px;flex-shrink:0}
+.task-info{flex:1}
+.task-info h3{font-size:14px;font-weight:700;margin-bottom:3px}
+.task-info p{font-size:12px;color:var(--sub)}
+.task-price{font-size:16px;font-weight:800;color:var(--primary);white-space:nowrap}
+/* ABOUT */
+.about-wrap{max-width:800px;margin:0 auto;padding:40px 20px}
+.about-avatar{width:110px;height:110px;border-radius:50%;background:linear-gradient(135deg,#3B5BDB,#7048E8);display:flex;align-items:center;justify-content:center;font-size:48px;margin:0 auto 18px;box-shadow:0 8px 32px #3B5BDB40}
+.about-center{text-align:center;margin-bottom:36px}
+.about-center h1{font-size:26px;font-weight:900;margin-bottom:6px}
+.about-center .role{color:var(--primary);font-weight:700;font-size:14px;margin-bottom:10px}
+.about-center p{color:var(--sub);line-height:1.8;max-width:440px;margin:0 auto;font-size:14px}
+.about-card{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:24px;margin-bottom:18px}
+.about-card h2{font-size:17px;font-weight:800;margin-bottom:12px}
+.about-card p{color:var(--sub);line-height:1.9;font-size:13px;margin-bottom:8px}
+.skills-wrap{display:flex;flex-wrap:wrap;gap:8px}
+.skill-pill{background:var(--tag-bg);color:var(--tag-txt);border-radius:20px;padding:7px 14px;font-size:12px;font-weight:600}
+.about-cta{background:linear-gradient(135deg,#3B5BDB22,#7048E822);border:1.5px solid #3B5BDB44;border-radius:16px;padding:24px;text-align:center}
+.about-cta h2{font-size:17px;font-weight:800;margin-bottom:6px}
+.about-cta p{color:var(--sub);font-size:13px;margin-bottom:18px}
+.contact-links{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.contact-btn{display:inline-flex;align-items:center;gap:7px;background:var(--primary);color:#fff;border-radius:30px;padding:10px 20px;font-size:14px;font-weight:700;text-decoration:none;transition:all .2s;border:none;cursor:pointer;font-family:inherit}
+.contact-btn:hover{transform:translateY(-2px);box-shadow:0 4px 16px #3B5BDB44}
+.contact-btn.ig{background:linear-gradient(135deg,#E1306C,#833AB4)}
+/* COMMON BTNS */
+.btn-primary{background:var(--primary);color:#fff;border:none;border-radius:30px;padding:11px 24px;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;font-family:inherit;display:inline-flex;align-items:center;gap:6px}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 4px 16px #3B5BDB44}
+.btn-accent{background:var(--accent);color:#fff;border:none;border-radius:30px;padding:11px 24px;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;font-family:inherit}
+.btn-accent:hover{transform:translateY(-2px);box-shadow:0 4px 16px #7048E844}
+.btn-green{background:var(--green);color:#fff;border:none;border-radius:30px;padding:11px 24px;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;font-family:inherit}
+.btn-outline{background:transparent;color:var(--primary);border:2px solid var(--primary);border-radius:30px;padding:10px 22px;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;font-family:inherit}
+.btn-outline:hover{background:var(--primary);color:#fff}
+.view-all-wrap{text-align:center;margin-top:28px}
+/* EMAIL CAPTURE */
+.email-capture{background:linear-gradient(135deg,#3B5BDB18,#7048E818);border:1.5px solid #3B5BDB33;border-radius:16px;padding:28px;text-align:center;margin:28px 0}
+.email-capture h3{font-size:17px;font-weight:800;margin-bottom:6px}
+.email-capture p{font-size:13px;color:var(--sub);margin-bottom:16px}
+.email-row{display:flex;gap:8px;max-width:420px;margin:0 auto}
+.email-row input{flex:1;padding:10px 14px;border-radius:10px;border:1.5px solid var(--border);background:var(--bg);color:var(--text);font-family:inherit;font-size:13px;outline:none}
+.email-row input:focus{border-color:var(--primary)}
+/* TOAST */
+.toast{position:fixed;bottom:24px;right:24px;background:#222;color:#fff;padding:12px 20px;border-radius:12px;font-size:13px;font-weight:600;z-index:999;transform:translateY(80px);opacity:0;transition:all .3s;max-width:260px}
+.toast.show{transform:translateY(0);opacity:1}
+/* FOOTER */
+footer{border-top:1px solid var(--border);padding:24px;text-align:center}
+footer .f-logo{font-weight:800;font-size:16px;color:var(--primary);margin-bottom:4px}
+footer p{color:var(--sub);font-size:12px}
+/* RESPONSIVE */
+@media(max-width:600px){.form-row{grid-template-columns:1fr}.modal{padding:24px 18px 32px}.nav-link{padding:4px 7px;font-size:12px}.hero{padding:48px 16px 56px}}
+</style>
 </head>
 <body>
 
 <nav>
   <button class="nav-logo" onclick="showPage('home')">🎮 Frank Dev</button>
-  <button class="hamburger" onclick="toggleMenu()" id="hamburgerBtn"><span></span><span></span><span></span></button>
-  <div class="menu-backdrop" id="menuBackdrop" onclick="toggleMenu()"></div>
   <div class="nav-right">
     <button class="nav-link active" data-page="home" onclick="showPage('home')" data-i18n="nav_home">首頁</button>
     <button class="nav-link" data-page="posts" onclick="showPage('posts')" data-i18n="nav_posts">文章</button>
     <button class="nav-link" data-page="services" onclick="showPage('services')" data-i18n="nav_services">服務</button>
     <button class="nav-link" data-page="courses" onclick="showPage('courses')" data-i18n="nav_courses">教學</button>
-    <button class="nav-link" data-page="daily" onclick="showPage('daily')" data-i18n="nav_daily">每日教學</button>
-    <button class="nav-link" data-page="portfolio" onclick="showPage('portfolio')" data-i18n="nav_portfolio">作品集</button>
-    <button class="nav-link" data-page="games" onclick="showPage('games')" data-i18n="nav_games">小遊戲</button>
+    <a href="https://calerspark.itch.io" target="_blank" class="nav-link" style="text-decoration:none;background:linear-gradient(135deg,#7c3aed,#a855f7);color:#fff">🎮 Assets</a>
     <button class="nav-link" data-page="donate" onclick="showPage('donate')" data-i18n="nav_donate">贊助</button>
     <button class="nav-link" data-page="about" onclick="showPage('about')" data-i18n="nav_about">關於</button>
-    <div class="lang-dropdown">
-      <button class="lang-btn" onclick="toggleLangMenu()" id="langBtn">🌐 TW</button>
-      <div class="lang-menu" id="langMenu">
-        <button class="lang-option" onclick="setLang('tw')">🇹🇼 繁體中文</button>
-        <button class="lang-option" onclick="setLang('jp')">🇯🇵 日本語</button>
-        <button class="lang-option" onclick="setLang('cn')">🇨🇳 简体中文</button>
-        <button class="lang-option" onclick="setLang('ph')">🇵🇭 Filipino</button>
-      </div>
-    </div>
+    <button class="lang-btn" onclick="toggleLang()" id="langBtn">🌐 TW</button>
     <button class="nav-icon-btn" onclick="toggleDark()" id="themeBtn">🌙</button>
   </div>
 </nav>
@@ -77,11 +237,12 @@
       <span class="hero-badge">🥥 Cocos Creator</span>
       <span class="hero-badge">🕹️ 遊戲開發</span>
       <span class="hero-badge">💼 接案服務</span>
-      <span class="hero-badge">🌏 TW / JP / CN / PH</span>
+      <span class="hero-badge">🌏 TW / JP</span>
     </div>
     <div class="hero-ctas">
       <button class="btn-hero" onclick="showPage('services')" data-i18n="cta_contact">💼 洽談接案</button>
-      <button class="btn-hero outline" onclick="showPage('courses')" data-i18n="cta_courses">📚 免費教學</button>
+      <a href="https://calerspark.itch.io" target="_blank" class="btn-hero" style="text-decoration:none">🎮 Unity 資產商店</a>
+      <a href="https://calerspark.gumroad.com/l/ipoui" target="_blank" class="btn-hero outline" style="text-decoration:none;background:#ff90e8;color:#1a0033;border:none">🎁 全套 Bundle $19</a>
       <button class="btn-hero outline" onclick="showPage('donate')" data-i18n="cta_support">❤️ 支持我</button>
     </div>
   </div>
@@ -90,33 +251,6 @@
     <div class="grid" id="home-grid"></div>
     <div class="view-all-wrap">
       <button class="btn-outline" onclick="showPage('posts')" data-i18n="home_more">查看所有文章</button>
-    </div>
-  </div>
-  <!-- Ad placement - Home page -->
-  <div class="section" style="padding-top:0;padding-bottom:0">
-    <div class="ad-banner">
-      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins>
-      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-    </div>
-  </div>
-  <!-- Social sharing -->
-  <div class="section" style="padding-top:12px;padding-bottom:0">
-    <div class="social-share-bar">
-      <span class="share-label" data-i18n="share_label">📣 分享給朋友</span>
-      <div class="share-buttons">
-        <button class="share-btn fb" onclick="shareOn('facebook')" title="Facebook">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-        </button>
-        <button class="share-btn tw" onclick="shareOn('twitter')" title="X / Twitter">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-        </button>
-        <button class="share-btn line" onclick="shareOn('line')" title="LINE">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63h2.386c.346 0 .627.285.627.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63.346 0 .628.285.628.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
-        </button>
-        <button class="share-btn copy" onclick="shareOn('copy')" title="Copy Link">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-        </button>
-      </div>
     </div>
   </div>
   <div class="section" style="padding-top:0">
@@ -138,11 +272,6 @@
     <div class="section-sub" id="post-count">共 6 篇文章</div>
     <div class="filter-bar" id="filter-bar"></div>
     <div class="grid" id="posts-grid"></div>
-    <!-- Ad placement - Posts page -->
-    <div class="ad-banner" style="margin:28px 0 0">
-      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins>
-      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-    </div>
     <div style="margin-top:28px">
       <div class="email-capture">
         <h3 data-i18n="posts_cta_h">想學更多？</h3>
@@ -311,7 +440,6 @@
         <p data-i18n="cr1_desc">30 頁完整入門指南，涵蓋環境設定、C# 基礎、第一個遊戲製作全流程</p>
         <div class="course-meta">
           <span class="course-free" data-i18n="free">免費</span>
-          <button class="btn-outline" onclick="openCoursePreview('unity-guide')" data-i18n="preview_btn">👁 預覽</button>
           <button class="btn-green" onclick="freeDownload('unity-guide')" data-i18n="dl_btn">📥 免費下載</button>
         </div>
       </div>
@@ -323,7 +451,6 @@
         <p data-i18n="cr2_desc">常用 API、生命週期、節點操作一張表搞定，開發必備參考卡</p>
         <div class="course-meta">
           <span class="course-free" data-i18n="free">免費</span>
-          <button class="btn-outline" onclick="openCoursePreview('cocos-cheatsheet')" data-i18n="preview_btn">👁 預覽</button>
           <button class="btn-green" onclick="freeDownload('cocos-cheatsheet')" data-i18n="dl_btn">📥 免費下載</button>
         </div>
       </div>
@@ -338,7 +465,6 @@
         <p data-i18n="cr3_desc">5 個影片 + 範例 Unity 專案，學習 Object Pooling、Draw Call 優化、記憶體管理，讓你的遊戲在低階機上也跑得順</p>
         <div class="course-meta">
           <span class="course-price">NT$990</span>
-          <button class="btn-outline" onclick="openCoursePreview('perf-course')" data-i18n="preview_btn">👁 預覽</button>
           <button class="btn-primary" onclick="buyCourse('perf-course')" data-i18n="buy_btn">🛒 立即購買</button>
         </div>
       </div>
@@ -350,7 +476,6 @@
         <p data-i18n="cr4_desc">設計可擴展的遊戲架構：事件系統、狀態機、MVC 設計模式在遊戲中的實戰應用，含完整範例專案</p>
         <div class="course-meta">
           <span class="course-price">NT$1,490</span>
-          <button class="btn-outline" onclick="openCoursePreview('arch-course')" data-i18n="preview_btn">👁 預覽</button>
           <button class="btn-primary" onclick="buyCourse('arch-course')" data-i18n="buy_btn">🛒 立即購買</button>
         </div>
       </div>
@@ -362,19 +487,7 @@
         <p data-i18n="cr5_desc">8 小時完整課程，從專案建立到 App Store 上架，完整製作一款休閒遊戲，含完整原始碼</p>
         <div class="course-meta">
           <span class="course-price">NT$2,490</span>
-          <button class="btn-outline" onclick="openCoursePreview('fullgame-course')" data-i18n="preview_btn">👁 預覽</button>
           <button class="btn-primary" onclick="buyCourse('fullgame-course')" data-i18n="buy_btn">🛒 立即購買</button>
-        </div>
-      </div>
-    </div>
-    <div class="course-card" style="border: 2px solid #ff90e8;">
-      <div class="course-icon">🎰</div>
-      <div class="course-info">
-        <h3>H5 幸運轉盤遊戲模板</h3>
-        <p>完整 H5 Lucky Spin Wheel 遊戲原始碼，可直接嵌入網站或 LINE 活動。支援自訂獎項、機率設定，適合行銷活動與獎勵系統。</p>
-        <div class="course-meta">
-          <span class="course-price">$19 USD</span>
-          <a href="https://calerspark.gumroad.com/l/ipoui" target="_blank" class="btn-primary" style="text-decoration:none">🛒 Gumroad 購買</a>
         </div>
       </div>
     </div>
@@ -385,171 +498,6 @@
         <div class="email-row">
           <input type="email" id="course-email" placeholder="your@email.com">
           <button class="btn-primary" onclick="captureCourseEmail()" data-i18n="email_btn">訂閱</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- DAILY TUTORIAL -->
-<div class="page" id="page-daily">
-  <div class="hero" style="padding:40px 24px 48px">
-    <h1 data-i18n="daily_h1">📖 每日教學</h1>
-    <p data-i18n="daily_sub">每天學習一個遊戲開發小知識，完全免費！</p>
-  </div>
-  <div class="section">
-    <div class="daily-hero">
-      <div style="font-size:40px;margin-bottom:8px">📅</div>
-      <h2 data-i18n="daily_today">今日教學</h2>
-      <div class="daily-date" id="daily-date"></div>
-      <p data-i18n="daily_today_sub">每天自動更新，不需要任何費用</p>
-    </div>
-    <div id="daily-content"></div>
-    <div class="daily-nav">
-      <button class="btn-outline" onclick="changeDay(-1)" data-i18n="daily_prev">← 前一天</button>
-      <button class="btn-primary" onclick="changeDay(0)" data-i18n="daily_today_btn">今天</button>
-      <button class="btn-outline" onclick="changeDay(1)" data-i18n="daily_next">下一天 →</button>
-    </div>
-    <div style="margin-top:28px">
-      <div class="email-capture">
-        <h3 data-i18n="daily_email_h">📧 每日教學直送信箱</h3>
-        <p data-i18n="daily_email_p">訂閱即可每天收到最新教學內容</p>
-        <div class="email-row">
-          <input type="email" id="daily-email" placeholder="your@email.com">
-          <button class="btn-primary" onclick="captureDailyEmail()" data-i18n="email_btn">訂閱</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- PORTFOLIO -->
-<div class="page" id="page-portfolio">
-  <div class="hero" style="padding:40px 24px 48px">
-    <h1 data-i18n="pf_h1">🏆 作品集</h1>
-    <p data-i18n="pf_sub">精選案例展示，看看我如何將創意化為產品</p>
-  </div>
-  <div class="section">
-    <div class="section-title" data-i18n="pf_cases">📂 精選案例</div>
-    <div class="section-sub" data-i18n="pf_cases_sub">以下為已完成的代表性專案（客戶資訊已脫敏）</div>
-    <div class="portfolio-grid">
-      <div class="portfolio-card">
-        <div class="pf-cover" style="background:linear-gradient(135deg,#FF6B6B,#FF8E53)">🎰</div>
-        <div class="pf-info">
-          <div class="pf-tags"><span class="tag-chip">Unity</span><span class="tag-chip" data-i18n="pf_tag_mobile">手機遊戲</span></div>
-          <h3 data-i18n="pf1_title">休閒博弈遊戲 App</h3>
-          <p data-i18n="pf1_desc">為日本客戶開發的休閒老虎機遊戲，包含多款機台、每日獎勵系統、排行榜功能。上架 iOS / Android，月活躍用戶超過 5,000。</p>
-          <div class="pf-stats">
-            <span data-i18n="pf1_time">⏱ 工期 2.5 個月</span>
-            <span data-i18n="pf1_tech">⚙️ Unity + C#</span>
-          </div>
-        </div>
-      </div>
-      <div class="portfolio-card">
-        <div class="pf-cover" style="background:linear-gradient(135deg,#3B5BDB,#7048E8)">🏰</div>
-        <div class="pf-info">
-          <div class="pf-tags"><span class="tag-chip">Cocos Creator</span><span class="tag-chip" data-i18n="pf_tag_h5">H5 遊戲</span></div>
-          <h3 data-i18n="pf2_title">H5 塔防遊戲</h3>
-          <p data-i18n="pf2_desc">為台灣行銷公司開發的 H5 塔防遊戲，嵌入品牌官網作為互動行銷活動。支援手機與桌面瀏覽器，活動期間參與人數超過 20,000。</p>
-          <div class="pf-stats">
-            <span data-i18n="pf2_time">⏱ 工期 3 週</span>
-            <span data-i18n="pf2_tech">⚙️ Cocos Creator + TS</span>
-          </div>
-        </div>
-      </div>
-      <div class="portfolio-card">
-        <div class="pf-cover" style="background:linear-gradient(135deg,#22C55E,#059669)">📊</div>
-        <div class="pf-info">
-          <div class="pf-tags"><span class="tag-chip">Unity</span><span class="tag-chip" data-i18n="pf_tag_opt">效能優化</span></div>
-          <h3 data-i18n="pf3_title">MMORPG 效能優化</h3>
-          <p data-i18n="pf3_desc">協助中國遊戲公司優化 Unity MMORPG 專案，Draw Call 從 800+ 降至 120，載入時間縮短 60%，低階手機幀率從 18fps 提升至穩定 30fps。</p>
-          <div class="pf-stats">
-            <span data-i18n="pf3_time">⏱ 工期 2 週</span>
-            <span data-i18n="pf3_tech">⚙️ Unity Profiler</span>
-          </div>
-        </div>
-      </div>
-      <div class="portfolio-card">
-        <div class="pf-cover" style="background:linear-gradient(135deg,#F59E0B,#D97706)">🧩</div>
-        <div class="pf-info">
-          <div class="pf-tags"><span class="tag-chip">Cocos Creator</span><span class="tag-chip" data-i18n="pf_tag_puzzle">益智遊戲</span></div>
-          <h3 data-i18n="pf4_title">兒童教育益智遊戲</h3>
-          <p data-i18n="pf4_desc">為菲律賓教育機構製作的兒童數學益智 App，包含 50+ 關卡、成就系統、家長控制面板。支援英語/菲律賓語雙語。</p>
-          <div class="pf-stats">
-            <span data-i18n="pf4_time">⏱ 工期 6 週</span>
-            <span data-i18n="pf4_tech">⚙️ Cocos Creator + TS</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Ad placement -->
-    <div class="ad-banner" style="margin:28px 0">
-      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins>
-      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-    </div>
-
-    <div class="pf-cta">
-      <h3 data-i18n="pf_cta_h">🤝 想看到你的專案在這裡嗎？</h3>
-      <p data-i18n="pf_cta_p">無論大小專案，都歡迎洽談合作</p>
-      <button class="btn-primary" onclick="showPage('services')" data-i18n="pf_cta_btn">💼 洽談接案</button>
-    </div>
-  </div>
-</div>
-
-<!-- MINI GAMES -->
-<div class="page" id="page-games">
-  <div class="hero" style="padding:40px 24px 48px">
-    <h1 data-i18n="games_h1">🕹️ 小遊戲試玩</h1>
-    <p data-i18n="games_sub">直接在網頁內試玩！體驗遊戲開發的成果</p>
-  </div>
-  <div class="section">
-    <div class="section-title" data-i18n="games_title">🎮 免費試玩</div>
-    <div class="section-sub" data-i18n="games_title_sub">用鍵盤或觸控操作，直接在瀏覽器中遊玩</div>
-    <div class="games-grid">
-      <!-- Snake Game -->
-      <div class="game-card">
-        <div class="game-preview" id="snake-container">
-          <canvas id="snake-canvas" width="400" height="300"></canvas>
-          <div class="game-overlay" id="snake-overlay">
-            <button class="play-btn" onclick="startSnake()">▶</button>
-            <p data-i18n="game_click_play">點擊開始遊玩</p>
-          </div>
-        </div>
-        <div class="game-info">
-          <h3 data-i18n="game1_title">🐍 貪吃蛇</h3>
-          <p data-i18n="game1_desc">經典貪吃蛇遊戲！使用方向鍵或滑動操控蛇的方向，吃掉食物讓身體變長。</p>
-          <div class="game-score" id="snake-score">🏆 <span data-i18n="game_score">分數</span>: 0</div>
-        </div>
-      </div>
-      <!-- Breakout Game -->
-      <div class="game-card">
-        <div class="game-preview" id="breakout-container">
-          <canvas id="breakout-canvas" width="400" height="300"></canvas>
-          <div class="game-overlay" id="breakout-overlay">
-            <button class="play-btn" onclick="startBreakout()">▶</button>
-            <p data-i18n="game_click_play">點擊開始遊玩</p>
-          </div>
-        </div>
-        <div class="game-info">
-          <h3 data-i18n="game2_title">🧱 打磚塊</h3>
-          <p data-i18n="game2_desc">移動底部的擋板反彈球，擊碎所有磚塊。使用左右鍵或滑動控制。</p>
-          <div class="game-score" id="breakout-score">🏆 <span data-i18n="game_score">分數</span>: 0</div>
-        </div>
-      </div>
-      <!-- Flappy Game -->
-      <div class="game-card">
-        <div class="game-preview" id="flappy-container">
-          <canvas id="flappy-canvas" width="400" height="300"></canvas>
-          <div class="game-overlay" id="flappy-overlay">
-            <button class="play-btn" onclick="startFlappy()">▶</button>
-            <p data-i18n="game_click_play">點擊開始遊玩</p>
-          </div>
-        </div>
-        <div class="game-info">
-          <h3 data-i18n="game3_title">🐦 飛翔小鳥</h3>
-          <p data-i18n="game3_desc">點擊螢幕或按空白鍵讓小鳥飛起來，躲避柱子障礙物。</p>
-          <div class="game-score" id="flappy-score">🏆 <span data-i18n="game_score">分數</span>: 0</div>
         </div>
       </div>
     </div>
@@ -571,6 +519,25 @@
         <button class="donate-amt" onclick="selectAmount(this,'1000')">🏆 NT$1,000</button>
       </div>
       <p style="font-size:12px;color:#C5D5FF" data-i18n="don_custom">或使用下方任一方式自由贊助</p>
+    </div>
+
+    <!-- Ko-fi button -->
+    <div style="text-align:center;margin-bottom:28px">
+      <a href="https://ko-fi.com/calerspark" target="_blank" style="display:inline-flex;align-items:center;gap:10px;background:#FF5E5B;color:#fff;text-decoration:none;border-radius:12px;padding:14px 28px;font-size:16px;font-weight:700;box-shadow:0 4px 16px #FF5E5B44;transition:all .2s" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
+        ☕ Buy me a Ko-fi
+      </a>
+      <div style="margin-top:8px;font-size:12px;color:var(--sub)">支持我繼續做開源 &amp; 免費教學</div>
+    </div>
+
+    <!-- Gumroad assets banner -->
+    <div style="background:linear-gradient(135deg,#1a0a2e,#0d1a2e);border:1px solid #7c3aed44;border-radius:16px;padding:24px;text-align:center;margin-bottom:28px">
+      <div style="font-size:32px;margin-bottom:8px">🎮</div>
+      <h3 style="color:#e2e8f0;margin-bottom:8px">107 個 Unity C# 資產包</h3>
+      <p style="color:#94a3b8;font-size:13px;margin-bottom:16px">AI、UI、音效、存檔、任務系統…即下即用，加速開發</p>
+      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+        <a href="https://calerspark.gumroad.com/l/ipoui" target="_blank" style="background:#ff90e8;color:#1a0033;text-decoration:none;border-radius:8px;padding:10px 20px;font-weight:700;font-size:14px">🎁 全套 Bundle — $19 USD</a>
+        <a href="https://calerspark.itch.io" target="_blank" style="background:#7c3aed;color:#fff;text-decoration:none;border-radius:8px;padding:10px 20px;font-weight:700;font-size:14px">🏪 itch.io 單品選購</a>
+      </div>
     </div>
 
     <div class="section-title" data-i18n="don_methods">💳 贊助方式</div>
@@ -676,49 +643,6 @@
   </div>
 </div>
 
-<!-- COURSE PREVIEW MODAL -->
-<div class="modal-overlay" id="course-modal" onclick="closeCoursePreview(event)">
-  <div class="modal course-preview-modal">
-    <button class="modal-close" onclick="closeCoursePreview()">✕</button>
-    <div class="cp-header">
-      <div class="modal-icon" id="cp-icon"></div>
-      <div class="cp-badge" id="cp-badge"></div>
-      <h1 id="cp-title"></h1>
-    </div>
-    <div class="cp-toc" id="cp-toc"></div>
-    <hr>
-    <div class="cp-body" id="cp-body"></div>
-    <div class="cp-footer" id="cp-footer"></div>
-  </div>
-</div>
-
-<!-- PAYMENT MODAL -->
-<div class="modal-overlay" id="pay-modal" onclick="closePayModal(event)">
-  <div class="modal pay-modal-content">
-    <button class="modal-close" onclick="closePayModal()">✕</button>
-    <h3 data-i18n="pay_method_title">購買課程</h3>
-    <div class="pay-course-name" id="pay-course-name"></div>
-    <div class="pay-price" id="pay-price"></div>
-    <div class="pay-options">
-      <div class="pay-option primary" style="cursor:default">
-        <div class="pay-opt-icon">🏦</div>
-        <div>
-          <div class="pay-opt-label" data-i18n="pay_bank_title">銀行轉帳資訊</div>
-          <div class="pay-opt-desc">兆豐銀行 (017) — 03210575299</div>
-          <button class="pm-copy" style="margin-top:8px;font-size:12px" onclick="copyText('兆豐銀行(017) 03210575299')" data-i18n="copy_btn">複製帳號</button>
-        </div>
-      </div>
-      <div class="pay-option" onclick="payWithBank()">
-        <div class="pay-opt-icon">📧</div>
-        <div>
-          <div class="pay-opt-label" data-i18n="pay_email_notify">轉帳後通知我</div>
-          <div class="pay-opt-desc" data-i18n="pay_bank_desc">寄送 Email 確認，1 個工作天內發送教材</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
 
@@ -727,12 +651,482 @@
   <p data-i18n="footer_copy">© 2026 Frank · 用程式碼打造遊戲世界 · a8398433@gmail.com</p>
 </footer>
 
-<!-- Scripts (load order matters: data & i18n first, then features, then app init) -->
-<script src="js/data.js"></script>
-<script src="js/i18n.js"></script>
-<script src="js/courses.js"></script>
-<script src="js/daily.js"></script>
-<script src="js/games.js"></script>
-<script src="js/app.js"></script>
+<script>
+// ── POSTS DATA ──────────────────────────────────────────────────────
+const POSTS_TW=[
+  {id:1,cover:"🎮",title:"Unity vs Cocos Creator：兩年實戰後的真心話比較",
+   excerpt:"很多人問我：「學遊戲開發要選 Unity 還是 Cocos？」用了兩年這兩個引擎，踩過很多坑之後，我終於可以給出一個比較誠實的答案……",
+   content:[
+     {t:"p",s:"很多人問我：「學遊戲開發要選 Unity 還是 Cocos？」用了兩年這兩個引擎之後，我終於可以給出一個比較誠實的答案：兩個都很好，但適合的場景不同。"},
+     {t:"h3",s:"Unity 的強項"},
+     {t:"p",s:"Unity 的生態系無庸置疑是目前最完整的。Asset Store 裡有海量的素材和工具、YouTube 上有數不清的教學、社群論壇幾乎任何問題都有人回答過。如果你想做 3D 遊戲，或者目標是主機、PC 平台，Unity 幾乎是唯一選擇。"},
+     {t:"h3",s:"Cocos Creator 的強項"},
+     {t:"p",s:"Cocos 在手機 2D 遊戲和 H5 網頁遊戲方面有壓倒性的優勢，尤其在台灣和中國市場。它的底層效能在手機端非常出色，而且針對微信小遊戲等平台有原生支援。"},
+     {t:"h3",s:"我的建議"},
+     {t:"p",s:"如果你剛入門，我建議先從 Unity 開始——學習資源多、社群活躍、遇到問題容易找到答案。等有了基礎概念再學 Cocos，轉換成本其實不高，因為核心的遊戲開發邏輯是相通的。"},
+     {t:"h3",s:"兩個都學有沒有意義？"},
+     {t:"p",s:"非常有意義！特別是如果你想接案，同時會 Unity 和 Cocos 能讓你接到更多不同類型的專案，競爭力也會大幅提升。我目前接的案子約一半 Unity、一半 Cocos，兩邊都接讓收入更穩定。"}
+   ],tags:["Unity","Cocos","入門"],date:"2026-02-20",readTime:"7 分鐘"},
+  {id:2,cover:"📱",title:"手機遊戲效能優化的 5 個關鍵技巧",
+   excerpt:"做手機遊戲最大的挑戰之一就是效能。玩家的手機型號五花八門，要讓遊戲在低階機上也跑得順，你必須從一開始就養成好習慣……",
+   content:[
+     {t:"p",s:"做手機遊戲最大的挑戰之一就是效能。玩家的手機型號五花八門，要讓遊戲在低階機上也跑得順，你必須從一開始就養成好習慣。"},
+     {t:"h3",s:"技巧 1：善用 Object Pooling（物件池）"},
+     {t:"p",s:"頻繁的 Instantiate 和 Destroy 是效能殺手。子彈、特效、敵人這類大量生成的物件，一定要用 Object Pool 管理，重複利用而不是一直生成銷毀。這一個改動往往能讓幀率提升 20-30%。"},
+     {t:"h3",s:"技巧 2：控制 Draw Call 數量"},
+     {t:"p",s:"把多張小圖合併成 Sprite Atlas，讓同一批 sprite 只需要一次 Draw Call。這在 Cocos 和 Unity 都適用，是 2D 遊戲優化最基礎也最有效的方法之一。"},
+     {t:"h3",s:"技巧 3：Update 裡的程式碼要精簡"},
+     {t:"p",s:"每一幀都執行的邏輯要盡量輕量。避免在 Update 裡做字串操作、大量的碰撞查詢或 Find 物件等昂貴操作。能在 Awake/Start 初始化的就不要放在 Update 裡。"},
+     {t:"h3",s:"技巧 4：用 Profiler 找真正的瓶頸"},
+     {t:"p",s:"很多人優化的地方根本不是瓶頸所在。一定要先打開 Profiler，找到真正佔用最多時間的地方，再針對性地優化。不要憑直覺猜，要用數據說話。"},
+     {t:"h3",s:"技巧 5：適當使用 LOD 和圖集"},
+     {t:"p",s:"遠處的物件不需要高細節，LOD 系統可以根據距離自動切換模型。圖集（Atlas）則確保同場景的 UI 元素盡量共用材質，減少渲染批次。"}
+   ],tags:["Unity","Cocos","效能優化"],date:"2026-02-05",readTime:"6 分鐘"},
+  {id:3,cover:"🕹️",title:"從零開始學 Unity：給完全新手的入門路線圖",
+   excerpt:"你對遊戲開發有興趣，但不知道從哪裡開始？這篇文章幫你規劃一條清晰的學習路線，從安裝 Unity 到做出第一個可玩的 Demo，一步步帶你走……",
+   content:[
+     {t:"p",s:"你對遊戲開發有興趣，但不知道從哪裡開始？這篇文章幫你規劃一條清晰的學習路線，讓你少走彎路。"},
+     {t:"h3",s:"第一階段：熟悉 Unity 環境（1-2 週）"},
+     {t:"p",s:"下載安裝 Unity Hub 和 Unity Editor（LTS 版本）。花幾天時間熟悉介面：Scene View、Game View、Inspector、Hierarchy。"},
+     {t:"h3",s:"第二階段：學習 C# 基礎（2-4 週）"},
+     {t:"p",s:"Unity 使用 C# 作為腳本語言。你需要了解：變數與型別、條件判斷與迴圈、函式與類別、MonoBehaviour 的生命週期（Awake、Start、Update）。建議邊學邊寫，不要只看教學。"},
+     {t:"h3",s:"第三階段：做出第一個完整遊戲（4-8 週）"},
+     {t:"p",s:"選一個簡單的遊戲類型：2D 平台跳躍、打磚塊或頂視角射擊。重要的是做「完整」的遊戲——有開始畫面、遊戲邏輯、結束條件和分數顯示。完成度比品質更重要。"},
+     {t:"h3",s:"最後一點建議"},
+     {t:"p",s:"學習遊戲開發最大的陷阱是「一直在看教學，卻沒有真正動手做」。規定自己每看一個教學，就要做一個對應的小練習。動手比觀看重要一百倍。"}
+   ],tags:["Unity","入門","教學"],date:"2026-01-18",readTime:"8 分鐘"},
+  {id:4,cover:"💼",title:"遊戲開發接案經驗分享：如何談到第一個客戶",
+   excerpt:"接案是很多獨立遊戲開發者的收入來源，但第一個客戶是最難的。我分享自己從「什麼案子都沒有」到穩定接案的過程……",
+   content:[
+     {t:"p",s:"接案是很多獨立遊戲開發者的收入來源，但第一個客戶是最難的。這裡分享我自己從「什麼案子都沒有」到穩定接案的真實過程。"},
+     {t:"h3",s:"第一步：建立作品集"},
+     {t:"p",s:"沒有客戶願意找一個「沒有任何作品」的開發者。在開始接案之前，先做 2-3 個展示你能力的小遊戲 Demo，放到 itch.io 或 GitHub 上。"},
+     {t:"h3",s:"第二步：用低價建立信譽"},
+     {t:"p",s:"第一個客戶，我是以非常低的價格接的。這聽起來不划算，但那個案子給了我：真實的客戶評價、實際交付的經驗。"},
+     {t:"h3",s:"談價格的關鍵"},
+     {t:"p",s:"報價前一定要先徹底了解需求，不要給「概括性報價」。把項目拆細，逐項估算工時，加上 20-30% 的緩衝。寧可報貴再談，也不要報便宜再追加。"},
+     {t:"h3",s:"最重要的一件事"},
+     {t:"p",s:"準時交付，超出預期。接案最強大的行銷工具是「客戶介紹客戶」。只要你把每一個案子做好，口碑會幫你找到下一個客戶。"}
+   ],tags:["接案","心得"],date:"2026-01-03",readTime:"7 分鐘"},
+  {id:5,cover:"🎨",title:"遊戲 UI 設計入門：讓玩家直覺看懂介面",
+   excerpt:"很多開發者都曾輕忽 UI 設計，以為「功能做好就好」。但糟糕的 UI 會讓玩家在第一分鐘就放棄你的遊戲……",
+   content:[
+     {t:"p",s:"很多開發者（包括我自己）都曾輕忽 UI 設計，以為「功能做好就好」。但糟糕的 UI 會讓玩家在第一分鐘就放棄你的遊戲。"},
+     {t:"h3",s:"原則 1：清晰比好看更重要"},
+     {t:"p",s:"玩家不會研究你的介面，他們只想直覺知道該怎麼做。HP 條要明顯、按鈕要清楚知道是按鈕、重要資訊要放在最顯眼的位置。"},
+     {t:"h3",s:"原則 2：善用視覺層級"},
+     {t:"p",s:"透過大小、顏色、對比來引導玩家的視線。最重要的元素最大最醒目，次要的縮小或降低對比。一個畫面不要有超過 3 個「重點」。"},
+     {t:"h3",s:"原則 3：回饋要即時且明確"},
+     {t:"p",s:"每個玩家的操作都要有反應：按鈕按下要有視覺變化、受傷要有閃紅、拾取物品要有動畫。缺乏回饋會讓玩家懷疑「我剛才的操作有沒有成功？」"}
+   ],tags:["UI設計","教學"],date:"2025-12-15",readTime:"5 分鐘"},
+  {id:6,cover:"🚀",title:"Cocos Creator 新手必踩的 5 個坑（以及如何避開）",
+   excerpt:"我剛開始學 Cocos 的時候，有幾個坑踩了不止一次。現在把它們整理出來，希望讓你少浪費幾個小時的除錯時間……",
+   content:[
+     {t:"p",s:"我剛開始學 Cocos Creator 的時候，有幾個坑踩了不止一次。現在把它們整理出來，希望讓你少浪費幾個小時的除錯時間。"},
+     {t:"h3",s:"坑 1：忽略 Node 的 Anchor Point"},
+     {t:"p",s:"Cocos 的節點位置是由 Anchor Point 決定的，預設在中心（0.5, 0.5）。如果你發現節點位置總是「歪掉」，十有八九是 Anchor Point 沒設對。"},
+     {t:"h3",s:"坑 2：直接在腳本裡用字串找節點"},
+     {t:"p",s:"用 find() 動態查找節點不只效能差，還很容易因為節點改名而出錯。養成習慣：在 Inspector 裡用 @property 拖拉指定節點引用。"},
+     {t:"h3",s:"坑 3：不了解 Canvas 的縮放邏輯"},
+     {t:"p",s:"Cocos 的 Canvas 有多種縮放模式，選錯會讓 UI 在不同螢幕比例上跑版。大多數手機遊戲推薦 FIXED_HEIGHT。"},
+     {t:"h3",s:"坑 4：TypeScript 型別沒有善用"},
+     {t:"p",s:"Cocos 3.x 強力建議使用 TypeScript，但很多新手還是像寫 JavaScript 一樣隨意。型別宣告可以讓 IDE 幫你找到大量的低級錯誤。"},
+     {t:"h3",s:"坑 5：跳過版控直接開發"},
+     {t:"p",s:"沒有版控直接開發是災難的開始。現在就建立 Git repo，每次有意義的進展就 commit。"}
+   ],tags:["Cocos","教學","心得"],date:"2025-11-28",readTime:"6 分鐘"}
+]
+
+const POSTS_JP=[
+  {id:1,cover:"🎮",title:"Unity vs Cocos Creator：2年間の実戦後の本音比較",
+   excerpt:"「ゲーム開発にはUnityとCocosどちらを選ぶべき？」2年間両エンジンを使い、多くの失敗を経験した後、ようやく正直な答えが出せます……",
+   content:[
+     {t:"p",s:"「ゲーム開発にはUnityとCocosどちらを選ぶべき？」2年間両エンジンを使った後、正直な答えが出せるようになりました：どちらも優れていますが、適したシーンが違います。"},
+     {t:"h3",s:"Unityの強み"},
+     {t:"p",s:"UnityのエコシステムはAsset Storeに豊富な素材とツール、YouTubeには無数のチュートリアル、コミュニティフォーラムでほぼすべての問題に回答があります。3Dゲームやコンソール・PCプラットフォームが目標ならUnityが最適です。"},
+     {t:"h3",s:"Cocos Creatorの強み"},
+     {t:"p",s:"Cocosはモバイル2DゲームとH5ウェブゲームで圧倒的な優位性を持ちます。特に台湾と中国市場では強く、モバイル端末でのパフォーマンスが非常に優れています。"},
+     {t:"h3",s:"私のアドバイス"},
+     {t:"p",s:"初心者なら、まずUnityから始めることをお勧めします。学習リソースが豊富で、コミュニティも活発です。基礎を固めてからCocosを学ぶのは難しくありません。"},
+     {t:"h3",s:"両方学ぶ価値はあるか？"},
+     {t:"p",s:"非常に価値があります！特にフリーランスを考えているなら、UnityとCocosの両方ができることで、より多くの案件を受けられます。"}
+   ],tags:["Unity","Cocos","入門"],date:"2026-02-20",readTime:"7分"},
+  {id:2,cover:"📱",title:"モバイルゲームパフォーマンス最適化の5つのポイント",
+   excerpt:"モバイルゲーム開発最大の課題の一つはパフォーマンスです。様々なデバイスでスムーズに動くよう、最初から良い習慣を身につける必要があります……",
+   content:[
+     {t:"p",s:"モバイルゲーム開発最大の課題の一つはパフォーマンスです。多様なデバイスでスムーズに動かすには、最初から良い習慣が必要です。"},
+     {t:"h3",s:"ポイント1：Object Poolingを活用する"},
+     {t:"p",s:"頻繁なInstantiateとDestroyはパフォーマンスの敵。弾、エフェクト、敵などは必ずObject Poolで管理し再利用しましょう。この一つの改善でフレームレートが20-30%向上することもあります。"},
+     {t:"h3",s:"ポイント2：Draw Call数を制御する"},
+     {t:"p",s:"複数の小さな画像をSprite Atlasに統合し、同じバッチのスプライトが一回のDraw Callで済むようにしましょう。"},
+     {t:"h3",s:"ポイント3：Updateのコードを軽量に"},
+     {t:"p",s:"毎フレーム実行されるロジックはできるだけ軽量に。文字列操作、多数のコリジョン検索、Findなどの重い処理はUpdateに入れないようにしましょう。"},
+     {t:"h3",s:"ポイント4：Profilerで本当のボトルネックを見つける"},
+     {t:"p",s:"最適化する前に必ずProfilerを開いて、本当に時間を消費している箇所を特定しましょう。直感に頼らず、データで判断することが重要です。"}
+   ],tags:["Unity","Cocos","最適化"],date:"2026-02-05",readTime:"6分"},
+  {id:3,cover:"🕹️",title:"Unity完全初心者ガイド：ロードマップ",
+   excerpt:"ゲーム開発に興味があるけど、どこから始めればいい？この記事でUnityインストールから最初のゲーム完成まで、明確な学習ロードマップを紹介します……",
+   content:[
+     {t:"p",s:"ゲーム開発に興味があるけど、どこから始めればいいか分からない？この記事では、遠回りしないための明確な学習ロードマップを紹介します。"},
+     {t:"h3",s:"フェーズ1：Unity環境に慣れる（1-2週間）"},
+     {t:"p",s:"Unity HubとUnity Editor（LTSバージョン）をダウンロードしてインストール。Scene View、Game View、Inspector、Hierarchyなどのインターフェースに慣れましょう。"},
+     {t:"h3",s:"フェーズ2：C#の基礎を学ぶ（2-4週間）"},
+     {t:"p",s:"Unityはスクリプト言語にC#を使用します。変数と型、条件分岐とループ、関数とクラス、MonoBehaviourのライフサイクル（Awake、Start、Update）を学びましょう。"},
+     {t:"h3",s:"フェーズ3：最初の完全なゲームを作る（4-8週間）"},
+     {t:"p",s:"シンプルなゲームタイプを選びましょう：2Dプラットフォーマー、ブロック崩し、トップダウンシューター。スタート画面、ゲームロジック、終了条件、スコア表示がある「完全な」ゲームを作ることが重要です。"}
+   ],tags:["Unity","入門","チュートリアル"],date:"2026-01-18",readTime:"8分"},
+  {id:4,cover:"💼",title:"ゲーム開発フリーランス体験談：最初のクライアントを獲得するには",
+   excerpt:"フリーランスはインディーゲーム開発者の収入源の一つですが、最初のクライアントが最も難しい。私が「案件ゼロ」から安定受注までの過程を共有します……",
+   content:[
+     {t:"p",s:"フリーランスはインディーゲーム開発者の収入源の一つですが、最初のクライアントが最も難しいです。「案件ゼロ」から安定受注までの実際のプロセスを共有します。"},
+     {t:"h3",s:"ステップ1：ポートフォリオを作る"},
+     {t:"p",s:"「作品が何もない」開発者を雇いたいクライアントはいません。フリーランスを始める前に、スキルをアピールできる小さなゲームDemoを2-3個作り、itch.ioかGitHubに公開しましょう。"},
+     {t:"h3",s:"ステップ2：低価格で信頼を築く"},
+     {t:"p",s:"最初のクライアントは非常に安い価格で受けました。割に合わないように聞こえますが、それによって実際の顧客レビュー、実際の納品経験、「クライアントが本当に求めるもの」を理解する機会が得られました。"},
+     {t:"h3",s:"価格交渉のポイント"},
+     {t:"p",s:"見積もりを出す前に必ず要件を徹底的に理解しましょう。プロジェクトを細分化し、各工程の工数を見積もり、20-30%のバッファを加えます。"}
+   ],tags:["フリーランス","体験談"],date:"2026-01-03",readTime:"7分"},
+  {id:5,cover:"🎨",title:"ゲームUIデザイン入門：プレイヤーが直感的に理解できるインターフェース",
+   excerpt:"多くの開発者はUIデザインを軽視し、「機能が動けばいい」と思っています。しかし、悪いUIはプレイヤーを最初の1分で離脱させます……",
+   content:[
+     {t:"p",s:"多くの開発者（私自身も含め）はUIデザインを軽視し、「機能が動けばいい」と思っていました。しかし、悪いUIはプレイヤーを最初の1分で離脱させます。"},
+     {t:"h3",s:"原則1：見た目より分かりやすさが重要"},
+     {t:"p",s:"プレイヤーはインターフェースを研究しません。HPバーを目立たせ、ボタンはボタンだと分かるように、重要な情報は最も目立つ位置に置きましょう。"},
+     {t:"h3",s:"原則2：視覚的な階層を活用する"},
+     {t:"p",s:"サイズ、色、コントラストを使ってプレイヤーの視線を誘導します。最重要要素を最大最目立つように、一画面に「重点」は3つ以内にしましょう。"}
+   ],tags:["UIデザイン","チュートリアル"],date:"2025-12-15",readTime:"5分"},
+  {id:6,cover:"🚀",title:"Cocos Creator初心者がはまる5つの落とし穴（と回避方法）",
+   excerpt:"Cocos Creatorを学び始めたとき、何度も同じ落とし穴にはまりました。デバッグ時間を節約するためにまとめました……",
+   content:[
+     {t:"p",s:"Cocos Creatorを学び始めた頃、何度も同じ落とし穴にはまりました。デバッグ時間を節約できるよう、まとめておきます。"},
+     {t:"h3",s:"落とし穴1：NodeのAnchor Pointを無視する"},
+     {t:"p",s:"Cocosのノード位置はAnchor Pointによって決まります。デフォルトは中央（0.5, 0.5）。ノードの位置がずれていたら、ほぼ確実にAnchor Pointの問題です。"},
+     {t:"h3",s:"落とし穴2：スクリプトで文字列でノードを検索する"},
+     {t:"p",s:"find()で動的にノードを検索するのはパフォーマンスが悪いだけでなく、ノード名変更でエラーが発生しやすいです。Inspectorで@propertyドラッグ指定を習慣にしましょう。"},
+     {t:"h3",s:"落とし穴3：Canvasのスケールロジックを理解しない"},
+     {t:"p",s:"CocosのCanvasには複数のスケールモードがあり、間違えると異なる画面比率でUIが崩れます。多くのモバイルゲームはFIXED_HEIGHTを推奨します。"}
+   ],tags:["Cocos","チュートリアル","体験談"],date:"2025-11-28",readTime:"6分"}
+]
+
+// ── I18N ─────────────────────────────────────────────────────────────
+const LANG={
+tw:{
+  site_title:"Frank Dev Blog · 遊戲開發 × 接案 × 教學",
+  nav_home:"首頁",nav_posts:"文章",nav_services:"服務",
+  nav_courses:"教學",nav_donate:"贊助",nav_about:"關於",
+  home_h1:"嗨，我是 Frank 👋",
+  home_sub:"遊戲開發者，專注於 Unity 與 Cocos 引擎。\n分享開發技巧、踩坑心得與接案經驗。",
+  cta_contact:"💼 洽談接案",cta_courses:"📚 免費教學",cta_support:"❤️ 支持我",
+  home_latest:"🔥 最新文章",home_more:"查看所有文章",
+  email_title:"📧 訂閱免費資源",
+  email_sub:"訂閱即可獲得免費 Unity 專案範本 + 每週開發技巧",
+  email_btn:"訂閱",email_ph:"你的 Email",
+  posts_title:"📚 所有文章",
+  posts_cta_h:"想學更多？",posts_cta_p:"訂閱我的教學課程，從入門到進階一次搞定",posts_cta_btn:"查看課程 →",
+  svc_h1:"💼 接案服務",svc_sub:"專業遊戲開發，助你快速將創意化為產品",
+  svc_cards_title:"服務項目",svc_cards_sub:"專注遊戲開發，提供端到端解決方案",
+  s1_title:"手機遊戲開發",s1_desc:"iOS / Android 手機遊戲從零到發布，Unity 或 Cocos Creator，完整交付",s1_price:"NT$15,000 起",
+  s2_title:"遊戲功能模組",s2_desc:"戰鬥系統、背包系統、UI 系統等獨立功能模組開發與整合",s2_price:"NT$5,000 起",
+  s3_title:"效能優化服務",s3_desc:"卡頓、掉幀、記憶體溢出？提供專業 Profiler 分析與優化方案",s3_price:"NT$3,000 起",
+  s4_title:"技術顧問",s4_desc:"架構設計、技術選型、Code Review，一小時顧問諮詢助你少走彎路",s4_price:"NT$800 / 小時",
+  s_cta:"立即洽談",
+  trust1:"準時交付",trust2:"NDA 保密協議",trust3:"免費修改 2 次",trust4:"即時溝通",trust5:"3 年實戰經驗",
+  price_title:"💰 報價參考",
+  pt_type:"項目",pt_scope:"規模",pt_time:"工期",pt_price:"參考報價",
+  p1_type:"手機遊戲（休閒）",p1_scope:"小型",p1_time:"2–4 週",
+  p2_type:"手機遊戲（中型）",p2_scope:"中型",p2_time:"1–3 月",
+  p3_type:"功能模組",p3_scope:"單功能",p3_time:"1–2 週",
+  p4_type:"效能優化",p4_scope:"專案診斷",p4_time:"3–7 天",
+  p5_type:"技術顧問",p5_scope:"按小時",p5_time:"靈活",
+  cf_title:"📬 聯絡我",cf_name:"姓名",cf_name_ph:"你的名字",
+  cf_service:"服務項目",cf_desc:"專案描述",cf_desc_ph:"簡述你的專案或需求…",
+  cf_budget:"預算範圍",cf_budget_discuss:"面議",
+  cf_timeline:"時程需求",
+  t1:"急件（1 週內）",t2:"2–4 週",t3:"1–3 個月",t4:"彈性討論",
+  cf_other:"其他需求",cf_submit:"📨 送出詢問",
+  pay_title:"收款方式（合約確認後）",pay_bank:"台灣銀行轉帳",copy_btn:"複製",
+  crs_h1:"📚 教學課程",crs_sub:"從入門到進階，實戰導向的遊戲開發教學",
+  crs_free:"🆓 免費資源",crs_free_sub:"訂閱 Email 即可免費獲取",
+  cr1_title:"Unity 入門完整指南 PDF",cr1_desc:"30 頁完整入門指南，涵蓋環境設定、C# 基礎、第一個遊戲製作全流程",
+  cr2_title:"Cocos Creator 快速上手 Cheatsheet",cr2_desc:"常用 API、生命週期、節點操作一張表搞定，開發必備參考卡",
+  free:"免費",dl_btn:"📥 免費下載",
+  crs_paid:"💎 付費課程",crs_paid_sub:"深度實戰課程，含範例專案原始碼",
+  cr3_title:"手機遊戲效能優化實戰課",cr3_desc:"5 個影片 + 範例 Unity 專案，學習 Object Pooling、Draw Call 優化、記憶體管理",
+  cr4_title:"Unity 遊戲系統架構設計",cr4_desc:"設計可擴展的遊戲架構：事件系統、狀態機、MVC 設計模式在遊戲中的實戰應用",
+  cr5_title:"從零製作完整手機遊戲（Cocos Creator）",cr5_desc:"8 小時完整課程，從專案建立到 App Store 上架，完整製作一款休閒遊戲",
+  buy_btn:"🛒 立即購買",
+  crs_email_h:"🎁 免費獲取 Unity 入門包",crs_email_p:"輸入 Email，立即收到免費 PDF 教學 + 範例專案",
+  don_h1:"支持 Frank 繼續創作",
+  don_sub:"你的贊助讓我能持續製作免費教學、開源專案，並回饋給整個遊戲開發社群",
+  don_custom:"或使用下方任一方式自由贊助",don_methods:"💳 贊助方式",bank_tw:"台灣銀行轉帳",
+  don_thanks_h:"💌 贊助後留言",don_thanks_p:"完成贊助後可留下你的暱稱，我會在下一篇文章感謝你！",
+  don_name:"暱稱",don_amount:"贊助金額",don_msg:"留言",don_submit:"❤️ 送出感謝留言",
+  ab_role:"遊戲開發者 · Unity · Cocos Creator",
+  ab_intro:"熱愛遊戲開發，擅長將創意轉化為可玩的遊戲體驗。歡迎有遊戲開發需求的朋友找我合作！",
+  ab_about:"🎮 關於我",ab_p1:"我叫 Frank，是一名遊戲開發者，主要使用 Cocos Creator 和 Unity 引擎開發各類型遊戲。",
+  ab_p2:"無論是手機遊戲、休閒小遊戲還是跨平台專案，我都有豐富的實作經驗。",
+  ab_p3:"這個部落格是我記錄開發過程、分享踩坑心得的地方。",
+  ab_skills:"🛠️ 技術專長",
+  sk1:"遊戲 UI 設計",sk2:"效能優化",sk3:"手機遊戲開發",sk4:"跨平台發布",sk5:"物件池設計",sk6:"遊戲架構設計",
+  ab_cta_h:"📬 聯繫我",ab_cta_p:"有遊戲開發需求，或只是想交流技術，都歡迎找我聊聊！",
+  ab_hire:"洽談接案",
+  modal_cta_p:"有遊戲開發需求？",modal_cta_btn:"💼 洽談接案",
+  footer_copy:"© 2026 Frank · 用程式碼打造遊戲世界 · a8398433@gmail.com",
+  tag_all:"全部",tag_unity:"Unity",tag_cocos:"Cocos",tag_beginner:"入門",
+  tag_perf:"效能優化",tag_tutorial:"教學",tag_freelance:"接案",
+  tag_insight:"心得",tag_ui:"UI設計",
+  posts_count:"共",posts_count2:"篇文章"
+},
+jp:{
+  site_title:"フランク開発ブログ · ゲーム開発 × 受注 × 教学",
+  nav_home:"ホーム",nav_posts:"記事",nav_services:"サービス",
+  nav_courses:"コース",nav_donate:"支援",nav_about:"自己紹介",
+  home_h1:"こんにちは、Frankです 👋",
+  home_sub:"ゲーム開発者。UnityとCocosエンジンに特化。\n開発テクニック・体験談・フリーランス経験を共有します。",
+  cta_contact:"💼 案件相談",cta_courses:"📚 無料コース",cta_support:"❤️ 応援する",
+  home_latest:"🔥 最新記事",home_more:"すべての記事を見る",
+  email_title:"📧 無料リソースを購読",
+  email_sub:"購読でUnityプロジェクトテンプレート無料 + 週間開発Tips",
+  email_btn:"購読",email_ph:"メールアドレス",
+  posts_title:"📚 すべての記事",
+  posts_cta_h:"もっと学びたい？",posts_cta_p:"私の教学コースで入門から上級まで",posts_cta_btn:"コースを見る →",
+  svc_h1:"💼 開発サービス",svc_sub:"プロのゲーム開発で、アイデアを素早く製品に",
+  svc_cards_title:"サービス内容",svc_cards_sub:"ゲーム開発に特化したエンドツーエンドソリューション",
+  s1_title:"モバイルゲーム開発",s1_desc:"iOS / Android モバイルゲームをゼロからリリースまで、UnityまたはCocos Creator、完全納品",s1_price:"NT$15,000〜",
+  s2_title:"ゲーム機能実装",s2_desc:"戦闘システム、インベントリ、UIシステム、実績システムなどの機能モジュール開発・統合",s2_price:"NT$5,000〜",
+  s3_title:"パフォーマンス最適化",s3_desc:"カクつき・フレームドロップ・メモリリーク？プロのProfiler分析と最適化プランを提供",s3_price:"NT$3,000〜",
+  s4_title:"技術コンサルティング",s4_desc:"アーキテクチャ設計、技術選定、コードレビュー。1時間のコンサルで遠回りを防ぎます",s4_price:"NT$800 / 時間",
+  s_cta:"今すぐ相談",
+  trust1:"納期厳守",trust2:"NDA守秘義務",trust3:"無料修正2回",trust4:"即時対応",trust5:"3年実戦経験",
+  price_title:"💰 料金目安",
+  pt_type:"項目",pt_scope:"規模",pt_time:"期間",pt_price:"参考料金",
+  p1_type:"モバイルゲーム（カジュアル）",p1_scope:"小規模",p1_time:"2〜4週間",
+  p2_type:"モバイルゲーム（中規模）",p2_scope:"中規模",p2_time:"1〜3ヶ月",
+  p3_type:"機能モジュール",p3_scope:"単機能",p3_time:"1〜2週間",
+  p4_type:"パフォーマンス最適化",p4_scope:"診断",p4_time:"3〜7日",
+  p5_type:"技術コンサル",p5_scope:"時間制",p5_time:"柔軟",
+  cf_title:"📬 お問い合わせ",cf_name:"お名前",cf_name_ph:"お名前を入力",
+  cf_service:"サービス内容",cf_desc:"プロジェクト内容",cf_desc_ph:"プロジェクトや要件を簡単に説明してください…",
+  cf_budget:"予算範囲",cf_budget_discuss:"要相談",
+  cf_timeline:"スケジュール",
+  t1:"急ぎ（1週間以内）",t2:"2〜4週間",t3:"1〜3ヶ月",t4:"柔軟に相談",
+  cf_other:"その他",cf_submit:"📨 送信",
+  pay_title:"支払い方法（契約確認後）",pay_bank:"台湾銀行振込",copy_btn:"コピー",
+  crs_h1:"📚 教学コース",crs_sub:"入門から上級まで、実戦向きのゲーム開発教学",
+  crs_free:"🆓 無料リソース",crs_free_sub:"メール登録で無料取得",
+  cr1_title:"Unity 入門完全ガイド PDF",cr1_desc:"30ページの完全入門ガイド。環境設定、C#基礎、初めてのゲーム制作全プロセスをカバー",
+  cr2_title:"Cocos Creator クイックスタート Cheatsheet",cr2_desc:"よく使うAPI、ライフサイクル、ノード操作を一枚にまとめた必携リファレンスカード",
+  free:"無料",dl_btn:"📥 無料ダウンロード",
+  crs_paid:"💎 有料コース",crs_paid_sub:"深掘り実戦コース、サンプルプロジェクトのソースコード付き",
+  cr3_title:"モバイルゲームパフォーマンス最適化実戦コース",cr3_desc:"5動画 + UnityサンプルプロジェクトでObject Pooling、Draw Call最適化、メモリ管理を学ぶ",
+  cr4_title:"Unityゲームシステムアーキテクチャ設計",cr4_desc:"拡張可能なゲームアーキテクチャ設計：イベントシステム、ステートマシン、MVCパターンの実戦活用",
+  cr5_title:"ゼロからモバイルゲームを完成させる（Cocos Creator）",cr5_desc:"8時間完全コース。プロジェクト作成からApp Storeリリースまで、カジュアルゲームを完全制作",
+  buy_btn:"🛒 今すぐ購入",
+  crs_email_h:"🎁 Unity入門パックを無料取得",crs_email_p:"メール登録で無料PDF教材 + サンプルプロジェクトをすぐ受け取れます",
+  don_h1:"Frankの創作を応援する",
+  don_sub:"あなたの支援で無料教材・オープンソースプロジェクトを継続し、ゲーム開発コミュニティに還元できます",
+  don_custom:"または以下の方法で自由に支援",don_methods:"💳 支援方法",bank_tw:"台湾銀行振込",
+  don_thanks_h:"💌 支援後のメッセージ",don_thanks_p:"支援完了後にニックネームを残していただければ、次の記事で感謝を伝えます！",
+  don_name:"ニックネーム",don_amount:"支援金額",don_msg:"メッセージ",don_submit:"❤️ メッセージを送る",
+  ab_role:"ゲーム開発者 · Unity · Cocos Creator",
+  ab_intro:"ゲーム開発が好きで、アイデアを遊べるゲーム体験に変換することを得意としています。ゲーム開発のご要望があればぜひご相談ください！",
+  ab_about:"🎮 自己紹介",ab_p1:"私はFrankといいます。主にCocos CreatorとUnityエンジンを使用して様々なゲームを開発しているゲーム開発者です。",
+  ab_p2:"モバイルゲーム、カジュアルゲーム、クロスプラットフォームプロジェクトなど、豊富な実装経験があります。",
+  ab_p3:"このブログは開発プロセスを記録し、試行錯誤の体験を共有する場所です。",
+  ab_skills:"🛠️ スキル",
+  sk1:"ゲームUIデザイン",sk2:"パフォーマンス最適化",sk3:"モバイルゲーム開発",sk4:"クロスプラットフォーム",sk5:"オブジェクトプール設計",sk6:"ゲームアーキテクチャ設計",
+  ab_cta_h:"📬 お問い合わせ",ab_cta_p:"ゲーム開発のご要望や技術交流のお問い合わせはいつでもどうぞ！",
+  ab_hire:"案件相談",
+  modal_cta_p:"ゲーム開発のご要望はありますか？",modal_cta_btn:"💼 案件相談",
+  footer_copy:"© 2026 Frank · コードでゲーム世界を作る · a8398433@gmail.com",
+  tag_all:"すべて",tag_unity:"Unity",tag_cocos:"Cocos",tag_beginner:"入門",
+  tag_perf:"最適化",tag_tutorial:"チュートリアル",tag_freelance:"フリーランス",
+  tag_insight:"体験談",tag_ui:"UIデザイン",
+  posts_count:"全",posts_count2:"記事"
+}}
+
+// ── STATE ────────────────────────────────────────────────────────────
+let lang='tw', darkMode=false, activeTag=null
+
+// ── LANG ─────────────────────────────────────────────────────────────
+function applyLang(){
+  const L=LANG[lang]
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const k=el.getAttribute('data-i18n')
+    if(L[k]!==undefined) el.textContent=L[k]
+  })
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el=>{
+    const k=el.getAttribute('data-i18n-placeholder')
+    if(L[k]!==undefined) el.placeholder=L[k]
+  })
+  document.getElementById('langBtn').textContent=lang==='tw'?'🌐 JP':'🌐 TW'
+  document.title=L.site_title
+}
+function toggleLang(){
+  lang=lang==='tw'?'jp':'tw'
+  activeTag=null
+  applyLang()
+  renderAll()
+}
+
+// ── NAV ──────────────────────────────────────────────────────────────
+function showPage(name){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'))
+  document.querySelectorAll('.nav-link').forEach(b=>b.classList.remove('active'))
+  document.getElementById('page-'+name).classList.add('active')
+  const btn=document.querySelector(`.nav-link[data-page="${name}"]`)
+  if(btn) btn.classList.add('active')
+  window.scrollTo(0,0)
+}
+
+// ── DARK MODE ────────────────────────────────────────────────────────
+function toggleDark(){
+  darkMode=!darkMode
+  document.body.setAttribute('data-dark',darkMode)
+  document.getElementById('themeBtn').textContent=darkMode?'☀️':'🌙'
+}
+
+// ── RENDER POSTS ──────────────────────────────────────────────────────
+function getPosts(){ return lang==='tw'?POSTS_TW:POSTS_JP }
+function getTags(){
+  const L=LANG[lang]
+  const tagMap={
+    'Unity':'Unity','Cocos':'Cocos',
+    '入門':L.tag_beginner,'効能優化':L.tag_perf,'效能優化':L.tag_perf,
+    '教學':L.tag_tutorial,'接案':L.tag_freelance,'心得':L.tag_insight,'UI設計':L.tag_ui,
+    '最適化':L.tag_perf,'チュートリアル':L.tag_tutorial,'フリーランス':L.tag_freelance,
+    '体験談':L.tag_insight,'UIデザイン':L.tag_ui
+  }
+  return tagMap
+}
+function makeTagChips(tags){
+  return tags.map(t=>`<span class="tag-chip">${t}</span>`).join('')
+}
+function makeCard(post){
+  const el=document.createElement('div')
+  el.className='card'
+  el.innerHTML=`<div class="card-icon">${post.cover}</div><div class="card-tags">${makeTagChips(post.tags)}</div><h3>${post.title}</h3><p>${post.excerpt}</p><div class="card-meta"><span>📅 ${post.date}</span><span>⏱ ${post.readTime}</span></div>`
+  el.onclick=()=>openModal(post)
+  return el
+}
+function renderHomeGrid(){
+  const g=document.getElementById('home-grid')
+  g.innerHTML=''
+  getPosts().slice(0,3).forEach(p=>g.appendChild(makeCard(p)))
+}
+function renderPostsGrid(){
+  const posts=getPosts()
+  const L=LANG[lang]
+  const tagMap=getTags()
+  const filtered=activeTag?posts.filter(p=>p.tags.some(t=>t===activeTag||tagMap[t]===activeTag||getTags()[t]===activeTag)):posts
+  const g=document.getElementById('posts-grid')
+  g.innerHTML=''
+  filtered.forEach(p=>g.appendChild(makeCard(p)))
+  document.getElementById('post-count').textContent=`${L.posts_count} ${filtered.length} ${L.posts_count2}`
+}
+function renderFilterBar(){
+  const bar=document.getElementById('filter-bar')
+  bar.innerHTML=''
+  const L=LANG[lang]
+  const allTags=[...new Set(getPosts().flatMap(p=>p.tags))]
+  const allBtn=document.createElement('button')
+  allBtn.className='filter-tag'+(activeTag===null?' active':'')
+  allBtn.textContent=L.tag_all
+  allBtn.onclick=()=>{activeTag=null;renderFilterBar();renderPostsGrid()}
+  bar.appendChild(allBtn)
+  allTags.forEach(tag=>{
+    const btn=document.createElement('button')
+    btn.className='filter-tag'+(activeTag===tag?' active':'')
+    btn.textContent=tag
+    btn.onclick=()=>{activeTag=tag;renderFilterBar();renderPostsGrid()}
+    bar.appendChild(btn)
+  })
+}
+function renderAll(){
+  renderHomeGrid()
+  renderFilterBar()
+  renderPostsGrid()
+}
+
+// ── MODAL ─────────────────────────────────────────────────────────────
+function openModal(post){
+  document.getElementById('m-icon').textContent=post.cover
+  document.getElementById('m-tags').innerHTML=makeTagChips(post.tags)
+  document.getElementById('m-title').textContent=post.title
+  document.getElementById('m-meta').innerHTML=`<span>📅 ${post.date}</span><span>⏱ ${post.readTime}</span>`
+  document.getElementById('m-body').innerHTML=post.content.map(b=>b.t==='h3'?`<h3>${b.s}</h3>`:`<p>${b.s}</p>`).join('')
+  document.getElementById('modal-overlay').classList.add('open')
+  document.body.style.overflow='hidden'
+}
+function closeModal(e){
+  if(e&&e.target!==document.getElementById('modal-overlay')&&!e.target.classList.contains('modal-close'))return
+  document.getElementById('modal-overlay').classList.remove('open')
+  document.body.style.overflow=''
+}
+
+// ── ACTIONS ───────────────────────────────────────────────────────────
+function scrollToContact(){
+  showPage('services')
+  setTimeout(()=>document.getElementById('contact-section').scrollIntoView({behavior:'smooth'}),100)
+}
+function copyText(txt){
+  navigator.clipboard.writeText(txt).then(()=>showToast(lang==='tw'?'已複製！':'コピーしました！'))
+}
+function showToast(msg){
+  const t=document.getElementById('toast')
+  t.textContent=msg;t.classList.add('show')
+  setTimeout(()=>t.classList.remove('show'),2500)
+}
+function submitContact(){
+  const name=document.getElementById('cf-name').value
+  const email=document.getElementById('cf-email').value
+  const service=document.getElementById('cf-service').value
+  const desc=document.getElementById('cf-desc').value
+  const budget=document.getElementById('cf-budget').value
+  const timeline=document.getElementById('cf-timeline').value
+  if(!name||!email){showToast(lang==='tw'?'請填寫姓名和 Email':'名前とEmailを入力してください');return}
+  const body=`姓名/名前: ${name}\nEmail: ${email}\n服務/サービス: ${service}\n描述/内容: ${desc}\n預算/予算: ${budget}\n時程/期間: ${timeline}`
+  window.location.href=`mailto:a8398433@gmail.com?subject=${encodeURIComponent('[Frank Dev] 接案詢問 / 案件問い合わせ')}&body=${encodeURIComponent(body)}`
+  showToast(lang==='tw'?'已開啟郵件！':'メールを開きました！')
+}
+function captureEmail(){
+  const email=document.getElementById('capture-email').value
+  if(!email){showToast(lang==='tw'?'請輸入 Email':'Emailを入力してください');return}
+  window.location.href=`mailto:a8398433@gmail.com?subject=${encodeURIComponent('[Frank Dev] 訂閱申請')}&body=${encodeURIComponent('訂閱 Email: '+email)}`
+  showToast(lang==='tw'?'感謝訂閱！':'ご登録ありがとうございます！')
+}
+function captureCourseEmail(){
+  const email=document.getElementById('course-email').value
+  if(!email){showToast(lang==='tw'?'請輸入 Email':'Emailを入力してください');return}
+  window.location.href=`mailto:a8398433@gmail.com?subject=${encodeURIComponent('[Frank Dev] 課程訂閱 / コース登録')}&body=${encodeURIComponent('Email: '+email)}`
+  showToast(lang==='tw'?'稍後將寄送教材至你的 Email！':'教材を近日中にメールでお送りします！')
+}
+function freeDownload(item){
+  captureEmail()
+  showToast(lang==='tw'?'確認 Email 後即可下載！':'メール確認後にダウンロードできます！')
+}
+function buyCourse(item){
+  const prices={'perf-course':'NT$990','arch-course':'NT$1,490','fullgame-course':'NT$2,490'}
+  const p=prices[item]||''
+  window.location.href=`mailto:a8398433@gmail.com?subject=${encodeURIComponent('[Frank Dev] 課程購買 '+item)}&body=${encodeURIComponent('我想購買課程: '+item+'\n金額: '+p+'\n\n請問付款方式？')}`
+  showToast(lang==='tw'?'已開啟郵件，確認付款後立即發送教材！':'メールを開きました。お支払い確認後すぐに教材を送ります！')
+}
+function selectAmount(btn,amt){
+  document.querySelectorAll('.donate-amt').forEach(b=>b.classList.remove('active'))
+  btn.classList.add('active')
+  const el=document.getElementById('don-amount')
+  if(el) el.value='NT$'+amt
+}
+function submitDonation(){
+  const name=document.getElementById('don-name').value||'匿名'
+  const amount=document.getElementById('don-amount').value||'NT$300'
+  const msg=document.getElementById('don-msg').value
+  window.location.href=`mailto:a8398433@gmail.com?subject=${encodeURIComponent('[Frank Dev] 贊助通知')}&body=${encodeURIComponent('贊助者: '+name+'\n金額: '+amount+'\n留言: '+msg)}`
+  showToast(lang==='tw'?'謝謝你的支持！❤️':'ご支援ありがとうございます！❤️')
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────
+renderAll()
+applyLang()
+</script>
 </body>
 </html>
